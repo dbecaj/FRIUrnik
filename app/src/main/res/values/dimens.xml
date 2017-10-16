@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="login_font">24dp</dimen>
+    <dimen name="spacing_1.5x">12dp</dimen>
+
+    <dimen name="login_font">24sp</dimen>
     <dimen name="login_textBottomMargin">40dp</dimen>
     <dimen name="login_inputTopMargin">16dp</dimen>
+    <dimen name="login_nextFontSize">20sp</dimen>
 </resources>

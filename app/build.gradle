@@ -21,6 +21,7 @@ android {
 
 ext {
     timber = '4.5.1'
+    butterknife = '8.8.1'
 }
 
 dependencies {
@@ -35,4 +36,6 @@ dependencies {
 
     // Jake Wharton
     compile "com.jakewharton.timber:timber:$timber"
+    compile "com.jakewharton:butterknife:$butterknife"
+    annotationProcessor "com.jakewharton:butterknife-compiler:$butterknife"
 }
