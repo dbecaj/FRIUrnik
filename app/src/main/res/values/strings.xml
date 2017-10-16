@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">FRIUrnik</string>
+
+    <string name="login_inputRequest">Vnesi svojo vpisno številko</string>
 </resources>
