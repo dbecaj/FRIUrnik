@@ -3,4 +3,7 @@
 
     <string name="login_inputRequest">Vnesi svojo vpisno številko</string>
     <string name="next">Naprej</string>
+
+    <string name="error_invalidStudentId">Vpisna številka mora biti 8 mestna</string>
+    <string name="error_notANumber">Ni številka</string>
 </resources>

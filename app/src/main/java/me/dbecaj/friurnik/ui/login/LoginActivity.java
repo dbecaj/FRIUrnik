@@ -11,6 +11,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import me.dbecaj.friurnik.R;
+import me.dbecaj.friurnik.ui.login.di.DaggerLoginActivityComponent;
+import me.dbecaj.friurnik.ui.login.di.LoginActivityComponent;
+import me.dbecaj.friurnik.ui.login.di.LoginActivityModule;
+import timber.log.Timber;
 
 public class LoginActivity extends AppCompatActivity implements LoginMvp.View {
 
@@ -20,6 +24,8 @@ public class LoginActivity extends AppCompatActivity implements LoginMvp.View {
     @BindView(R.id.login_inputStudentNumber)
     EditText inputStudentNumber;
 
+    LoginMvp.Presenter presenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,13 +34,18 @@ public class LoginActivity extends AppCompatActivity implements LoginMvp.View {
         init();
     }
 
-    @OnClick(R.id.login_buttonNext)
-    protected void onNextClicked() {
-        // Call LoginPresenter for action
-    }
-
     private void init() {
         ButterKnife.bind(this);
+
+        LoginActivityComponent component = DaggerLoginActivityComponent.builder()
+                .loginActivityModule(new LoginActivityModule(this)).build();
+
+        presenter = component.getPresenter();
+    }
+
+    @OnClick(R.id.login_buttonNext)
+    protected void onNextClicked() {
+        presenter.processNextClicked(inputStudentNumber.getText().toString());
     }
 
     @Override
@@ -50,5 +61,10 @@ public class LoginActivity extends AppCompatActivity implements LoginMvp.View {
     @Override
     public void showError(String error) {
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showStudentIdInputError(String error) {
+        inputStudentNumber.setError(error);
     }
 }

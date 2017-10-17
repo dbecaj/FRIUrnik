@@ -10,10 +10,11 @@ public interface LoginMvp {
 
     interface View extends BaseMvp.View {
 
+        void showStudentIdInputError(String error);
     }
 
     interface Presenter extends BaseMvp.Presenter {
 
-        void processNextClicked();
+        void processNextClicked(String studentId);
     }
 }

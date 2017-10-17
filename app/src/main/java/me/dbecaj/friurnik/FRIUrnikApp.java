@@ -10,11 +10,15 @@ import timber.log.Timber;
 
 public class FRIUrnikApp extends Application {
 
+    private static FRIUrnikApp instance;
+
     @Override
     public void onCreate() {
         super.onCreate();
 
         initTimber();
+
+        instance = this;
     }
 
     private void initTimber() {
@@ -22,10 +26,14 @@ public class FRIUrnikApp extends Application {
             Timber.plant(new Timber.DebugTree() {
                 @Override
                 protected String createStackElementTag(StackTraceElement element) {
-                    return String.valueOf(element.getLineNumber()) + "::" +
-                            super.createStackElementTag(element);
+                    return  super.createStackElementTag(element) + "::" +
+                            String.valueOf(element.getLineNumber());
                 }
             });
         }
+    }
+
+    public static FRIUrnikApp getInstance() {
+        return instance;
     }
 }
