@@ -23,6 +23,7 @@ ext {
     timber = '4.5.1'
     butterknife = '8.8.1'
     dagger = '2.6'
+    dbflow = '4.1.1'
 }
 
 dependencies {
@@ -45,4 +46,9 @@ dependencies {
     // DI
     compile "com.google.dagger:dagger:$dagger"
     annotationProcessor "com.google.dagger:dagger-compiler:$dagger"
+
+    // Database
+    annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:$dbflow"
+    compile "com.github.Raizlabs.DBFlow:dbflow-core:$dbflow"
+    compile "com.github.Raizlabs.DBFlow:dbflow:$dbflow"
 }
