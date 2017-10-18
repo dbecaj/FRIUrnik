@@ -8,6 +8,7 @@ public interface BaseMvp {
 
     interface View {
 
+        void init();
         void showProgress();
         void hideProgress();
         void showError(String error);

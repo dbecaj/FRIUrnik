@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:text="@string/login_inputRequest"
             android:textColor="@color/white"
-            android:textSize="@dimen/login_font" />
+            android:textSize="@dimen/login_font"/>
 
         <EditText
             android:id="@+id/login_inputStudentNumber"
@@ -33,7 +33,8 @@
             android:inputType="number"
             android:textAlignment="center"
             android:textColor="@color/white"
-            android:textSize="@dimen/login_font" />
+            android:textSize="@dimen/login_font"
+            android:text="@string/placeholder_studentId"/>
     </LinearLayout>
 
     <ProgressBar

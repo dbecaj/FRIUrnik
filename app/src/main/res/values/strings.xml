@@ -1,9 +1,12 @@
 <resources>
     <string name="app_name">FRIUrnik</string>
 
+    <string name="placeholder_studentId">63170050</string>
+
     <string name="login_inputRequest">Vnesi svojo vpisno številko</string>
     <string name="next">Naprej</string>
 
     <string name="error_invalidStudentId">Vpisna številka mora biti 8 mestna</string>
     <string name="error_notANumber">Ni številka</string>
+    <string name="error_pleaseInsertNumber">Prosimo vnesite svojo vpisno številko</string>
 </resources>

@@ -2,7 +2,6 @@ package me.dbecaj.friurnik.ui.login;
 
 import me.dbecaj.friurnik.R;
 import me.dbecaj.friurnik.data.system.ResourceProvider;
-import me.dbecaj.friurnik.ui.BaseMvp;
 import timber.log.Timber;
 
 /**
@@ -24,8 +23,17 @@ public class LoginPresenter implements LoginMvp.Presenter {
 
     @Override
     public void processNextClicked(String studentId) {
+        if(studentId.isEmpty()) {
+            view.showStudentIdInputError(ResourceProvider.getString(R.string.error_pleaseInsertNumber));
+            return;
+        }
+        // Temporary solution (user is dumb)
+        else if(studentId.length() != 8) {
+            view.showStudentIdInputError(ResourceProvider.getString(R.string.error_invalidStudentId));
+            return;
+        }
+
         int id = 0;
-        
         try {
             id = Integer.parseInt(studentId);
         }
@@ -35,12 +43,8 @@ public class LoginPresenter implements LoginMvp.Presenter {
             return;
         }
 
-        // Check if the studentId is less then 8 digits long
-        if(id / 100000000 < 1) {
-            view.showStudentIdInputError(ResourceProvider.getString(R.string.error_invalidStudentId));
-            return;
-        }
-
         view.showProgress();
+        view.showScheduleActivity();
+        view.hideProgress();
     }
 }

@@ -1,5 +1,6 @@
 package me.dbecaj.friurnik.ui.login;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +15,7 @@ import me.dbecaj.friurnik.R;
 import me.dbecaj.friurnik.ui.login.di.DaggerLoginActivityComponent;
 import me.dbecaj.friurnik.ui.login.di.LoginActivityComponent;
 import me.dbecaj.friurnik.ui.login.di.LoginActivityModule;
+import me.dbecaj.friurnik.ui.schedule.ScheduleActivity;
 import timber.log.Timber;
 
 public class LoginActivity extends AppCompatActivity implements LoginMvp.View {
@@ -34,7 +36,8 @@ public class LoginActivity extends AppCompatActivity implements LoginMvp.View {
         init();
     }
 
-    private void init() {
+    @Override
+    public void init() {
         ButterKnife.bind(this);
 
         LoginActivityComponent component = DaggerLoginActivityComponent.builder()
@@ -66,5 +69,11 @@ public class LoginActivity extends AppCompatActivity implements LoginMvp.View {
     @Override
     public void showStudentIdInputError(String error) {
         inputStudentNumber.setError(error);
+    }
+
+    @Override
+    public void showScheduleActivity() {
+        Intent intent = ScheduleActivity.buildIntent(this);
+        startActivity(intent);
     }
 }

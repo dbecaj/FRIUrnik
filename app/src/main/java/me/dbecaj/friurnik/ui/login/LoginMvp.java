@@ -11,6 +11,7 @@ public interface LoginMvp {
     interface View extends BaseMvp.View {
 
         void showStudentIdInputError(String error);
+        void showScheduleActivity();
     }
 
     interface Presenter extends BaseMvp.Presenter {
