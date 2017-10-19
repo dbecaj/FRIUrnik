@@ -3,6 +3,7 @@
 
     <string name="placeholder_studentId">63170050</string>
 
+    <string name="url">https://urnik.fri.uni-lj.si/timetable/fri-2017_2018-zimski/allocations?student=</string>
     <string name="login_inputRequest">Vnesi svojo vpisno številko</string>
     <string name="next">Naprej</string>
 

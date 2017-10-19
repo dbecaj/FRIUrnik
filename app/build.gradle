@@ -24,6 +24,7 @@ ext {
     butterknife = '8.8.1'
     dagger = '2.6'
     dbflow = '4.1.1'
+    okhttp = '3.9.0'
 }
 
 dependencies {
@@ -51,4 +52,8 @@ dependencies {
     annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:$dbflow"
     compile "com.github.Raizlabs.DBFlow:dbflow-core:$dbflow"
     compile "com.github.Raizlabs.DBFlow:dbflow:$dbflow"
+
+    // Network
+    compile "com.squareup.okhttp3:okhttp:$okhttp"
+    compile "com.squareup.okhttp3:logging-interceptor:$okhttp"
 }

@@ -7,11 +7,21 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
+import java.io.IOException;
+
 import butterknife.ButterKnife;
 import me.dbecaj.friurnik.R;
+import me.dbecaj.friurnik.data.system.ResourceProvider;
+import me.dbecaj.friurnik.di.DaggerNetworkComponent;
+import me.dbecaj.friurnik.di.NetworkComponent;
 import me.dbecaj.friurnik.ui.schedule.di.DaggerScheduleComponent;
 import me.dbecaj.friurnik.ui.schedule.di.ScheduleComponent;
 import me.dbecaj.friurnik.ui.schedule.di.ScheduleModule;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Request;
+import okhttp3.Response;
+import timber.log.Timber;
 
 /**
  * Created by HP on 10/18/2017.
@@ -36,6 +46,26 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
         ScheduleComponent component = DaggerScheduleComponent.builder()
                 .scheduleModule(new ScheduleModule(this)).build();
         presenter = component.getPresenter();
+
+        // Just testing will move to Model(data) layer
+        NetworkComponent networkComponent = DaggerNetworkComponent.builder().build();
+        Request request = new Request.Builder()
+                .url(ResourceProvider.getString(R.string.url) + "63170050")
+                .build();
+
+        networkComponent.getOkHttp().newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                showError("something went wrong!");
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if(response.isSuccessful()) {
+                    Timber.d(response.body().string());
+                }
+            }
+        });
     }
 
     @Override
