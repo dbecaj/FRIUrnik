@@ -12,5 +12,6 @@ public interface StudentInteractor {
     }
 
     void getStudent(StudentListener listener);
+    void saveStudent(int studentId);
 
 }
