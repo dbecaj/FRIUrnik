@@ -47,25 +47,7 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
                 .scheduleModule(new ScheduleModule(this)).build();
         presenter = component.getPresenter();
 
-        // Just testing will move to Model(data) layer
-        NetworkComponent networkComponent = DaggerNetworkComponent.builder().build();
-        Request request = new Request.Builder()
-                .url(ResourceProvider.getString(R.string.url) + "63170050")
-                .build();
-
-        networkComponent.getOkHttp().newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                showError("something went wrong!");
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if(response.isSuccessful()) {
-                    Timber.d(response.body().string());
-                }
-            }
-        });
+        presenter.loadSchedule(63170050);
     }
 
     @Override

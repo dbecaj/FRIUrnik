@@ -14,6 +14,7 @@ public interface ScheduleMvp {
 
     interface Presenter extends BaseMvp.Presenter {
 
+        void loadSchedule(int studentId);
     }
 
 }
