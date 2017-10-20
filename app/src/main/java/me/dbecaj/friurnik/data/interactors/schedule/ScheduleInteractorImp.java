@@ -21,7 +21,7 @@ import timber.log.Timber;
 public class ScheduleInteractorImp implements ScheduleInteractor {
 
     @Override
-    public void getSchedule(int studentId, final ScheduleListener listener) {
+    public void getSchedule(long studentId, final ScheduleListener listener) {
         NetworkComponent networkComponent = DaggerNetworkComponent.builder().build();
         Request request = new Request.Builder()
                 .url(ResourceProvider.getString(R.string.url) + String.valueOf(studentId))

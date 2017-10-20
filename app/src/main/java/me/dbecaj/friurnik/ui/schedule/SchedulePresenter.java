@@ -17,7 +17,7 @@ public class SchedulePresenter implements ScheduleMvp.Presenter {
     }
 
     @Override
-    public void loadSchedule(int studentId) {
+    public void loadSchedule(long studentId) {
         ScheduleInteractor scheduleInteractor = new ScheduleInteractorImp();
         scheduleInteractor.getSchedule(studentId, new ScheduleInteractor.ScheduleListener() {
             @Override

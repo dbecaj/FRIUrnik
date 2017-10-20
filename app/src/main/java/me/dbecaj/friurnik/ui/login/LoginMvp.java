@@ -17,5 +17,6 @@ public interface LoginMvp {
     interface Presenter extends BaseMvp.Presenter {
 
         void processNextClicked(String studentId);
+        void saveStudent(long studentId);
     }
 }

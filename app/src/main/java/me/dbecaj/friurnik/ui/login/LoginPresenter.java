@@ -1,6 +1,8 @@
 package me.dbecaj.friurnik.ui.login;
 
 import me.dbecaj.friurnik.R;
+import me.dbecaj.friurnik.data.interactors.student.StudentInteractor;
+import me.dbecaj.friurnik.data.interactors.student.StudentInteractorImp;
 import me.dbecaj.friurnik.data.system.ResourceProvider;
 import timber.log.Timber;
 
@@ -44,7 +46,25 @@ public class LoginPresenter implements LoginMvp.Presenter {
         }
 
         view.showProgress();
-        view.showScheduleActivity();
-        view.hideProgress();
+        saveStudent(id);
+    }
+
+    @Override
+    public void saveStudent(long studentId) {
+        StudentInteractor interactor = new StudentInteractorImp();
+        interactor.saveStudent(studentId, new StudentInteractor.StudentListener() {
+            @Override
+            public void successful(long studentId) {
+                view.showMessage(ResourceProvider.getString(R.string.success_studentSaved));
+                view.showScheduleActivity();
+                view.hideProgress();
+            }
+
+            @Override
+            public void failure(String error) {
+                view.showError(error);
+                view.hideProgress();
+            }
+        });
     }
 }

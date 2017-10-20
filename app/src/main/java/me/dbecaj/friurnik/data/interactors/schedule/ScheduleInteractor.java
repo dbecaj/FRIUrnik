@@ -13,6 +13,6 @@ public interface ScheduleInteractor {
         void failure(String error);
     }
 
-    void getSchedule(int studentId, ScheduleListener listener);
+    void getSchedule(long studentId, ScheduleListener listener);
 
 }

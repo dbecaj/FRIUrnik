@@ -7,10 +7,18 @@
     <string name="login_inputRequest">Vnesi svojo vpisno številko</string>
     <string name="next">Naprej</string>
 
+    <string name="success_studentSaved">Študent shranjen</string>
+
     <string name="error_invalidStudentId">Vpisna številka mora biti 8 mestna</string>
     <string name="error_notANumber">Ni številka</string>
     <string name="error_pleaseInsertNumber">Prosimo vnesite svojo vpisno številko</string>
     <string name="error_retrievingSchedule">Napaka pri pridobivanju urnika</string>
     <string name="error_noInternetConnection">Ni internetne povezave</string>
     <string name="error_serverError">Napaka strežnika</string>
+    <string name="error_noStudentsInDatabase">Nimam shranjenih nobenih študentov</string>
+    <string name="error_studentAlreadyInDatabase">Študent z to številko že obstaja</string>
+    <string name="error_studentNotFoundInDatabase">Tega študenta nimam shranjenega</string>
+    <string name="error_manySameStudentIds">Obstaja več študentov z isto številko</string>
+    <string name="error_noDefaultStudentInDatabase">Nobenega nastavljenega prevzetega študenta</string>
+    <string name="error_multipleDefaultStudentsInDatabase">Imam več prevzetih študentov</string>
 </resources>

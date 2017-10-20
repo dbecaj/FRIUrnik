@@ -11,6 +11,7 @@ public interface BaseMvp {
         void init();
         void showProgress();
         void hideProgress();
+        void showMessage(String message);
         void showError(String error);
     }
 
