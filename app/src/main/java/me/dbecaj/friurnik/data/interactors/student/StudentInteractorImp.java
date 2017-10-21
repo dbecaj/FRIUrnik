@@ -20,13 +20,13 @@ public class StudentInteractorImp implements StudentInteractor {
         List<StudentModel> defaultStudent = SQLite.select().from(StudentModel.class)
                 .where(StudentModel_Table.isDefault.is(true)).queryList();
         if(defaultStudent.isEmpty()) {
-            listener.failure(ResourceProvider.getString(R.string.error_noDefaultStudentInDatabase));
+            listener.failure(ResourceProvider.getString(R.string.error_no_default_student_in_database));
 
             return;
         }
         else if(defaultStudent.size() > 1) {
             listener.failure(ResourceProvider
-                    .getString(R.string.error_multipleDefaultStudentsInDatabase));
+                    .getString(R.string.error_multiple_default_students_in_database));
 
             return;
         }
@@ -52,7 +52,7 @@ public class StudentInteractorImp implements StudentInteractor {
         List<StudentModel> sameStudents = SQLite.select().from(StudentModel.class)
                 .where(StudentModel_Table.studentId.is(studentId)).queryList();
         if(!sameStudents.isEmpty()) {
-            listener.failure(ResourceProvider.getString(R.string.error_studentAlreadyInDatabase));
+            listener.failure(ResourceProvider.getString(R.string.error_student_already_in_database));
             return;
         }
 

@@ -1,5 +1,7 @@
 package me.dbecaj.friurnik.data.interactors.schedule;
 
+import org.xmlpull.v1.XmlPullParserException;
+
 import java.io.IOException;
 
 import me.dbecaj.friurnik.BuildConfig;
@@ -30,7 +32,7 @@ public class ScheduleInteractorImp implements ScheduleInteractor {
         networkComponent.getOkHttp().newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                listener.failure(ResourceProvider.getString(R.string.error_retrievingSchedule));
+                listener.failure(ResourceProvider.getString(R.string.error_retrieving_schedule));
             }
 
             @Override
@@ -39,14 +41,19 @@ public class ScheduleInteractorImp implements ScheduleInteractor {
                     if(BuildConfig.DEBUG) {
                         Timber.d(response.message());
                     }
-                    listener.failure(ResourceProvider.getString(R.string.error_serverError));
+                    listener.failure(ResourceProvider.getString(R.string.error_server_error));
                     return;
                 }
 
+                String xml = response.body().string();
                 ScheduleModel scheduleModel = new ScheduleModel();
-                scheduleModel.parseXml(response.body().string());
-
-                listener.sucessful(scheduleModel);
+                try {
+                    scheduleModel.parseXml(xml);
+                }
+                catch (XmlPullParserException | IOException e) {
+                    e.printStackTrace();
+                    listener.failure();
+                }
             }
         });
     }

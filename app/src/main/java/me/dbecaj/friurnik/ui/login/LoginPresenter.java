@@ -26,12 +26,12 @@ public class LoginPresenter implements LoginMvp.Presenter {
     @Override
     public void processNextClicked(String studentId) {
         if(studentId.isEmpty()) {
-            view.showStudentIdInputError(ResourceProvider.getString(R.string.error_pleaseInsertNumber));
+            view.showStudentIdInputError(ResourceProvider.getString(R.string.error_please_insert_number));
             return;
         }
         // Temporary solution (user is dummy)
         else if(studentId.length() != 8) {
-            view.showStudentIdInputError(ResourceProvider.getString(R.string.error_invalidStudentId));
+            view.showStudentIdInputError(ResourceProvider.getString(R.string.error_invalid_student_id));
             return;
         }
 
@@ -40,7 +40,7 @@ public class LoginPresenter implements LoginMvp.Presenter {
             id = Integer.parseInt(studentId);
         }
         catch (NumberFormatException e) {
-            view.showStudentIdInputError(ResourceProvider.getString(R.string.error_notANumber));
+            view.showStudentIdInputError(ResourceProvider.getString(R.string.error_not_a_number));
             Timber.d(e.getMessage());
             return;
         }
@@ -55,7 +55,7 @@ public class LoginPresenter implements LoginMvp.Presenter {
         interactor.saveStudent(studentId, new StudentInteractor.StudentListener() {
             @Override
             public void successful(long studentId) {
-                view.showMessage(ResourceProvider.getString(R.string.success_studentSaved));
+                view.showMessage(ResourceProvider.getString(R.string.success_student_saved));
                 view.showScheduleActivity();
                 view.hideProgress();
             }

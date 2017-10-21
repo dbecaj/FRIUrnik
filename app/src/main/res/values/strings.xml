@@ -1,24 +1,25 @@
 <resources>
     <string name="app_name">FRIUrnik</string>
 
-    <string name="placeholder_studentId">63170050</string>
+    <string name="placeholder_student_id">63170050</string>
 
     <string name="url">https://urnik.fri.uni-lj.si/timetable/fri-2017_2018-zimski/allocations?student=</string>
-    <string name="login_inputRequest">Vnesi svojo vpisno številko</string>
+    <string name="login_input_request">Vnesi svojo vpisno številko</string>
     <string name="next">Naprej</string>
 
-    <string name="success_studentSaved">Študent shranjen</string>
+    <string name="success_student_saved">Študent shranjen</string>
 
-    <string name="error_invalidStudentId">Vpisna številka mora biti 8 mestna</string>
-    <string name="error_notANumber">Ni številka</string>
-    <string name="error_pleaseInsertNumber">Prosimo vnesite svojo vpisno številko</string>
-    <string name="error_retrievingSchedule">Napaka pri pridobivanju urnika</string>
-    <string name="error_noInternetConnection">Ni internetne povezave</string>
-    <string name="error_serverError">Napaka strežnika</string>
-    <string name="error_noStudentsInDatabase">Nimam shranjenih nobenih študentov</string>
-    <string name="error_studentAlreadyInDatabase">Študent z to številko že obstaja</string>
-    <string name="error_studentNotFoundInDatabase">Tega študenta nimam shranjenega</string>
-    <string name="error_manySameStudentIds">Obstaja več študentov z isto številko</string>
-    <string name="error_noDefaultStudentInDatabase">Nobenega nastavljenega prevzetega študenta</string>
-    <string name="error_multipleDefaultStudentsInDatabase">Imam več prevzetih študentov</string>
+    <string name="error_invalid_student_id">Vpisna številka mora biti 8 mestna</string>
+    <string name="error_not_a_number">Ni številka</string>
+    <string name="error_please_insert_number">Prosimo vnesite svojo vpisno številko</string>
+    <string name="error_retrieving_schedule">Napaka pri pridobivanju urnika</string>
+    <string name="error_no_internet_connection">Ni internetne povezave</string>
+    <string name="error_server_error">Napaka strežnika</string>
+    <string name="error_no_students_in_database">Nimam shranjenih nobenih študentov</string>
+    <string name="error_student_already_in_database">Študent z to številko že obstaja</string>
+    <string name="error_student_not_found_in_database">Tega študenta nimam shranjenega</string>
+    <string name="error_many_same_student_ids">Obstaja več študentov z isto številko</string>
+    <string name="error_no_default_student_in_database">Nobenega nastavljenega prevzetega študenta</string>
+    <string name="error_multiple_default_students_in_database">Imam več prevzetih študentov</string>
+    <string name="error_problem_while_parsing_xml">Napaka pri prevajanju spletne vsebine</string>
 </resources>
