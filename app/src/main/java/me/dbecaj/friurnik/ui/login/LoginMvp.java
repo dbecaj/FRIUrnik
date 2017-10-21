@@ -18,5 +18,6 @@ public interface LoginMvp {
 
         void processNextClicked(String studentId);
         void saveStudent(long studentId);
+        void loadDefaultUser();
     }
 }

@@ -16,6 +16,7 @@ public interface StudentInteractor {
     }
 
     void getDefaultStudent(StudentListener listener);
+    boolean hasDefaultStudent();
     List<StudentModel> getAllStudents();
     void saveStudent(long studentId, StudentListener listener);
 

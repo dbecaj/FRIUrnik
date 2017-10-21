@@ -60,4 +60,15 @@ public class StudentInteractorImp implements StudentInteractor {
         studentModel.save();
         listener.successful(studentId);
     }
+
+    @Override
+    public boolean hasDefaultStudent() {
+        List<StudentModel> defaultStudent = SQLite.select().from(StudentModel.class)
+                .where(StudentModel_Table.isDefault.is(true)).queryList();
+        if(defaultStudent.isEmpty()) {
+            return false;
+        }
+
+        return true;
+    }
 }

@@ -34,6 +34,9 @@ public class LoginActivity extends AppCompatActivity implements LoginMvp.View {
         setContentView(R.layout.login_activity);
 
         init();
+
+        // If the database has default user saved the application will jump to ScheduleActivity
+        presenter.loadDefaultUser();
     }
 
     @Override

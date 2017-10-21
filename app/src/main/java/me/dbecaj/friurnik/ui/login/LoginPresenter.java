@@ -29,7 +29,7 @@ public class LoginPresenter implements LoginMvp.Presenter {
             view.showStudentIdInputError(ResourceProvider.getString(R.string.error_pleaseInsertNumber));
             return;
         }
-        // Temporary solution (user is dumb)
+        // Temporary solution (user is dummy)
         else if(studentId.length() != 8) {
             view.showStudentIdInputError(ResourceProvider.getString(R.string.error_invalidStudentId));
             return;
@@ -67,4 +67,25 @@ public class LoginPresenter implements LoginMvp.Presenter {
             }
         });
     }
+
+    @Override
+    public void loadDefaultUser() {
+        StudentInteractor interactor = new StudentInteractorImp();
+        if(!interactor.hasDefaultStudent()) {
+            return;
+        }
+
+        interactor.getDefaultStudent(new StudentInteractor.StudentListener() {
+            @Override
+            public void successful(long studentId) {
+                view.showScheduleActivity();
+            }
+
+            @Override
+            public void failure(String error) {
+                view.showError(error);
+            }
+        });
+    }
+
 }
