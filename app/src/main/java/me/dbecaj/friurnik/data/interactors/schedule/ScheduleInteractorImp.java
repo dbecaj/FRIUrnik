@@ -49,10 +49,12 @@ public class ScheduleInteractorImp implements ScheduleInteractor {
                 ScheduleModel scheduleModel = new ScheduleModel();
                 try {
                     scheduleModel.parseXml(xml);
+                    listener.sucessful(scheduleModel);
                 }
                 catch (XmlPullParserException | IOException e) {
                     e.printStackTrace();
-                    listener.failure();
+                    listener.failure(ResourceProvider
+                            .getString(R.string.error_problem_while_parsing_xml));
                 }
             }
         });
