@@ -47,7 +47,7 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
                 .scheduleModule(new ScheduleModule(this)).build();
         presenter = component.getPresenter();
 
-        presenter.loadSchedule(63170050);
+        presenter.loadSchedule();
     }
 
     @Override
