@@ -45,17 +45,11 @@ public class ScheduleInteractorImp implements ScheduleInteractor {
                     return;
                 }
 
-                String xml = response.body().string();
+                String html = response.body().string();
                 ScheduleModel scheduleModel = new ScheduleModel();
-                try {
-                    scheduleModel.parseXml(xml);
-                    listener.sucessful(scheduleModel);
-                }
-                catch (XmlPullParserException | IOException e) {
-                    e.printStackTrace();
-                    listener.failure(ResourceProvider
-                            .getString(R.string.error_problem_while_parsing_xml));
-                }
+
+                scheduleModel.parseHtml(html);
+                listener.sucessful(scheduleModel);
             }
         });
     }

@@ -25,6 +25,7 @@ ext {
     dagger = '2.6'
     dbflow = '4.1.1'
     okhttp = '3.9.0'
+    jsoup = '1.10.3'
 }
 
 dependencies {
@@ -56,4 +57,5 @@ dependencies {
     // Network
     compile "com.squareup.okhttp3:okhttp:$okhttp"
     compile "com.squareup.okhttp3:logging-interceptor:$okhttp"
+    compile "org.jsoup:jsoup:$jsoup"
 }
