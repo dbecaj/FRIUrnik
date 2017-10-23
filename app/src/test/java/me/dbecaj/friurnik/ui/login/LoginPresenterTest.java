@@ -9,7 +9,6 @@ import org.mockito.junit.MockitoJUnitRunner;
 import me.dbecaj.friurnik.R;
 import me.dbecaj.friurnik.data.system.ResourceProvider;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
