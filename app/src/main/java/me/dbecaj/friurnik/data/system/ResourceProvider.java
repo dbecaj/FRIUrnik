@@ -1,6 +1,7 @@
 package me.dbecaj.friurnik.data.system;
 
 import android.app.Application;
+import android.content.res.Resources;
 
 import me.dbecaj.friurnik.FRIUrnikApp;
 
@@ -13,7 +14,7 @@ public class ResourceProvider {
     protected ResourceProvider() {}
 
     public static String getString(int resId) {
-        return FRIUrnikApp.getInstance().getString(resId);
+        return Resources.getSystem().getString(resId);
     }
 
 }
