@@ -61,8 +61,18 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
     }
 
     @Override
+    public void showMessage(int resId) {
+        Toast.makeText(this, getString(resId), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     public void showMessage(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showError(int resId) {
+        Toast.makeText(this, getString(resId), Toast.LENGTH_SHORT).show();
     }
 
     @Override

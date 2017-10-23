@@ -12,7 +12,7 @@ public interface StudentInteractor {
 
     interface StudentListener {
         void successful(long studentId);
-        void failure(String error);
+        void failure(int resId);
     }
 
     void getDefaultStudent(StudentListener listener);

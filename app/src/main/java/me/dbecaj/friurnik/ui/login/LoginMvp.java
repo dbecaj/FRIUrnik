@@ -11,7 +11,7 @@ public interface LoginMvp {
     interface View extends BaseMvp.View {
 
         String getStudentId();
-        void showStudentIdInputError(String error);
+        void showStudentIdInputError(int resId);
         void showScheduleActivity();
     }
 

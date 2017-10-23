@@ -29,7 +29,6 @@ public class LoginPresenterTest {
         when(view.getStudentId()).thenReturn("");
         presenter.processNextClicked();
 
-        verify(view).showStudentIdInputError(ResourceProvider
-                .getString(R.string.error_empty_student_id));
+        verify(view).showStudentIdInputError(R.string.error_empty_student_id);
     }
 }

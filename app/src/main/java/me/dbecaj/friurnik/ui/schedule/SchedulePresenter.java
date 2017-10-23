@@ -28,8 +28,8 @@ public class SchedulePresenter implements ScheduleMvp.Presenter {
             }
 
             @Override
-            public void failure(String error) {
-                view.showError(error);
+            public void failure(int resId) {
+                view.showError(resId);
             }
         });
     }

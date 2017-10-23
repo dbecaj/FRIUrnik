@@ -1,6 +1,7 @@
 package me.dbecaj.friurnik.ui.login;
 
 import me.dbecaj.friurnik.R;
+import me.dbecaj.friurnik.data.interactors.schedule.ScheduleInteractor;
 import me.dbecaj.friurnik.data.interactors.student.StudentInteractor;
 import me.dbecaj.friurnik.data.interactors.student.StudentInteractorImp;
 import me.dbecaj.friurnik.data.system.ResourceProvider;
@@ -27,13 +28,11 @@ public class LoginPresenter implements LoginMvp.Presenter {
     public void processNextClicked() {
         String studentId = view.getStudentId();
         if(studentId.isEmpty()) {
-            view.showStudentIdInputError(ResourceProvider
-                    .getString(R.string.error_empty_student_id));
+            view.showStudentIdInputError(R.string.error_empty_student_id);
             return;
         }
         else if(studentId.length() != 8) {
-            view.showStudentIdInputError(ResourceProvider
-                    .getString(R.string.error_invalid_student_id));
+            view.showStudentIdInputError(R.string.error_invalid_student_id);
             return;
         }
 
@@ -42,7 +41,7 @@ public class LoginPresenter implements LoginMvp.Presenter {
             id = Integer.parseInt(studentId);
         }
         catch (NumberFormatException e) {
-            view.showStudentIdInputError(ResourceProvider.getString(R.string.error_not_a_number));
+            view.showStudentIdInputError(R.string.error_not_a_number);
             Timber.d(e.getMessage());
             return;
         }
@@ -57,14 +56,14 @@ public class LoginPresenter implements LoginMvp.Presenter {
         interactor.saveStudent(studentId, new StudentInteractor.StudentListener() {
             @Override
             public void successful(long studentId) {
-                view.showMessage(ResourceProvider.getString(R.string.success_student_saved));
+                view.showMessage(R.string.success_student_saved);
                 view.showScheduleActivity();
                 view.hideProgress();
             }
 
             @Override
-            public void failure(String error) {
-                view.showError(error);
+            public void failure(int resId) {
+                view.showError(resId);
                 view.hideProgress();
             }
         });
@@ -84,8 +83,8 @@ public class LoginPresenter implements LoginMvp.Presenter {
             }
 
             @Override
-            public void failure(String error) {
-                view.showError(error);
+            public void failure(int resId) {
+                view.showError(resId);
             }
         });
     }

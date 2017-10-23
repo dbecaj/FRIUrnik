@@ -12,6 +12,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import me.dbecaj.friurnik.R;
+import me.dbecaj.friurnik.data.system.ResourceProvider;
 import me.dbecaj.friurnik.ui.login.di.DaggerLoginActivityComponent;
 import me.dbecaj.friurnik.ui.login.di.LoginActivityComponent;
 import me.dbecaj.friurnik.ui.login.di.LoginActivityModule;
@@ -65,8 +66,18 @@ public class LoginActivity extends AppCompatActivity implements LoginMvp.View {
     }
 
     @Override
+    public void showMessage(int resId) {
+        Toast.makeText(this, getString(resId), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     public void showMessage(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showError(int resId) {
+        Toast.makeText(this, getString(resId), Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -75,8 +86,8 @@ public class LoginActivity extends AppCompatActivity implements LoginMvp.View {
     }
 
     @Override
-    public void showStudentIdInputError(String error) {
-        inputStudentNumber.setError(error);
+    public void showStudentIdInputError(int resId) {
+        inputStudentNumber.setError(getString(resId));
     }
 
     @Override
