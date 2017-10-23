@@ -24,12 +24,12 @@ public class LoginPresenter implements LoginMvp.Presenter {
     }
 
     @Override
-    public void processNextClicked(String studentId) {
+    public void processNextClicked() {
+        String studentId = view.getStudentId();
         if(studentId.isEmpty()) {
             view.showStudentIdInputError(ResourceProvider.getString(R.string.error_please_insert_number));
             return;
         }
-        // Temporary solution (user is dummy)
         else if(studentId.length() != 8) {
             view.showStudentIdInputError(ResourceProvider.getString(R.string.error_invalid_student_id));
             return;

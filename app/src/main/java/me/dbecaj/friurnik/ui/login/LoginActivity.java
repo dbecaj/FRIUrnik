@@ -51,7 +51,7 @@ public class LoginActivity extends AppCompatActivity implements LoginMvp.View {
 
     @OnClick(R.id.login_buttonNext)
     protected void onNextClicked() {
-        presenter.processNextClicked(inputStudentNumber.getText().toString());
+        presenter.processNextClicked();
     }
 
     @Override
@@ -86,5 +86,10 @@ public class LoginActivity extends AppCompatActivity implements LoginMvp.View {
         startActivity(intent);
         finish();
 
+    }
+
+    @Override
+    public String getStudentId() {
+        return inputStudentNumber.getText().toString();
     }
 }
