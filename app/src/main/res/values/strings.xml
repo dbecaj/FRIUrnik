@@ -10,8 +10,8 @@
     <string name="success_student_saved">Študent shranjen</string>
 
     <string name="error_invalid_student_id">Vpisna številka mora biti 8 mestna</string>
+    <string name="error_empty_student_id">Prosimo vnesite svojo vpisno številko</string>
     <string name="error_not_a_number">Ni številka</string>
-    <string name="error_please_insert_number">Prosimo vnesite svojo vpisno številko</string>
     <string name="error_retrieving_schedule">Napaka pri pridobivanju urnika</string>
     <string name="error_no_internet_connection">Ni internetne povezave</string>
     <string name="error_server_error">Napaka strežnika</string>

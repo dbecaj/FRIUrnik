@@ -27,11 +27,13 @@ public class LoginPresenter implements LoginMvp.Presenter {
     public void processNextClicked() {
         String studentId = view.getStudentId();
         if(studentId.isEmpty()) {
-            view.showStudentIdInputError(ResourceProvider.getString(R.string.error_please_insert_number));
+            view.showStudentIdInputError(ResourceProvider
+                    .getString(R.string.error_empty_student_id));
             return;
         }
         else if(studentId.length() != 8) {
-            view.showStudentIdInputError(ResourceProvider.getString(R.string.error_invalid_student_id));
+            view.showStudentIdInputError(ResourceProvider
+                    .getString(R.string.error_invalid_student_id));
             return;
         }
 
