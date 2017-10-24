@@ -46,8 +46,6 @@ public class ScheduleModel {
                    continue;
                }
 
-               Timber.d(day.className());
-
                if(day.className().contains(ScheduleModel.MON)) {
                    SubjectModel subject = extractSubject(day, hourCount);
 
@@ -96,7 +94,6 @@ public class ScheduleModel {
 
         // Just getting the subject info which is inside a div tag
         Element firstDiv = day.getElementsByTag("div").first();
-        Timber.d(String.valueOf(day.getElementsByTag("div").size()));
         for(Element subjectInfo : firstDiv.getElementsByTag("a")) {
             if(subjectInfo.className().equals("activity")) {
                 name = subjectInfo.text();

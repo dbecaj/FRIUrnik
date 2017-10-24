@@ -6,6 +6,11 @@
     <string name="url">https://urnik.fri.uni-lj.si/timetable/fri-2017_2018-zimski/allocations?student=</string>
     <string name="login_input_request">Vnesi svojo vpisno številko</string>
     <string name="next">Naprej</string>
+    <string name="mon">PON</string>
+    <string name="tue">TOR</string>
+    <string name="wed">SRE</string>
+    <string name="thu">ČET</string>
+    <string name="fri">PET</string>
 
     <string name="success_student_saved">Študent shranjen</string>
 

@@ -14,7 +14,7 @@ public class ResourceProvider {
     protected ResourceProvider() {}
 
     public static String getString(int resId) {
-        return Resources.getSystem().getString(resId);
+        return FRIUrnikApp.getInstance().getString(resId);
     }
 
 }
