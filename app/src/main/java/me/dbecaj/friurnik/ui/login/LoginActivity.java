@@ -12,6 +12,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import me.dbecaj.friurnik.R;
+import me.dbecaj.friurnik.data.system.ResourceProvider;
 import me.dbecaj.friurnik.ui.login.di.DaggerLoginActivityComponent;
 import me.dbecaj.friurnik.ui.login.di.LoginActivityComponent;
 import me.dbecaj.friurnik.ui.login.di.LoginActivityModule;
@@ -34,6 +35,9 @@ public class LoginActivity extends AppCompatActivity implements LoginMvp.View {
         setContentView(R.layout.login_activity);
 
         init();
+
+        // If the database has default user saved the application will jump to ScheduleActivity
+        presenter.loadDefaultUser();
     }
 
     @Override
@@ -48,7 +52,7 @@ public class LoginActivity extends AppCompatActivity implements LoginMvp.View {
 
     @OnClick(R.id.login_buttonNext)
     protected void onNextClicked() {
-        presenter.processNextClicked(inputStudentNumber.getText().toString());
+        presenter.processNextClicked();
     }
 
     @Override
@@ -62,18 +66,41 @@ public class LoginActivity extends AppCompatActivity implements LoginMvp.View {
     }
 
     @Override
+    public void showMessage(int resId) {
+        Toast.makeText(this, getString(resId), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showMessage(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showError(int resId) {
+        Toast.makeText(this, getString(resId), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     public void showError(String error) {
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void showStudentIdInputError(String error) {
-        inputStudentNumber.setError(error);
+    public void showStudentIdInputError(int resId) {
+        inputStudentNumber.setError(getString(resId));
     }
 
     @Override
     public void showScheduleActivity() {
         Intent intent = ScheduleActivity.buildIntent(this);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
+        finish();
+
+    }
+
+    @Override
+    public String getStudentId() {
+        return inputStudentNumber.getText().toString();
     }
 }

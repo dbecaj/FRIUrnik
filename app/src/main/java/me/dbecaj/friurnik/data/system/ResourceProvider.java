@@ -1,6 +1,7 @@
 package me.dbecaj.friurnik.data.system;
 
 import android.app.Application;
+import android.content.res.Resources;
 
 import me.dbecaj.friurnik.FRIUrnikApp;
 

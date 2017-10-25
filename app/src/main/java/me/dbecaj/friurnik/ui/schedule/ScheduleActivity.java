@@ -7,11 +7,21 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
+import java.io.IOException;
+
 import butterknife.ButterKnife;
 import me.dbecaj.friurnik.R;
+import me.dbecaj.friurnik.data.system.ResourceProvider;
+import me.dbecaj.friurnik.di.DaggerNetworkComponent;
+import me.dbecaj.friurnik.di.NetworkComponent;
 import me.dbecaj.friurnik.ui.schedule.di.DaggerScheduleComponent;
 import me.dbecaj.friurnik.ui.schedule.di.ScheduleComponent;
 import me.dbecaj.friurnik.ui.schedule.di.ScheduleModule;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Request;
+import okhttp3.Response;
+import timber.log.Timber;
 
 /**
  * Created by HP on 10/18/2017.
@@ -36,6 +46,8 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
         ScheduleComponent component = DaggerScheduleComponent.builder()
                 .scheduleModule(new ScheduleModule(this)).build();
         presenter = component.getPresenter();
+
+        presenter.loadSchedule();
     }
 
     @Override
@@ -46,6 +58,21 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
     @Override
     public void hideProgress() {
 
+    }
+
+    @Override
+    public void showMessage(int resId) {
+        Toast.makeText(this, getString(resId), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showMessage(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showError(int resId) {
+        Toast.makeText(this, getString(resId), Toast.LENGTH_SHORT).show();
     }
 
     @Override

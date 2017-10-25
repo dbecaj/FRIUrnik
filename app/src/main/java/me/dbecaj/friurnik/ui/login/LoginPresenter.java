@@ -1,6 +1,9 @@
 package me.dbecaj.friurnik.ui.login;
 
 import me.dbecaj.friurnik.R;
+import me.dbecaj.friurnik.data.interactors.schedule.ScheduleInteractor;
+import me.dbecaj.friurnik.data.interactors.student.StudentInteractor;
+import me.dbecaj.friurnik.data.interactors.student.StudentInteractorImp;
 import me.dbecaj.friurnik.data.system.ResourceProvider;
 import timber.log.Timber;
 
@@ -22,14 +25,14 @@ public class LoginPresenter implements LoginMvp.Presenter {
     }
 
     @Override
-    public void processNextClicked(String studentId) {
+    public void processNextClicked() {
+        String studentId = view.getStudentId();
         if(studentId.isEmpty()) {
-            view.showStudentIdInputError(ResourceProvider.getString(R.string.error_pleaseInsertNumber));
+            view.showStudentIdInputError(R.string.error_empty_student_id);
             return;
         }
-        // Temporary solution (user is dumb)
         else if(studentId.length() != 8) {
-            view.showStudentIdInputError(ResourceProvider.getString(R.string.error_invalidStudentId));
+            view.showStudentIdInputError(R.string.error_invalid_student_id);
             return;
         }
 
@@ -38,13 +41,52 @@ public class LoginPresenter implements LoginMvp.Presenter {
             id = Integer.parseInt(studentId);
         }
         catch (NumberFormatException e) {
-            view.showStudentIdInputError(ResourceProvider.getString(R.string.error_notANumber));
+            view.showStudentIdInputError(R.string.error_not_a_number);
             Timber.d(e.getMessage());
             return;
         }
 
         view.showProgress();
-        view.showScheduleActivity();
-        view.hideProgress();
+        saveStudent(id);
     }
+
+    @Override
+    public void saveStudent(long studentId) {
+        StudentInteractor interactor = new StudentInteractorImp();
+        interactor.saveStudent(studentId, new StudentInteractor.StudentListener() {
+            @Override
+            public void successful(long studentId) {
+                view.showMessage(R.string.success_student_saved);
+                view.showScheduleActivity();
+                view.hideProgress();
+            }
+
+            @Override
+            public void failure(int resId) {
+                view.showError(resId);
+                view.hideProgress();
+            }
+        });
+    }
+
+    @Override
+    public void loadDefaultUser() {
+        StudentInteractor interactor = new StudentInteractorImp();
+        if(!interactor.hasDefaultStudent()) {
+            return;
+        }
+
+        interactor.getDefaultStudent(new StudentInteractor.StudentListener() {
+            @Override
+            public void successful(long studentId) {
+                view.showScheduleActivity();
+            }
+
+            @Override
+            public void failure(int resId) {
+                view.showError(resId);
+            }
+        });
+    }
+
 }

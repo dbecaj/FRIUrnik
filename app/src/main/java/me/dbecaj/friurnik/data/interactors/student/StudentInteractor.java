@@ -1,5 +1,9 @@
 package me.dbecaj.friurnik.data.interactors.student;
 
+import java.util.List;
+
+import me.dbecaj.friurnik.data.models.student.StudentModel;
+
 /**
  * Created by HP on 10/18/2017.
  */
@@ -7,10 +11,13 @@ package me.dbecaj.friurnik.data.interactors.student;
 public interface StudentInteractor {
 
     interface StudentListener {
-        void successful(int studentId);
-        void failure(String error);
+        void successful(long studentId);
+        void failure(int resId);
     }
 
-    void getStudent(StudentListener listener);
+    void getDefaultStudent(StudentListener listener);
+    boolean hasDefaultStudent();
+    List<StudentModel> getAllStudents();
+    void saveStudent(long studentId, StudentListener listener);
 
 }

@@ -24,6 +24,9 @@ ext {
     butterknife = '8.8.1'
     dagger = '2.6'
     dbflow = '4.1.1'
+    okhttp = '3.9.0'
+    jsoup = '1.10.3'
+    mochito = '2.11.0'
 }
 
 dependencies {
@@ -34,7 +37,10 @@ dependencies {
 
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
+
+    // Testing
     testCompile 'junit:junit:4.12'
+    testCompile "org.mockito:mockito-core:$mochito"
 
     // Logging
     compile "com.jakewharton.timber:timber:$timber"
@@ -51,4 +57,9 @@ dependencies {
     annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:$dbflow"
     compile "com.github.Raizlabs.DBFlow:dbflow-core:$dbflow"
     compile "com.github.Raizlabs.DBFlow:dbflow:$dbflow"
+
+    // Network
+    compile "com.squareup.okhttp3:okhttp:$okhttp"
+    compile "com.squareup.okhttp3:logging-interceptor:$okhttp"
+    compile "org.jsoup:jsoup:$jsoup"
 }

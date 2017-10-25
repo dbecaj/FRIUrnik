@@ -2,6 +2,8 @@ package me.dbecaj.friurnik;
 
 import android.app.Application;
 
+import com.raizlabs.android.dbflow.config.FlowManager;
+
 import timber.log.Timber;
 
 /**
@@ -17,6 +19,7 @@ public class FRIUrnikApp extends Application {
         super.onCreate();
 
         initTimber();
+        initDbFlow();
 
         instance = this;
     }
@@ -31,6 +34,10 @@ public class FRIUrnikApp extends Application {
                 }
             });
         }
+    }
+
+    private void initDbFlow() {
+        FlowManager.init(this);
     }
 
     public static FRIUrnikApp getInstance() {
