@@ -8,4 +8,5 @@
     <dimen name="login_nextFontSize">20sp</dimen>
     <dimen name="schedule_left_right_padding">20dp</dimen>
     <dimen name="schedule_time_cells_margin">40dp</dimen>
+    <dimen name="subject_classroom_top_margin">4dp</dimen>
 </resources>

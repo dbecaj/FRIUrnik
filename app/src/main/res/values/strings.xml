@@ -2,6 +2,8 @@
     <string name="app_name">FRIUrnik</string>
 
     <string name="placeholder_student_id">63170050</string>
+    <string name="placeholder_subject_name">PRE</string>
+    <string name="placeholder_subject_classroom">PRO</string>
 
     <string name="url">https://urnik.fri.uni-lj.si/timetable/fri-2017_2018-zimski/allocations?student=</string>
     <string name="login_input_request">Vnesi svojo vpisno številko</string>
