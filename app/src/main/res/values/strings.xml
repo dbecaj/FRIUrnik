@@ -13,6 +13,7 @@
     <string name="wed">SRE</string>
     <string name="thu">ČET</string>
     <string name="fri">PET</string>
+    <string name="time_hour_after">:00</string>
 
     <string name="success_student_saved">Študent shranjen</string>
 
