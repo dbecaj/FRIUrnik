@@ -32,7 +32,7 @@ public class ScheduleInteractorImp implements ScheduleInteractor {
         networkComponent.getOkHttp().newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                listener.failure(ResourceProvider.getString(R.string.error_retrieving_schedule));
+                listener.failure(R.string.error_retrieving_schedule);
             }
 
             @Override
@@ -41,7 +41,7 @@ public class ScheduleInteractorImp implements ScheduleInteractor {
                     if(BuildConfig.DEBUG) {
                         Timber.d(response.message());
                     }
-                    listener.failure(ResourceProvider.getString(R.string.error_server_error));
+                    listener.failure(R.string.error_server_error);
                     return;
                 }
 

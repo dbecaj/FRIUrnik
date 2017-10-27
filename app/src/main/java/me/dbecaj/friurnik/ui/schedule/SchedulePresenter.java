@@ -1,5 +1,8 @@
 package me.dbecaj.friurnik.ui.schedule;
 
+import android.os.Handler;
+import android.os.Looper;
+
 import me.dbecaj.friurnik.data.interactors.schedule.ScheduleInteractor;
 import me.dbecaj.friurnik.data.interactors.schedule.ScheduleInteractorImp;
 import me.dbecaj.friurnik.data.interactors.student.StudentInteractor;
@@ -39,13 +42,25 @@ public class SchedulePresenter implements ScheduleMvp.Presenter {
         ScheduleInteractor scheduleInteractor = new ScheduleInteractorImp();
         scheduleInteractor.getSchedule(studentId, new ScheduleInteractor.ScheduleListener() {
             @Override
-            public void sucessful(ScheduleModel schedule) {
-                // Is called from another thread so it can not access UI thread!
+            public void sucessful(final ScheduleModel schedule) {
+                Handler mainHander = new Handler(Looper.getMainLooper());
+                mainHander.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        view.showSchedule(schedule);
+                    }
+                });
             }
 
             @Override
-            public void failure(String error) {
-                // Same dilemma as successful()
+            public void failure(final int resId) {
+                Handler mainHander = new Handler(Looper.getMainLooper());
+                mainHander.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        view.showError(resId);
+                    }
+                });
             }
         });
     }

@@ -10,7 +10,7 @@ public interface ScheduleInteractor {
 
     interface ScheduleListener {
         void sucessful(ScheduleModel schedule);
-        void failure(String error);
+        void failure(int resId);
     }
 
     void getSchedule(long studentId, ScheduleListener listener);

@@ -106,7 +106,8 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
             return;
         }
 
-        gridLayout.setRowCount(startHour - endHour);
+        Timber.d(String.valueOf(endHour - startHour));
+        gridLayout.setRowCount(endHour - startHour);
 
         /*<TextView
         android:id="@+id/schedule_hour"
