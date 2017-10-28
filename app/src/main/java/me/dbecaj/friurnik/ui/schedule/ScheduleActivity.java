@@ -130,5 +130,45 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
 
             gridLayout.addView(hourCell, params);
         }
+
+        // Populate GridLayout with subjects
+        for(String day : schedule.getSchedule().keySet()) {
+            int dayIndex = -1;
+            switch (day) {
+                case ScheduleModel.MON:
+                    dayIndex = 1;
+                    break;
+                case ScheduleModel.TUE:
+                    dayIndex = 2;
+                    break;
+                case ScheduleModel.WED:
+                    dayIndex = 3;
+                    break;
+                case ScheduleModel.THU:
+                    dayIndex = 4;
+                    break;
+                case ScheduleModel.FRI:
+                    dayIndex = 5;
+                    break;
+            }
+
+            for(SubjectModel subject : schedule.getSchedule().get(day)) {
+                // Parent layout for subject/s
+                LinearLayout subjectHolder = new LinearLayout(this);
+                subjectHolder.setGravity(Gravity.CENTER);
+                subjectHolder.setOrientation(LinearLayout.HORIZONTAL);
+                GridLayout.LayoutParams params = new GridLayout.LayoutParams();
+                params.rowSpec = GridLayout.spec(subject.getStartHour() - (startHour-1),
+                        subject.getDuration(), 1f);
+                params.columnSpec = GridLayout.spec(dayIndex, 1, 1f);
+                gridLayout.addView(subjectHolder, params);
+
+                View subjectCell = getLayoutInflater().inflate(R.layout.subject_layout, subjectHolder);
+                TextView name = (TextView)subjectCell.findViewById(R.id.subject_name);
+                TextView classroom = (TextView)subjectCell.findViewById(R.id.subject_classroom);
+                name.setText(subject.getName());
+                classroom.setText(subject.getClassroom());
+            }
+        }
     }
 }

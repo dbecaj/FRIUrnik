@@ -33,4 +33,8 @@ public class SubjectModel {
     public String getClassroom() {
         return classroom;
     }
+
+    public int getDuration() {
+        return endHour - startHour;
+    }
 }
