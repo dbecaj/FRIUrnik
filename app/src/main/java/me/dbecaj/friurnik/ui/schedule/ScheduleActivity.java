@@ -122,7 +122,6 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
         android:textAlignment="center"/>*/
 
         // Populate GridLayout with starting time cells
-        Timber.d(String.valueOf(gridLayout.getRowCount()));
         for(int i = 1; i < gridLayout.getRowCount(); i++) {
             TextView hourCell = new TextView(this);
             hourCell.setGravity(Gravity.CENTER);
