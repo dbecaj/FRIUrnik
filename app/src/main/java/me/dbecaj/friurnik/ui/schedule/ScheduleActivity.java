@@ -91,15 +91,7 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
     @Override
     public void showSchedule(ScheduleModel schedule) {
         int startHour = 7;
-        int endHour = -1;
-        // Getting the biggest end hour from our week so that we create enough time rows
-        for(String day : schedule.getSchedule().keySet()) {
-            for(SubjectModel subject : schedule.getSchedule().get(day)) {
-                if(subject.getEndHour() > endHour) {
-                    endHour = subject.getEndHour();
-                }
-            }
-        }
+        int endHour = schedule.getLastHour();
 
         // We want to have 1 more empty hour at the end of our schedule for styling
         if(endHour != 21) {

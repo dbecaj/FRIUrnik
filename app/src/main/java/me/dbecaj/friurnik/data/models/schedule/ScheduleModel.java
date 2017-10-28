@@ -25,6 +25,7 @@ public class ScheduleModel {
     // [URA]->(PON, TOR, SRE, CET, PET)
     private HashMap<String, ArrayList<SubjectModel>> schedule = new HashMap<>(5);
     private boolean empty = true;
+    private int lastHour = -1;
 
     private void initHash() {
         schedule.put(MON, new ArrayList<SubjectModel>());
@@ -49,53 +50,34 @@ public class ScheduleModel {
                }
 
                if(day.className().contains(ScheduleModel.MON)) {
-                   SubjectModel subject = extractSubject(day, hourCount);
-
-                   schedule.get(MON).add(subject);
-                   empty = false;
+                   insertIntoHash(ScheduleModel.MON, extractSubject(day, hourCount));
 
                }
                else if(day.className().contains(ScheduleModel.TUE)) {
-                   SubjectModel subject = extractSubject(day, hourCount);
-
-                   schedule.get(TUE).add(subject);
-                   empty = false;
+                   insertIntoHash(ScheduleModel.TUE, extractSubject(day, hourCount));
                }
                else if(day.className().contains(ScheduleModel.WED)) {
-                   SubjectModel subject = extractSubject(day, hourCount);
-
-                   schedule.get(WED).add(subject);
-                   empty = false;
+                   insertIntoHash(ScheduleModel.WED, extractSubject(day, hourCount));
                }
                else if(day.className().contains(ScheduleModel.THU)) {
-                   SubjectModel subject = extractSubject(day, hourCount);
-
-                   schedule.get(THU).add(subject);
-                   empty = false;
+                   insertIntoHash(ScheduleModel.THU, extractSubject(day, hourCount));
                }
                else if(day.className().contains(ScheduleModel.FRI)) {
-                   SubjectModel subject = extractSubject(day, hourCount);
-
-                   schedule.get(FRI).add(subject);
-                   empty = false;
+                   insertIntoHash(ScheduleModel.FRI, extractSubject(day, hourCount));
                }
            }
            hourCount++;
         }
 
-        for(String day : schedule.keySet()) {
-            Timber.d(day + "===================>");
-            for(SubjectModel subjectModel : schedule.get(day)) {
-                Timber.d(subjectModel.getName() + ":" + subjectModel.getClassroom() +
-                        ":" + String.valueOf(subjectModel.getStartHour()) + "/" +
-                        String.valueOf(subjectModel.getEndHour()));
-            }
-        }
+        printOutSchedule();
     }
 
     private SubjectModel extractSubject(Element day, int hourCount) {
         int startHour = hourCount;
         int endHour = startHour + Integer.parseInt(day.attributes().get("rowspan"));
+        if(endHour > lastHour) {
+            lastHour = endHour;
+        }
         String name = "";
         String classroom = "";
 
@@ -113,11 +95,31 @@ public class ScheduleModel {
         return new SubjectModel(name, classroom, startHour, endHour);
     }
 
+    private void insertIntoHash(String day, SubjectModel subject) {
+        schedule.get(day).add(subject);
+        empty = false;
+    }
+
+    public void printOutSchedule() {
+        for(String day : schedule.keySet()) {
+            Timber.d(day + "===================>");
+            for(SubjectModel subjectModel : schedule.get(day)) {
+                Timber.d(subjectModel.getName() + ":" + subjectModel.getClassroom() +
+                        ":" + String.valueOf(subjectModel.getStartHour()) + "/" +
+                        String.valueOf(subjectModel.getEndHour()));
+            }
+        }
+    }
+
     public HashMap<String, ArrayList<SubjectModel>> getSchedule() {
         return schedule;
     }
 
     public boolean isEmpty() {
         return empty;
+    }
+
+    public int getLastHour() {
+        return lastHour;
     }
 }
