@@ -24,6 +24,7 @@ public class ScheduleModel {
     // URA {7:00, 21:00} DAN {PON, PET)
     // [URA]->(PON, TOR, SRE, CET, PET)
     private HashMap<String, ArrayList<SubjectModel>> schedule = new HashMap<>(5);
+    private boolean empty = true;
 
     private void initHash() {
         schedule.put(MON, new ArrayList<SubjectModel>());
@@ -36,6 +37,7 @@ public class ScheduleModel {
     public void parseHtml(String html){
         initHash();
 
+        empty = true;
         Document document = Jsoup.parse(html);
         Element table = document.body().getElementsByTag("table").first();
         int hourCount = 7;
@@ -50,27 +52,32 @@ public class ScheduleModel {
                    SubjectModel subject = extractSubject(day, hourCount);
 
                    schedule.get(MON).add(subject);
+                   empty = false;
 
                }
                else if(day.className().contains(ScheduleModel.TUE)) {
                    SubjectModel subject = extractSubject(day, hourCount);
 
                    schedule.get(TUE).add(subject);
+                   empty = false;
                }
                else if(day.className().contains(ScheduleModel.WED)) {
                    SubjectModel subject = extractSubject(day, hourCount);
 
                    schedule.get(WED).add(subject);
+                   empty = false;
                }
                else if(day.className().contains(ScheduleModel.THU)) {
                    SubjectModel subject = extractSubject(day, hourCount);
 
                    schedule.get(THU).add(subject);
+                   empty = false;
                }
                else if(day.className().contains(ScheduleModel.FRI)) {
                    SubjectModel subject = extractSubject(day, hourCount);
 
                    schedule.get(FRI).add(subject);
+                   empty = false;
                }
            }
            hourCount++;
@@ -108,5 +115,9 @@ public class ScheduleModel {
 
     public HashMap<String, ArrayList<SubjectModel>> getSchedule() {
         return schedule;
+    }
+
+    public boolean isEmpty() {
+        return empty;
     }
 }

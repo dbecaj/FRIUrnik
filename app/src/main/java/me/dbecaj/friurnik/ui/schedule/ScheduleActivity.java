@@ -101,13 +101,14 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
             }
         }
 
-        if(endHour < 0) {
-            Timber.d("Schedule is EMPTY!");
-            return;
+        // We want to have 1 more empty hour at the end of our schedule for styling
+        if(endHour != 21) {
+            endHour++;
         }
 
-        Timber.d(String.valueOf(endHour - startHour));
-        gridLayout.setRowCount(endHour - startHour);
+        // +1 is for the day row which is already in and -1 is to get the length not the index
+        gridLayout.setRowCount(endHour - (startHour-1) + 1);
+        gridLayout.setColumnCount(6);
 
         /*<TextView
         android:id="@+id/schedule_hour"
@@ -121,15 +122,21 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
         android:textAlignment="center"/>*/
 
         // Populate GridLayout with starting time cells
-        for(int hour = startHour; hour < endHour; hour++) {
+        Timber.d(String.valueOf(gridLayout.getRowCount()));
+        for(int i = 1; i < gridLayout.getRowCount(); i++) {
             TextView hourCell = new TextView(this);
             hourCell.setGravity(Gravity.CENTER);
+
+            int hour = startHour + i-1;
             hourCell.setText(String.valueOf(hour) + getString(R.string.time_hour_after));
             hourCell.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-            GridLayout.LayoutParams params = new GridLayout.LayoutParams(
-                    GridLayout.spec(hour - startHour, 1f), GridLayout.spec(0, 1f));
-            params.width = (int)getResources().getDimension(R.dimen.schedule_time_cells_margin);
             hourCell.setBackground(getDrawable(R.drawable.cell_border));
+
+            GridLayout.LayoutParams params = new GridLayout.LayoutParams();
+            params.rowSpec = GridLayout.spec(i, 1, 1f);
+            params.columnSpec = GridLayout.spec(0, 1);
+            params.width = (int)getResources().getDimension(R.dimen.schedule_time_cells_margin);
+
             gridLayout.addView(hourCell, params);
         }
     }

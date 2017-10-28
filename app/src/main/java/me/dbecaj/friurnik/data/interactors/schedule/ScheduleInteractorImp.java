@@ -49,6 +49,10 @@ public class ScheduleInteractorImp implements ScheduleInteractor {
                 ScheduleModel scheduleModel = new ScheduleModel();
 
                 scheduleModel.parseHtml(html);
+                if(scheduleModel.isEmpty()) {
+                    listener.failure(R.string.error_empty_schedule);
+                }
+
                 listener.sucessful(scheduleModel);
             }
         });

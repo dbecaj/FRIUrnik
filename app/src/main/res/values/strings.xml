@@ -30,4 +30,5 @@
     <string name="error_no_default_student_in_database">Nobenega nastavljenega prevzetega študenta</string>
     <string name="error_multiple_default_students_in_database">Imam več prevzetih študentov</string>
     <string name="error_problem_while_parsing_xml">Napaka pri prevajanju spletne vsebine</string>
+    <string name="error_empty_schedule">Pridobljen urnik je prazen!</string>
 </resources>
