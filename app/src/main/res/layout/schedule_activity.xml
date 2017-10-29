@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <GridLayout
         android:id="@+id/schedule_gridLayout"
@@ -17,7 +17,7 @@
             android:layout_width="@dimen/schedule_time_cells_margin"
             android:layout_height="0dp"
             android:layout_column="0"
-            android:layout_row="0"/>
+            android:layout_row="0" />
 
         <TextView
             android:layout_column="1"
@@ -26,7 +26,7 @@
             android:layout_rowWeight="1"
             android:gravity="center"
             android:text="@string/mon"
-            android:textAlignment="center"/>
+            android:textAlignment="center" />
 
         <TextView
             android:layout_column="2"
@@ -35,7 +35,7 @@
             android:layout_rowWeight="1"
             android:gravity="center"
             android:text="@string/tue"
-            android:textAlignment="center"/>
+            android:textAlignment="center" />
 
         <TextView
             android:layout_column="3"
@@ -44,7 +44,7 @@
             android:layout_rowWeight="1"
             android:gravity="center"
             android:text="@string/wed"
-            android:textAlignment="center"/>
+            android:textAlignment="center" />
 
         <TextView
             android:layout_column="4"
@@ -53,7 +53,7 @@
             android:layout_rowWeight="1"
             android:gravity="center"
             android:text="@string/thu"
-            android:textAlignment="center"/>
+            android:textAlignment="center" />
 
         <TextView
             android:layout_column="5"
@@ -62,7 +62,7 @@
             android:layout_rowWeight="1"
             android:gravity="center"
             android:text="@string/fri"
-            android:textAlignment="center"/>
+            android:textAlignment="center" />
 
     </GridLayout>
-</LinearLayout>
+</android.support.v4.widget.SwipeRefreshLayout>
