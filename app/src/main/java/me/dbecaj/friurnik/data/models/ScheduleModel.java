@@ -1,4 +1,11 @@
-package me.dbecaj.friurnik.data.models.schedule;
+package me.dbecaj.friurnik.data.models;
+
+import com.google.gson.Gson;
+import com.raizlabs.android.dbflow.annotation.Column;
+import com.raizlabs.android.dbflow.annotation.NotNull;
+import com.raizlabs.android.dbflow.annotation.PrimaryKey;
+import com.raizlabs.android.dbflow.annotation.Table;
+import com.raizlabs.android.dbflow.structure.BaseModel;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -7,13 +14,27 @@ import org.jsoup.nodes.Element;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import me.dbecaj.friurnik.data.database.FRIUrnikDatabase;
 import timber.log.Timber;
 
 /**
  * Created by HP on 10/18/2017.
  */
 
-public class ScheduleModel {
+@Table(database = FRIUrnikDatabase.class)
+public class ScheduleModel extends BaseModel{
+
+    @Column
+    @PrimaryKey
+    private long studentId;
+
+    @Column
+    @NotNull
+    private String jsonSchedule;
+
+    @Column
+    @NotNull
+    private int lastHour = -1;
 
     public static final String MON = "MON";
     public static final String TUE = "TUE";
@@ -25,7 +46,6 @@ public class ScheduleModel {
     // [URA]->(PON, TOR, SRE, CET, PET)
     private HashMap<String, ArrayList<SubjectModel>> schedule = new HashMap<>(5);
     private boolean empty = true;
-    private int lastHour = -1;
 
     private void initHash() {
         schedule.put(MON, new ArrayList<SubjectModel>());
@@ -33,6 +53,12 @@ public class ScheduleModel {
         schedule.put(WED, new ArrayList<SubjectModel>());
         schedule.put(THU, new ArrayList<SubjectModel>());
         schedule.put(FRI, new ArrayList<SubjectModel>());
+    }
+
+    public void parseJson(String json) {
+        Gson gson = new Gson();
+        schedule = gson.fromJson(json, schedule.getClass());
+        empty = false;
     }
 
     public void parseHtml(String html){
@@ -121,5 +147,25 @@ public class ScheduleModel {
 
     public int getLastHour() {
         return lastHour;
+    }
+
+    protected void setLastHour(int lastHour) {
+        this.lastHour = lastHour;
+    }
+
+    public String getJsonSchedule() {
+        return jsonSchedule;
+    }
+
+    public void setJsonSchedule(String jsonSchedule) {
+        this.jsonSchedule = jsonSchedule;
+    }
+
+    public long getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(long studentId) {
+        this.studentId = studentId;
     }
 }

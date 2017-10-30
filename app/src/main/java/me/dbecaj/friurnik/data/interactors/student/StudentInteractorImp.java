@@ -5,9 +5,8 @@ import com.raizlabs.android.dbflow.sql.language.SQLite;
 import java.util.List;
 
 import me.dbecaj.friurnik.R;
-import me.dbecaj.friurnik.data.models.student.StudentModel;
-import me.dbecaj.friurnik.data.models.student.StudentModel_Table;
-import me.dbecaj.friurnik.data.system.ResourceProvider;
+import me.dbecaj.friurnik.data.models.StudentModel;
+import me.dbecaj.friurnik.data.models.StudentModel_Table;
 
 /**
  * Created by Dominik on 20-Oct-17.

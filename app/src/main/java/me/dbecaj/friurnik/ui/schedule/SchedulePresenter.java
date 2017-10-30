@@ -3,11 +3,14 @@ package me.dbecaj.friurnik.ui.schedule;
 import android.os.Handler;
 import android.os.Looper;
 
+import me.dbecaj.friurnik.R;
 import me.dbecaj.friurnik.data.interactors.schedule.ScheduleInteractor;
-import me.dbecaj.friurnik.data.interactors.schedule.ScheduleInteractorImp;
+import me.dbecaj.friurnik.data.interactors.schedule.ScheduleInteractorDatabaseImp;
+import me.dbecaj.friurnik.data.interactors.schedule.ScheduleInteractorNetworkImp;
 import me.dbecaj.friurnik.data.interactors.student.StudentInteractor;
 import me.dbecaj.friurnik.data.interactors.student.StudentInteractorImp;
-import me.dbecaj.friurnik.data.models.schedule.ScheduleModel;
+import me.dbecaj.friurnik.data.models.ScheduleModel;
+import me.dbecaj.friurnik.data.system.SystemStatus;
 
 /**
  * Created by HP on 10/18/2017.
@@ -27,7 +30,7 @@ public class SchedulePresenter implements ScheduleMvp.Presenter {
         interactor.getDefaultStudent(new StudentInteractor.StudentListener() {
             @Override
             public void successful(long studentId) {
-                loadSchedule(studentId);
+                loadDatabaseSchedule(studentId);
             }
 
             @Override
@@ -38,10 +41,11 @@ public class SchedulePresenter implements ScheduleMvp.Presenter {
     }
 
     @Override
-    public void loadSchedule(long studentId) {
-        ScheduleInteractor scheduleInteractor = new ScheduleInteractorImp();
+    public void loadDatabaseSchedule(final long studentId) {
+        final ScheduleInteractor dbInteractor = new ScheduleInteractorDatabaseImp();
+
         view.showProgress();
-        scheduleInteractor.getSchedule(studentId, new ScheduleInteractor.ScheduleListener() {
+        dbInteractor.getSchedule(studentId, new ScheduleInteractor.ScheduleListener() {
             @Override
             public void sucessful(final ScheduleModel schedule) {
                 Handler mainHander = new Handler(Looper.getMainLooper());
@@ -50,6 +54,36 @@ public class SchedulePresenter implements ScheduleMvp.Presenter {
                     public void run() {
                         view.showSchedule(schedule);
                         view.hideProgress();
+                    }
+                });
+            }
+
+            @Override
+            public void failure(final int resId) {
+                if(resId == R.string.error_no_schedule_saved_under_this_student_id) {
+                    loadNetworkSchedule(studentId);
+                }
+                else {
+                    view.showError(resId);
+                    view.hideProgress();
+                }
+            }
+        });
+    }
+
+    @Override
+    public void loadNetworkSchedule(final long studentId) {
+        final ScheduleInteractor networkScheduleInteractor = new ScheduleInteractorNetworkImp();
+        networkScheduleInteractor.getSchedule(studentId, new ScheduleInteractor.ScheduleListener() {
+            @Override
+            public void sucessful(final ScheduleModel schedule) {
+                Handler mainHander = new Handler(Looper.getMainLooper());
+                mainHander.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        view.showSchedule(schedule);
+                        view.hideProgress();
+                        networkScheduleInteractor.saveSchedule(schedule,studentId);
                     }
                 });
             }

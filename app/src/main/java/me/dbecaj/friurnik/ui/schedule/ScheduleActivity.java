@@ -15,12 +15,11 @@ import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.dbecaj.friurnik.R;
-import me.dbecaj.friurnik.data.models.schedule.ScheduleModel;
-import me.dbecaj.friurnik.data.models.schedule.SubjectModel;
+import me.dbecaj.friurnik.data.models.ScheduleModel;
+import me.dbecaj.friurnik.data.models.SubjectModel;
 import me.dbecaj.friurnik.ui.schedule.di.DaggerScheduleComponent;
 import me.dbecaj.friurnik.ui.schedule.di.ScheduleComponent;
 import me.dbecaj.friurnik.ui.schedule.di.ScheduleModule;
-import timber.log.Timber;
 
 /**
  * Created by HP on 10/18/2017.

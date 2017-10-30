@@ -10,6 +10,6 @@ import com.raizlabs.android.dbflow.annotation.Database;
 public class FRIUrnikDatabase {
 
     public static final String NAME = "FRIUrnikDatabase";
-    public static final int VERSION = 1;
+    public static final int VERSION = 2;
 
 }

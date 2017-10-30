@@ -1,4 +1,4 @@
-package me.dbecaj.friurnik.data.models.schedule;
+package me.dbecaj.friurnik.data.models;
 
 /**
  * Created by Dominik on 20-Oct-17.

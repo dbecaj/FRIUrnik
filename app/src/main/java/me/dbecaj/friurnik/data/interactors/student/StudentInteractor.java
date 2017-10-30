@@ -2,7 +2,7 @@ package me.dbecaj.friurnik.data.interactors.student;
 
 import java.util.List;
 
-import me.dbecaj.friurnik.data.models.student.StudentModel;
+import me.dbecaj.friurnik.data.models.StudentModel;
 
 /**
  * Created by HP on 10/18/2017.

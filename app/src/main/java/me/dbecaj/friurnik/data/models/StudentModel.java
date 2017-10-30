@@ -1,4 +1,4 @@
-package me.dbecaj.friurnik.data.models.student;
+package me.dbecaj.friurnik.data.models;
 
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
