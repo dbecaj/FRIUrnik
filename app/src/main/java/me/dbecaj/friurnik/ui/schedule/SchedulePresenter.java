@@ -40,6 +40,7 @@ public class SchedulePresenter implements ScheduleMvp.Presenter {
     @Override
     public void loadSchedule(long studentId) {
         ScheduleInteractor scheduleInteractor = new ScheduleInteractorImp();
+        view.showProgress();
         scheduleInteractor.getSchedule(studentId, new ScheduleInteractor.ScheduleListener() {
             @Override
             public void sucessful(final ScheduleModel schedule) {
@@ -48,6 +49,7 @@ public class SchedulePresenter implements ScheduleMvp.Presenter {
                     @Override
                     public void run() {
                         view.showSchedule(schedule);
+                        view.hideProgress();
                     }
                 });
             }
@@ -59,6 +61,7 @@ public class SchedulePresenter implements ScheduleMvp.Presenter {
                     @Override
                     public void run() {
                         view.showError(resId);
+                        view.hideProgress();
                     }
                 });
             }

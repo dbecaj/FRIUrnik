@@ -54,12 +54,12 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
 
     @Override
     public void showProgress() {
-
+        gridLayout.setVisibility(View.INVISIBLE);
     }
 
     @Override
     public void hideProgress() {
-
+        gridLayout.setVisibility(View.VISIBLE);
     }
 
     @Override
