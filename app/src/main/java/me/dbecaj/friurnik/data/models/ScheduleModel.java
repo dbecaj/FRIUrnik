@@ -12,7 +12,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
 
 import me.dbecaj.friurnik.data.database.FRIUrnikDatabase;
 import timber.log.Timber;
@@ -36,23 +36,22 @@ public class ScheduleModel extends BaseModel{
     @NotNull
     private int lastHour = -1;
 
-    public static final String MON = "MON";
-    public static final String TUE = "TUE";
-    public static final String WED = "WED";
-    public static final String THU = "THU";
-    public static final String FRI = "FRI";
+    public static final int MON = 0;
+    public static final int TUE = 1;
+    public static final int WED = 2;
+    public static final int THU = 3;
+    public static final int FRI = 4;
 
     // URA {7:00, 21:00} DAN {PON, PET)
     // [URA]->(PON, TOR, SRE, CET, PET)
-    private HashMap<String, ArrayList<SubjectModel>> schedule = new HashMap<>(5);
+    private List<List<SubjectModel>> schedule = new ArrayList<>(5);
+
     private boolean empty = true;
 
-    private void initHash() {
-        schedule.put(MON, new ArrayList<SubjectModel>());
-        schedule.put(TUE, new ArrayList<SubjectModel>());
-        schedule.put(WED, new ArrayList<SubjectModel>());
-        schedule.put(THU, new ArrayList<SubjectModel>());
-        schedule.put(FRI, new ArrayList<SubjectModel>());
+    private void initSchedule() {
+        for(int i = 0; i < 5; i++) {
+            schedule.add(new ArrayList<SubjectModel>(5));
+        }
     }
 
     public void parseJson(String json) {
@@ -62,7 +61,7 @@ public class ScheduleModel extends BaseModel{
     }
 
     public void parseHtml(String html){
-        initHash();
+        initSchedule();
 
         empty = true;
         Document document = Jsoup.parse(html);
@@ -75,21 +74,20 @@ public class ScheduleModel extends BaseModel{
                    continue;
                }
 
-               if(day.className().contains(ScheduleModel.MON)) {
-                   insertIntoHash(ScheduleModel.MON, extractSubject(day, hourCount));
-
+               if(day.className().contains("MON")) {
+                   insertSubject(MON, extractSubject(day, hourCount));
                }
-               else if(day.className().contains(ScheduleModel.TUE)) {
-                   insertIntoHash(ScheduleModel.TUE, extractSubject(day, hourCount));
+               else if(day.className().contains("TUE")) {
+                   insertSubject(TUE, extractSubject(day, hourCount));
                }
-               else if(day.className().contains(ScheduleModel.WED)) {
-                   insertIntoHash(ScheduleModel.WED, extractSubject(day, hourCount));
+               else if(day.className().contains("WEN")) {
+                   insertSubject(WED, extractSubject(day, hourCount));
                }
-               else if(day.className().contains(ScheduleModel.THU)) {
-                   insertIntoHash(ScheduleModel.THU, extractSubject(day, hourCount));
+               else if(day.className().contains("THU")) {
+                   insertSubject(THU, extractSubject(day, hourCount));
                }
-               else if(day.className().contains(ScheduleModel.FRI)) {
-                   insertIntoHash(ScheduleModel.FRI, extractSubject(day, hourCount));
+               else if(day.className().contains("FRI")) {
+                   insertSubject(FRI, extractSubject(day, hourCount));
                }
            }
            hourCount++;
@@ -121,15 +119,35 @@ public class ScheduleModel extends BaseModel{
         return new SubjectModel(name, classroom, startHour, endHour);
     }
 
-    private void insertIntoHash(String day, SubjectModel subject) {
+    private void insertSubject(int day, SubjectModel subject) {
         schedule.get(day).add(subject);
         empty = false;
     }
 
     public void printOutSchedule() {
-        for(String day : schedule.keySet()) {
+        for (int dayIndex = 0; dayIndex < schedule.size(); dayIndex++) {
+            String day = "";
+            switch (dayIndex) {
+                case MON:
+                    day = "MON";
+                    break;
+                case TUE:
+                    day = "TUE";
+                    break;
+                case WED:
+                    day = "WED";
+                    break;
+                case THU:
+                    day = "THU";
+                    break;
+                case FRI:
+                    day = "FRI";
+                    break;
+            }
+
             Timber.d(day + "===================>");
-            for(SubjectModel subjectModel : schedule.get(day)) {
+            for (int subjectIndex = 0; subjectIndex < schedule.get(dayIndex).size(); subjectIndex++) {
+                SubjectModel subjectModel = schedule.get(dayIndex).get(subjectIndex);
                 Timber.d(subjectModel.getName() + ":" + subjectModel.getClassroom() +
                         ":" + String.valueOf(subjectModel.getStartHour()) + "/" +
                         String.valueOf(subjectModel.getEndHour()));
@@ -137,7 +155,7 @@ public class ScheduleModel extends BaseModel{
         }
     }
 
-    public HashMap<String, ArrayList<SubjectModel>> getSchedule() {
+    public List<List<SubjectModel>> getSchedule() {
         return schedule;
     }
 
