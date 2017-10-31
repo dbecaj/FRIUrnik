@@ -124,7 +124,7 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
         }
 
         // +1 is for the day row which is already in and -1 is to get the length not the index
-        gridLayout.setRowCount(endHour - (startHour-1) + 1);
+        gridLayout.setRowCount(endHour - (startHour-1));
         gridLayout.setColumnCount(6);
 
         /*<TextView
