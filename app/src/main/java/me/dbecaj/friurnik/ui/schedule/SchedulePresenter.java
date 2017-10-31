@@ -19,6 +19,7 @@ import me.dbecaj.friurnik.data.system.SystemStatus;
 public class SchedulePresenter implements ScheduleMvp.Presenter {
 
     private ScheduleMvp.View view;
+    private long studentId = -1;
 
     public SchedulePresenter(ScheduleMvp.View view) {
         this.view = view;
@@ -43,6 +44,7 @@ public class SchedulePresenter implements ScheduleMvp.Presenter {
     @Override
     public void loadDatabaseSchedule(final long studentId) {
         final ScheduleInteractor dbInteractor = new ScheduleInteractorDatabaseImp();
+        this.studentId = studentId;
 
         view.showProgress();
         dbInteractor.getSchedule(studentId, new ScheduleInteractor.ScheduleListener() {
@@ -73,6 +75,9 @@ public class SchedulePresenter implements ScheduleMvp.Presenter {
 
     @Override
     public void loadNetworkSchedule(final long studentId) {
+        this.studentId = studentId;
+
+        view.showProgress();
         final ScheduleInteractor networkScheduleInteractor = new ScheduleInteractorNetworkImp();
         networkScheduleInteractor.getSchedule(studentId, new ScheduleInteractor.ScheduleListener() {
             @Override
@@ -100,6 +105,15 @@ public class SchedulePresenter implements ScheduleMvp.Presenter {
                 });
             }
         });
+    }
+
+    @Override
+    public void refreshSchedule() {
+        if(studentId < 0) {
+            throw new RuntimeException("studentId is not initialized!");
+        }
+
+        loadNetworkSchedule(studentId);
     }
 
     @Override

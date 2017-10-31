@@ -107,7 +107,7 @@ public class ScheduleModel extends BaseModel{
                else if(day.className().contains("TUE")) {
                    insertSubject(TUE, extractSubject(day, hourCount));
                }
-               else if(day.className().contains("WEN")) {
+               else if(day.className().contains("WED")) {
                    insertSubject(WED, extractSubject(day, hourCount));
                }
                else if(day.className().contains("THU")) {

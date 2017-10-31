@@ -12,6 +12,8 @@ public interface ScheduleMvp {
     interface View extends BaseMvp.View {
 
         void showSchedule(ScheduleModel schedule);
+        void hideSchedule();
+        void showSchedule();
     }
 
     interface Presenter extends BaseMvp.Presenter {
@@ -19,6 +21,7 @@ public interface ScheduleMvp {
         void loadSchedule();
         void loadNetworkSchedule(long studentId);
         void loadDatabaseSchedule(long studentId);
+        void refreshSchedule();
     }
 
 }

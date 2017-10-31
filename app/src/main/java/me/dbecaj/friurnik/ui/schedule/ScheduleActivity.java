@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
@@ -34,6 +35,9 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
     @BindView(R.id.schedule_gridLayout)
     GridLayout gridLayout;
 
+    @BindView(R.id.schedule_swipeRefreshLayout)
+    SwipeRefreshLayout swipeRefreshLayout;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,16 +55,34 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
         presenter = component.getPresenter();
 
         presenter.loadSchedule();
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                presenter.refreshSchedule();
+            }
+        });
+        hideSchedule();
     }
 
     @Override
     public void showProgress() {
-        gridLayout.setVisibility(View.INVISIBLE);
+        swipeRefreshLayout.setRefreshing(true);
     }
 
     @Override
     public void hideProgress() {
+        swipeRefreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void showSchedule() {
         gridLayout.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideSchedule() {
+        gridLayout.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -91,6 +113,8 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
 
     @Override
     public void showSchedule(ScheduleModel schedule) {
+        showSchedule();
+
         int startHour = 7;
         int endHour = schedule.getLastHour();
 
