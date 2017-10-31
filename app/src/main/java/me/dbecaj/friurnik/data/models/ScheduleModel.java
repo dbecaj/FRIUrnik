@@ -1,6 +1,9 @@
 package me.dbecaj.friurnik.data.models;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.NotNull;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
@@ -47,16 +50,40 @@ public class ScheduleModel extends BaseModel{
     private List<List<SubjectModel>> schedule = new ArrayList<>(5);
 
     private boolean empty = true;
+    private boolean scheduleInitialized = false;
 
     private void initSchedule() {
+        if (scheduleInitialized) {
+            throw new RuntimeException("Schedule already initialized!");
+        }
+
         for(int i = 0; i < 5; i++) {
             schedule.add(new ArrayList<SubjectModel>(5));
         }
+
+        scheduleInitialized = true;
     }
 
     public void parseJson(String json) {
+        initSchedule();
+
+        Timber.d(json);
         Gson gson = new Gson();
-        schedule = gson.fromJson(json, schedule.getClass());
+        JsonArray rootArray = gson.fromJson(json, JsonArray.class);
+        int dayIndex = 0;
+        for(JsonElement dayElement : rootArray) {
+            for(JsonElement subjectElement : dayElement.getAsJsonArray()) {
+                JsonObject subject = subjectElement.getAsJsonObject();
+                String classroom = subject.get("classroom").getAsString();
+                int endHour = subject.get("endHour").getAsInt();
+                String name = subject.get("name").getAsString();
+                int startHour = subject.get("startHour").getAsInt();
+
+                schedule.get(dayIndex).add(new SubjectModel(name, classroom, startHour, endHour));
+            }
+            dayIndex++;
+        }
+
         empty = false;
     }
 
