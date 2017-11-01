@@ -27,10 +27,12 @@ public class SchedulePresenter implements ScheduleMvp.Presenter {
 
     @Override
     public void loadSchedule() {
+
         StudentInteractor interactor = new StudentInteractorImp();
         interactor.getDefaultStudent(new StudentInteractor.StudentListener() {
             @Override
             public void successful(long studentId) {
+                view.showStudentIdTitle(String.valueOf(studentId));
                 loadDatabaseSchedule(studentId);
             }
 
@@ -43,6 +45,8 @@ public class SchedulePresenter implements ScheduleMvp.Presenter {
 
     @Override
     public void loadDatabaseSchedule(final long studentId) {
+        view.showStudentIdTitle(String.valueOf(studentId));
+
         final ScheduleInteractor dbInteractor = new ScheduleInteractorDatabaseImp();
         this.studentId = studentId;
 
@@ -75,6 +79,7 @@ public class SchedulePresenter implements ScheduleMvp.Presenter {
 
     @Override
     public void loadNetworkSchedule(final long studentId) {
+        view.showStudentIdTitle(String.valueOf(studentId));
         this.studentId = studentId;
 
         view.showProgress();

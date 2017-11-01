@@ -14,6 +14,7 @@ public interface ScheduleMvp {
         void showSchedule(ScheduleModel schedule);
         void hideSchedule();
         void showSchedule();
+        void showStudentIdTitle(String studentId);
     }
 
     interface Presenter extends BaseMvp.Presenter {

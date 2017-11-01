@@ -3,17 +3,23 @@ package me.dbecaj.friurnik.ui.schedule;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,7 +34,8 @@ import me.dbecaj.friurnik.ui.schedule.di.ScheduleModule;
  * Created by HP on 10/18/2017.
  */
 
-public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.View {
+public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.View,
+        NavigationView.OnNavigationItemSelectedListener {
 
     private ScheduleMvp.Presenter presenter;
 
@@ -37,6 +44,15 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
 
     @BindView(R.id.schedule_swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
+
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+
+    @BindView(R.id.schedule_drawerLayout)
+    DrawerLayout drawerLayout;
+
+    @BindView(R.id.schedule_navigationView)
+    NavigationView navigationView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,16 +69,54 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
         ScheduleComponent component = DaggerScheduleComponent.builder()
                 .scheduleModule(new ScheduleModule(this)).build();
         presenter = component.getPresenter();
-
         presenter.loadSchedule();
 
+        hideSchedule();
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 presenter.refreshSchedule();
             }
         });
-        hideSchedule();
+        setSupportActionBar(toolbar);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.white));
+        toolbar.setSubtitleTextColor(getResources().getColor(R.color.white));
+
+        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawerLayout,
+                toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(drawerToggle);
+        drawerToggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.white));
+        drawerToggle.syncState();
+
+        navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.example, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if(id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }
+        else {
+            super.onBackPressed();
+        }
     }
 
     @Override
@@ -103,12 +157,6 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
     @Override
     public void showError(String error) {
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
-    }
-
-    public static Intent buildIntent(Context context) {
-        Intent intent = new Intent(context, ScheduleActivity.class);
-
-        return intent;
     }
 
     @Override
@@ -177,5 +225,22 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
                 classroom.setText(subject.getClassroom());
             }
         }
+    }
+
+    @Override
+    public void showStudentIdTitle(String studentId) {
+        toolbar.setTitle(studentId);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return false;
+    }
+    public static Intent buildIntent(Context context) {
+        Intent intent = new Intent(context, ScheduleActivity.class);
+
+        return intent;
     }
 }
