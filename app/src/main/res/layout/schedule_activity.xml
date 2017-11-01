@@ -97,7 +97,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
-        app:headerLayout="@layout/nav_header_example"
-        app:menu="@menu/activity_example_drawer" />
+        app:headerLayout="@layout/schedule_nav_header"
+        app:menu="@menu/menu_schedule_drawer" />
 
 </android.support.v4.widget.DrawerLayout>
