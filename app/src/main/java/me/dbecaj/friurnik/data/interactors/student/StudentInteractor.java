@@ -11,13 +11,15 @@ import me.dbecaj.friurnik.data.models.StudentModel;
 public interface StudentInteractor {
 
     interface StudentListener {
-        void successful(long studentId);
+        void successful(StudentModel student);
         void failure(int resId);
     }
 
     void getDefaultStudent(StudentListener listener);
     boolean hasDefaultStudent();
     List<StudentModel> getAllStudents();
+    void getStudent(long studentId, StudentListener listener);
+    boolean hasStudent(long studentId);
     void saveStudent(long studentId, StudentListener listener);
 
 }

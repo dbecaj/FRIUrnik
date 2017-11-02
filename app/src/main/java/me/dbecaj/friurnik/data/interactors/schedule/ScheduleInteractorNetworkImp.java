@@ -32,7 +32,7 @@ public class ScheduleInteractorNetworkImp implements ScheduleInteractor {
 
         NetworkComponent networkComponent = DaggerNetworkComponent.builder().build();
         Request request = new Request.Builder()
-                .url(ResourceProvider.getString(R.string.url) + String.valueOf(studentId))
+                .url(ResourceProvider.getString(R.string.url, studentId))
                 .build();
 
         networkComponent.getOkHttp().newCall(request).enqueue(new Callback() {
@@ -74,5 +74,10 @@ public class ScheduleInteractorNetworkImp implements ScheduleInteractor {
             return schedule.update();
 
         return schedule.save();
+    }
+
+    @Override
+    public boolean hasSchedule(long studentId) {
+        throw new RuntimeException("This is implemented in DatabaseImpl not in NetworkImpl!");
     }
 }

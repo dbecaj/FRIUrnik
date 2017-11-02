@@ -37,7 +37,7 @@ public class ScheduleInteractorDatabaseImp implements ScheduleInteractor {
     }
 
     @Override
-    public boolean saveSchedule(ScheduleModel schedule, long studentId) {
+    public boolean saveSchedule(ScheduleModel schedule,long studentId) {
         Gson gson = new Gson();
         schedule.setJsonSchedule(gson.toJson(schedule.getSchedule()));
         schedule.setStudentId(studentId);
@@ -46,5 +46,14 @@ public class ScheduleInteractorDatabaseImp implements ScheduleInteractor {
             return schedule.update();
 
         return schedule.save();
+    }
+
+    @Override
+    public boolean hasSchedule(long studentId) {
+        List<ScheduleModel> schedules = SQLite.select().from(ScheduleModel.class)
+                .where(ScheduleModel_Table.studentId.is(studentId))
+                .queryList();
+
+        return !schedules.isEmpty();
     }
 }

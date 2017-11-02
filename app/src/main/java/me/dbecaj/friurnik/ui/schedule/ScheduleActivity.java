@@ -23,8 +23,10 @@ import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Optional;
 import me.dbecaj.friurnik.R;
 import me.dbecaj.friurnik.data.models.ScheduleModel;
+import me.dbecaj.friurnik.data.models.StudentModel;
 import me.dbecaj.friurnik.data.models.SubjectModel;
 import me.dbecaj.friurnik.ui.schedule.di.DaggerScheduleComponent;
 import me.dbecaj.friurnik.ui.schedule.di.ScheduleComponent;
@@ -53,6 +55,10 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
 
     @BindView(R.id.schedule_navigationView)
     NavigationView navigationView;
+
+    TextView navigationStudentId;
+
+    TextView navigationNickname;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -117,6 +123,13 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
         else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return false;
     }
 
     @Override
@@ -192,7 +205,7 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
             hourCell.setGravity(Gravity.CENTER);
 
             int hour = startHour + i-1;
-            hourCell.setText(String.valueOf(hour) + getString(R.string.time_hour_after));
+            hourCell.setText(getString(R.string.time_hour_after, hour));
             hourCell.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
             hourCell.setBackground(getDrawable(R.drawable.cell_border));
 
@@ -228,16 +241,24 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
     }
 
     @Override
-    public void showStudentIdTitle(String studentId) {
-        toolbar.setTitle(studentId);
+    public void showStudentIdTitle(StudentModel student) {
+        if(student.hasNickname()) {
+            toolbar.setTitle(getString(R.string.navigation_drawer_nickname, student.getNickname()));
+        }
     }
 
     @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-        drawerLayout.closeDrawer(GravityCompat.START);
-        return false;
+    public void showNavigationDrawerStudent(StudentModel student) {
+        /*navigationStudentId.setText(String.valueOf(student.getStudentId()));
+        if(student.hasNickname()) {
+            navigationNickname.setVisibility(View.VISIBLE);
+            navigationNickname.setText(student.getNickname());
+        }
+        else {
+            navigationNickname.setVisibility(View.INVISIBLE);
+        }*/
     }
+
     public static Intent buildIntent(Context context) {
         Intent intent = new Intent(context, ScheduleActivity.class);
 

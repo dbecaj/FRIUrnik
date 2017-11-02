@@ -1,6 +1,7 @@
 package me.dbecaj.friurnik.ui.schedule;
 
 import me.dbecaj.friurnik.data.models.ScheduleModel;
+import me.dbecaj.friurnik.data.models.StudentModel;
 import me.dbecaj.friurnik.ui.BaseMvp;
 
 /**
@@ -14,7 +15,8 @@ public interface ScheduleMvp {
         void showSchedule(ScheduleModel schedule);
         void hideSchedule();
         void showSchedule();
-        void showStudentIdTitle(String studentId);
+        void showStudentIdTitle(StudentModel student);
+        void showNavigationDrawerStudent(StudentModel student);
     }
 
     interface Presenter extends BaseMvp.Presenter {

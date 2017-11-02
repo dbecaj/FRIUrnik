@@ -13,8 +13,8 @@ public class ResourceProvider {
 
     protected ResourceProvider() {}
 
-    public static String getString(int resId) {
-        return FRIUrnikApp.getInstance().getString(resId);
+    public static String getString(int resId, Object... formatArgs) {
+        return FRIUrnikApp.getInstance().getString(resId, formatArgs);
     }
 
 }

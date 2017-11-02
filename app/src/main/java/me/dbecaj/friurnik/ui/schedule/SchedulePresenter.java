@@ -10,6 +10,7 @@ import me.dbecaj.friurnik.data.interactors.schedule.ScheduleInteractorNetworkImp
 import me.dbecaj.friurnik.data.interactors.student.StudentInteractor;
 import me.dbecaj.friurnik.data.interactors.student.StudentInteractorImp;
 import me.dbecaj.friurnik.data.models.ScheduleModel;
+import me.dbecaj.friurnik.data.models.StudentModel;
 import me.dbecaj.friurnik.data.system.SystemStatus;
 
 /**
@@ -31,9 +32,9 @@ public class SchedulePresenter implements ScheduleMvp.Presenter {
         StudentInteractor interactor = new StudentInteractorImp();
         interactor.getDefaultStudent(new StudentInteractor.StudentListener() {
             @Override
-            public void successful(long studentId) {
-                view.showStudentIdTitle(String.valueOf(studentId));
-                loadDatabaseSchedule(studentId);
+            public void successful(StudentModel student) {
+                view.showStudentIdTitle(student);
+                loadDatabaseSchedule(student.getStudentId());
             }
 
             @Override
@@ -45,12 +46,29 @@ public class SchedulePresenter implements ScheduleMvp.Presenter {
 
     @Override
     public void loadDatabaseSchedule(final long studentId) {
-        view.showStudentIdTitle(String.valueOf(studentId));
-
-        final ScheduleInteractor dbInteractor = new ScheduleInteractorDatabaseImp();
         this.studentId = studentId;
 
+        StudentInteractor interactor = new StudentInteractorImp();
+        if(!interactor.hasStudent(studentId)) {
+            view.showError(R.string.error_student_not_found_in_database);
+            return;
+        }
+
+        interactor.getStudent(studentId, new StudentInteractor.StudentListener() {
+            @Override
+            public void successful(StudentModel student) {
+                view.showStudentIdTitle(student);
+                view.showNavigationDrawerStudent(student);
+            }
+
+            @Override
+            public void failure(int resId) {
+                view.showError(resId);
+            }
+        });
+
         view.showProgress();
+        final ScheduleInteractor dbInteractor = new ScheduleInteractorDatabaseImp();
         dbInteractor.getSchedule(studentId, new ScheduleInteractor.ScheduleListener() {
             @Override
             public void sucessful(final ScheduleModel schedule) {
@@ -79,8 +97,26 @@ public class SchedulePresenter implements ScheduleMvp.Presenter {
 
     @Override
     public void loadNetworkSchedule(final long studentId) {
-        view.showStudentIdTitle(String.valueOf(studentId));
         this.studentId = studentId;
+
+        StudentInteractor interactor = new StudentInteractorImp();
+        if(!interactor.hasStudent(studentId)) {
+            view.showError(R.string.error_student_not_found_in_database);
+            return;
+        }
+
+        interactor.getStudent(studentId, new StudentInteractor.StudentListener() {
+            @Override
+            public void successful(StudentModel student) {
+                view.showStudentIdTitle(student);
+                view.showNavigationDrawerStudent(student);
+            }
+
+            @Override
+            public void failure(int resId) {
+                view.showError(resId);
+            }
+        });
 
         view.showProgress();
         final ScheduleInteractor networkScheduleInteractor = new ScheduleInteractorNetworkImp();
