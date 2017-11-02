@@ -1,5 +1,7 @@
 package me.dbecaj.friurnik.data.models;
 
+import android.graphics.Bitmap;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -17,6 +19,7 @@ import org.jsoup.nodes.Element;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.dbecaj.friurnik.BuildConfig;
 import me.dbecaj.friurnik.data.database.FRIUrnikDatabase;
 import timber.log.Timber;
 
@@ -67,7 +70,6 @@ public class ScheduleModel extends BaseModel{
     public void parseJson(String json) {
         initSchedule();
 
-        Timber.d(json);
         Gson gson = new Gson();
         JsonArray rootArray = gson.fromJson(json, JsonArray.class);
         int dayIndex = 0;
@@ -120,7 +122,9 @@ public class ScheduleModel extends BaseModel{
            hourCount++;
         }
 
-        printOutSchedule();
+        if(BuildConfig.DEBUG) {
+            printOutSchedule();
+        }
     }
 
     private SubjectModel extractSubject(Element day, int hourCount) {
