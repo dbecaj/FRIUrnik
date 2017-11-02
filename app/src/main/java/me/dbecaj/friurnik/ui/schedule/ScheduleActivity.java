@@ -21,6 +21,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Optional;
@@ -31,6 +33,7 @@ import me.dbecaj.friurnik.data.models.SubjectModel;
 import me.dbecaj.friurnik.ui.schedule.di.DaggerScheduleComponent;
 import me.dbecaj.friurnik.ui.schedule.di.ScheduleComponent;
 import me.dbecaj.friurnik.ui.schedule.di.ScheduleModule;
+import timber.log.Timber;
 
 /**
  * Created by HP on 10/18/2017.
@@ -71,11 +74,16 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
     @Override
     public void init() {
         ButterKnife.bind(this);
+        navigationStudentId = (TextView)navigationView.getHeaderView(0)
+                .findViewById(R.id.navigation_header_student_id);
+        navigationNickname = (TextView)navigationView.getHeaderView(0)
+                .findViewById(R.id.navigation_header_nickname);
 
         ScheduleComponent component = DaggerScheduleComponent.builder()
                 .scheduleModule(new ScheduleModule(this)).build();
         presenter = component.getPresenter();
         presenter.loadSchedule();
+        presenter.loadStudentsMenu();
 
         hideSchedule();
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -243,20 +251,37 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
     @Override
     public void showStudentIdTitle(StudentModel student) {
         if(student.hasNickname()) {
-            toolbar.setTitle(getString(R.string.navigation_drawer_nickname, student.getNickname()));
+            toolbar.setTitle(String.valueOf(student.getStudentId()) + " " +
+                    getString(R.string.navigation_drawer_nickname, student.getNickname()));
+        }
+        else {
+            toolbar.setTitle(String.valueOf(student.getStudentId()));
         }
     }
 
     @Override
     public void showNavigationDrawerStudent(StudentModel student) {
-        /*navigationStudentId.setText(String.valueOf(student.getStudentId()));
+        navigationStudentId.setText(String.valueOf(student.getStudentId()));
         if(student.hasNickname()) {
             navigationNickname.setVisibility(View.VISIBLE);
-            navigationNickname.setText(student.getNickname());
+            navigationNickname.setText(getString(R.string.navigation_drawer_nickname,
+                    student.getNickname()));
         }
         else {
             navigationNickname.setVisibility(View.INVISIBLE);
-        }*/
+        }
+    }
+
+    @Override
+    public void populateNavigationDrawerStudentMenu(List<StudentModel> students) {
+        for(StudentModel student : students) {
+            String studentTitle = String.valueOf(student.getStudentId());
+            if(student.hasNickname()) {
+                studentTitle = studentTitle + " " + getString(R.string.navigation_drawer_nickname,
+                        student.getNickname());
+            }
+            navigationView.getMenu().add(studentTitle);
+        }
     }
 
     public static Intent buildIntent(Context context) {

@@ -3,33 +3,4 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
-        <item
-            android:title="@string/placeholder_student_id" />
-        <item
-            android:title="@string/placeholder_student_id"/>
-        <item
-            android:title="@string/placeholder_student_id"/>
-        <item
-            android:title="@string/placeholder_student_id"/>
-        <item
-            android:title="@string/placeholder_student_id"/>
-        <item
-            android:title="@string/placeholder_student_id"/>
-        <item
-            android:title="@string/placeholder_student_id"/>
-        <item
-            android:title="@string/placeholder_student_id"/>
-        <item
-            android:title="@string/placeholder_student_id"/>
-        <item
-            android:title="@string/placeholder_student_id"/>
-        <item
-            android:title="@string/placeholder_student_id"/>
-        <item
-            android:title="@string/placeholder_student_id"/>
-        <item
-            android:title="@string/placeholder_student_id"/>
-    </group>
-
 </menu>

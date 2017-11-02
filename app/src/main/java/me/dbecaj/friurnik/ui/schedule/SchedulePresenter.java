@@ -158,6 +158,12 @@ public class SchedulePresenter implements ScheduleMvp.Presenter {
     }
 
     @Override
+    public void loadStudentsMenu() {
+        StudentInteractor interactor = new StudentInteractorImp();
+        view.populateNavigationDrawerStudentMenu(interactor.getAllStudents());
+    }
+
+    @Override
     public void cancel() {
 
     }
