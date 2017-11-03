@@ -3,6 +3,8 @@ package me.dbecaj.friurnik.ui.schedule;
 import android.os.Handler;
 import android.os.Looper;
 
+import java.util.List;
+
 import me.dbecaj.friurnik.R;
 import me.dbecaj.friurnik.data.interactors.schedule.ScheduleInteractor;
 import me.dbecaj.friurnik.data.interactors.schedule.ScheduleInteractorDatabaseImp;
@@ -160,7 +162,15 @@ public class SchedulePresenter implements ScheduleMvp.Presenter {
     @Override
     public void loadStudentsMenu() {
         StudentInteractor interactor = new StudentInteractorImp();
-        view.populateNavigationDrawerStudentMenu(interactor.getAllStudents());
+        List<StudentModel> students = interactor.getAllStudents();
+        for(StudentModel student : students) {
+            if(student.getStudentId() == studentId) {
+                students.remove(student);
+                break;
+            }
+        }
+
+        view.populateNavigationDrawerStudentMenu(students);
     }
 
     @Override

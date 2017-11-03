@@ -109,6 +109,9 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_schedule, menu);
 
+        MenuItem addButton = menu.findItem(R.id.action_add);
+        addButton.getIcon().setTint(getResources().getColor(R.color.white));
+
         return true;
     }
 

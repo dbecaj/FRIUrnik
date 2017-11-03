@@ -21,6 +21,7 @@
     <string name="action_settings">Nastavitve</string>
     <string name="navigation_drawer_nickname">(%1$s)</string>
     <string name="me">jaz</string>
+    <string name="add_student">Dodaj študenta</string>
 
     <string name="error_invalid_student_id">Vpisna številka mora biti 8 mestna</string>
     <string name="error_empty_student_id">Prosimo vnesite svojo vpisno številko</string>
