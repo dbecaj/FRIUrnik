@@ -30,6 +30,7 @@ import me.dbecaj.friurnik.R;
 import me.dbecaj.friurnik.data.models.ScheduleModel;
 import me.dbecaj.friurnik.data.models.StudentModel;
 import me.dbecaj.friurnik.data.models.SubjectModel;
+import me.dbecaj.friurnik.ui.add.AddActivity;
 import me.dbecaj.friurnik.ui.schedule.di.DaggerScheduleComponent;
 import me.dbecaj.friurnik.ui.schedule.di.ScheduleComponent;
 import me.dbecaj.friurnik.ui.schedule.di.ScheduleModule;
@@ -119,8 +120,12 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if(id == R.id.action_settings) {
-            return true;
+        switch(id) {
+            case R.id.action_settings:
+                return true;
+            case R.id.action_add:
+                presenter.processAddButton();
+                break;
         }
 
         return super.onOptionsItemSelected(item);
@@ -275,6 +280,12 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
             }
             navigationView.getMenu().add(studentTitle);
         }
+    }
+
+    @Override
+    public void showAddActivity() {
+        Intent intent = AddActivity.buildIntent(this);
+        startActivity(intent);
     }
 
     public static Intent buildIntent(Context context) {

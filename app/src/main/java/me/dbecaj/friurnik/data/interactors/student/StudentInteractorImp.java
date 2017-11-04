@@ -41,20 +41,28 @@ public class StudentInteractorImp implements StudentInteractor {
 
     @Override
     public void saveStudent(long studentId, StudentListener listener) {
+        saveStudent(studentId, null, listener);
+    }
+
+    @Override
+    public void saveStudent(long studentId, String nickname, StudentListener listener) {
         boolean isDefault = false;
-        List<StudentModel> allStudents = SQLite.select().from(StudentModel.class).queryList();
-        if(allStudents.isEmpty()) {
+        if(!hasDefaultStudent()) {
             isDefault = true;
         }
 
-        List<StudentModel> sameStudents = SQLite.select().from(StudentModel.class)
-                .where(StudentModel_Table.studentId.is(studentId)).queryList();
-        if(!sameStudents.isEmpty()) {
+        if(hasStudent(studentId)) {
             listener.failure(R.string.error_student_already_in_database);
             return;
         }
 
+        // Setting to null if empty because that way it does not save to database
+        if(nickname != null && nickname.isEmpty()) {
+            nickname = null;
+        }
+
         StudentModel studentModel = new StudentModel(studentId, isDefault);
+        studentModel.setNickname(nickname);
         studentModel.save();
         listener.successful(studentModel);
     }

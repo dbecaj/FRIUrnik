@@ -10,10 +10,16 @@ public interface AddMvp {
 
     interface View extends BaseMvp.View {
 
+        void showStudentIdInputError(int resId);
+        void showScheduleActivity();
+        String getStudentId();
+        String getNickname();
     }
 
     interface Presenter extends BaseMvp.Presenter {
 
+        void processSaveButton();
+        void saveStudent(long studentId, String nickname);
     }
 
 }

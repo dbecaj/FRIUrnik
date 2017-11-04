@@ -174,6 +174,11 @@ public class SchedulePresenter implements ScheduleMvp.Presenter {
     }
 
     @Override
+    public void processAddButton() {
+        view.showAddActivity();
+    }
+
+    @Override
     public void cancel() {
 
     }

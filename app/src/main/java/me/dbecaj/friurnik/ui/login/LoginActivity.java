@@ -22,7 +22,7 @@ public class LoginActivity extends AppCompatActivity implements LoginMvp.View {
     @BindView(R.id.login_login_progress)
     ProgressBar loginProgress;
 
-    @BindView(R.id.login_input_student_number)
+    @BindView(R.id.login_input_student_id)
     EditText inputStudentNumber;
 
     LoginMvp.Presenter presenter;

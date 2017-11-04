@@ -27,7 +27,7 @@
             android:layout_gravity="center"/>
 
         <EditText
-            android:id="@+id/login_input_student_number"
+            android:id="@+id/login_input_student_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"

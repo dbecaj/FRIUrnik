@@ -31,7 +31,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="number"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="@dimen/login_font"
@@ -49,7 +48,7 @@
             android:layout_gravity="center"/>
 
         <EditText
-            android:id="@+id/add_inputStudentNumber"
+            android:id="@+id/add_input_student_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -62,7 +61,7 @@
     </LinearLayout>
 
     <ProgressBar
-        android:id="@+id/add_login_progress"
+        android:id="@+id/add_save_progress"
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
