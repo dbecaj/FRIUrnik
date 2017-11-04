@@ -6,7 +6,6 @@
     <string name="placeholder_subject_classroom">PRO</string>
 
     <string name="url">https://urnik.fri.uni-lj.si/timetable/fri-2017_2018-zimski/allocations?student=%1$d</string>
-    <string name="login_input_request">Vnesi svojo vpisno številko</string>
     <string name="next">Naprej</string>
     <string name="mon">PON</string>
     <string name="tue">TOR</string>
@@ -15,6 +14,7 @@
     <string name="fri">PET</string>
     <string name="time_hour_after">%1$d:00</string>
 
+    <string name="login_input_request_text">Vnesi svojo vpisno številko</string>
     <string name="success_student_saved">Študent shranjen</string>
     <string name="navigation_drawer_open">Odprti stranski meni</string>
     <string name="navigation_drawer_close">Zapri stranski meni</string>
@@ -22,6 +22,9 @@
     <string name="navigation_drawer_nickname">(%1$s)</string>
     <string name="me">jaz</string>
     <string name="add_student">Dodaj študenta</string>
+    <string name="save">Shrani</string>
+    <string name="add_input_request_text">Vnesi vpisno številko</string>
+    <string name="student_id">vpisna številka</string>
 
     <string name="error_invalid_student_id">Vpisna številka mora biti 8 mestna</string>
     <string name="error_empty_student_id">Prosimo vnesite svojo vpisno številko</string>
@@ -38,5 +41,7 @@
     <string name="error_problem_while_parsing_xml">Napaka pri prevajanju spletne vsebine</string>
     <string name="error_empty_schedule">Pridobljen urnik je prazen!</string>
     <string name="error_no_schedule_saved_under_this_student_id">V bazi ni nobenega urnika pod podano vpisno številko</string>
+    <string name="nickname">naziv</string>
+    <string name="add_nickname_input_request">Vnesi naziv</string>
 
 </resources>

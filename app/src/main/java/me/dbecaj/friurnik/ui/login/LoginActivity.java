@@ -12,19 +12,17 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import me.dbecaj.friurnik.R;
-import me.dbecaj.friurnik.data.system.ResourceProvider;
 import me.dbecaj.friurnik.ui.login.di.DaggerLoginActivityComponent;
 import me.dbecaj.friurnik.ui.login.di.LoginActivityComponent;
 import me.dbecaj.friurnik.ui.login.di.LoginActivityModule;
 import me.dbecaj.friurnik.ui.schedule.ScheduleActivity;
-import timber.log.Timber;
 
 public class LoginActivity extends AppCompatActivity implements LoginMvp.View {
 
-    @BindView(R.id.login_loginProgress)
+    @BindView(R.id.login_login_progress)
     ProgressBar loginProgress;
 
-    @BindView(R.id.login_inputStudentNumber)
+    @BindView(R.id.login_input_student_number)
     EditText inputStudentNumber;
 
     LoginMvp.Presenter presenter;
@@ -50,7 +48,7 @@ public class LoginActivity extends AppCompatActivity implements LoginMvp.View {
         presenter = component.getPresenter();
     }
 
-    @OnClick(R.id.login_buttonNext)
+    @OnClick(R.id.login_button_next)
     protected void onNextClicked() {
         presenter.processNextClicked();
     }

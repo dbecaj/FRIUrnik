@@ -18,16 +18,16 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/login_input_text"
+            android:id="@+id/add_nickname_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/login_input_request_text"
+            android:text="@string/add_nickname_input_request"
             android:textColor="@color/white"
             android:textSize="@dimen/login_font"
             android:layout_gravity="center"/>
 
         <EditText
-            android:id="@+id/login_input_student_number"
+            android:id="@+id/add_input_nickname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -35,12 +35,34 @@
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="@dimen/login_font"
-            android:text="@string/placeholder_student_id"
+            android:hint="@string/nickname"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/add_nickname_student_id_bottom_margin"/>
+
+        <TextView
+            android:id="@+id/add_input_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_input_request_text"
+            android:textColor="@color/white"
+            android:textSize="@dimen/login_font"
+            android:layout_gravity="center"/>
+
+        <EditText
+            android:id="@+id/add_inputStudentNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="number"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/login_font"
+            android:hint="@string/student_id"
             android:layout_gravity="center"/>
     </LinearLayout>
 
     <ProgressBar
-        android:id="@+id/login_login_progress"
+        android:id="@+id/add_login_progress"
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -60,12 +82,12 @@
         app:layout_constraintRight_toRightOf="parent">
 
         <Button
-            android:id="@+id/login_button_next"
+            android:id="@+id/add_save_button"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimaryDark"
-            android:text="@string/next"
+            android:text="@string/save"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="@dimen/login_nextFontSize" />
