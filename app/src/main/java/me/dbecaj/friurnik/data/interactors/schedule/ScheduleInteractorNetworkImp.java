@@ -57,6 +57,7 @@ public class ScheduleInteractorNetworkImp implements ScheduleInteractor {
                 scheduleModel.parseHtml(html);
                 if (scheduleModel.isEmpty()) {
                     listener.failure(R.string.error_empty_schedule);
+                    return;
                 }
 
                 listener.sucessful(scheduleModel);

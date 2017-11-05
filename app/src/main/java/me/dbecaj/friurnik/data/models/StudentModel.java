@@ -9,6 +9,7 @@ import com.raizlabs.android.dbflow.structure.BaseModel;
 import me.dbecaj.friurnik.R;
 import me.dbecaj.friurnik.data.database.FRIUrnikDatabase;
 import me.dbecaj.friurnik.data.system.ResourceProvider;
+import timber.log.Timber;
 
 /**
  * Created by Dominik on 20-Oct-17.
@@ -35,7 +36,7 @@ public class StudentModel extends BaseModel{
         this.defaultStudent = defaultStudent;
 
         if(defaultStudent) {
-            nickname = ResourceProvider.getString(R.string.me);
+            setNickname(ResourceProvider.getString(R.string.me));
         }
     }
 

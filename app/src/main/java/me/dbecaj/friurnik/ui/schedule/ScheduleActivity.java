@@ -143,6 +143,13 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        String itemTitle = item.getTitle().toString();
+        // Separating the title if it happens to have a nickname
+        long studentId = Long.parseLong(itemTitle.split(" ")[0]);
+
+        // Load the selected student schedule
+        presenter.loadDatabaseSchedule(studentId);
+        presenter.loadStudentsMenu();
 
         drawerLayout.closeDrawer(GravityCompat.START);
         return false;
@@ -189,6 +196,9 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
         if(endHour != 21) {
             endHour++;
         }
+
+        // Clear all child views
+        gridLayout.removeAllViews();
 
         // +1 is for the day row which is already in and -1 is to get the length not the index
         gridLayout.setRowCount(endHour - (startHour-1));
@@ -272,6 +282,9 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
 
     @Override
     public void populateNavigationDrawerStudentMenu(List<StudentModel> students) {
+        // Empty out the previous menu
+        navigationView.getMenu().clear();
+
         for(StudentModel student : students) {
             String studentTitle = String.valueOf(student.getStudentId());
             if(student.hasNickname()) {

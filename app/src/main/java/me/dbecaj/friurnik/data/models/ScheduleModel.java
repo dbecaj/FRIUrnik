@@ -52,7 +52,6 @@ public class ScheduleModel extends BaseModel{
     // [URA]->(PON, TOR, SRE, CET, PET)
     private List<List<SubjectModel>> schedule = new ArrayList<>(5);
 
-    private boolean empty = true;
     private boolean scheduleInitialized = false;
 
     private void initSchedule() {
@@ -85,14 +84,11 @@ public class ScheduleModel extends BaseModel{
             }
             dayIndex++;
         }
-
-        empty = false;
     }
 
     public void parseHtml(String html){
         initSchedule();
 
-        empty = true;
         Document document = Jsoup.parse(html);
         Element table = document.body().getElementsByTag("table").first();
         int hourCount = 7;
@@ -152,7 +148,6 @@ public class ScheduleModel extends BaseModel{
 
     private void insertSubject(int day, SubjectModel subject) {
         schedule.get(day).add(subject);
-        empty = false;
     }
 
     public void printOutSchedule() {
@@ -191,7 +186,13 @@ public class ScheduleModel extends BaseModel{
     }
 
     public boolean isEmpty() {
-        return empty;
+        if(scheduleInitialized) {
+            return schedule.get(MON).isEmpty() || schedule.get(TUE).isEmpty() ||
+                    schedule.get(WED).isEmpty() || schedule.get(THU).isEmpty() ||
+                    schedule.get(FRI).isEmpty();
+        }
+
+        return true;
     }
 
     public int getLastHour() {
