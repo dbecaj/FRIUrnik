@@ -100,6 +100,8 @@ public class SchedulePresenter implements ScheduleMvp.Presenter {
                     public void run() {
                         view.showError(resId);
                         view.hideProgress();
+                        // If there is a problem hide the previous schedule
+                        view.hideSchedule();
                     }
                 });
             }
