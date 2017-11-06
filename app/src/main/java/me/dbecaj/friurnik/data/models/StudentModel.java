@@ -34,10 +34,6 @@ public class StudentModel extends BaseModel{
     public StudentModel(long studentId, boolean defaultStudent) {
         this.studentId = studentId;
         this.defaultStudent = defaultStudent;
-
-        if(defaultStudent) {
-            setNickname(ResourceProvider.getString(R.string.me));
-        }
     }
 
     public void setStudentId(long studentId) {

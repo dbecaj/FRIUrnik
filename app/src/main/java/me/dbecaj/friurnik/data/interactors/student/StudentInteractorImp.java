@@ -7,6 +7,7 @@ import java.util.List;
 import me.dbecaj.friurnik.R;
 import me.dbecaj.friurnik.data.models.StudentModel;
 import me.dbecaj.friurnik.data.models.StudentModel_Table;
+import me.dbecaj.friurnik.data.system.ResourceProvider;
 
 /**
  * Created by Dominik on 20-Oct-17.
@@ -62,7 +63,13 @@ public class StudentInteractorImp implements StudentInteractor {
         }
 
         StudentModel studentModel = new StudentModel(studentId, isDefault);
-        studentModel.setNickname(nickname);
+        // Give the default student the default nickname
+        if(isDefault) {
+            studentModel.setNickname(ResourceProvider.getString(R.string.me));
+        }
+        else {
+            studentModel.setNickname(nickname);
+        }
         studentModel.save();
         listener.successful(studentModel);
     }

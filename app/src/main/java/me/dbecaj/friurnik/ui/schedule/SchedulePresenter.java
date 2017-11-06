@@ -77,6 +77,7 @@ public class SchedulePresenter implements ScheduleMvp.Presenter {
 
 
         // Load schedule
+        view.showProgress();
         scheduleInteractor.getSchedule(studentId, new ScheduleInteractor.ScheduleListener() {
             @Override
             public void sucessful(final ScheduleModel schedule) {
