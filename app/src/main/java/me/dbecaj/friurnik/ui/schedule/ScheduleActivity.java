@@ -148,7 +148,7 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
         long studentId = Long.parseLong(itemTitle.split(" ")[0]);
 
         // Load the selected student schedule
-        presenter.loadDatabaseSchedule(studentId);
+        presenter.loadSchedule(studentId);
         presenter.loadStudentsMenu();
 
         drawerLayout.closeDrawer(GravityCompat.START);

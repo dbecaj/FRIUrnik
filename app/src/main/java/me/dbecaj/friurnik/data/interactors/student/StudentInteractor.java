@@ -19,6 +19,7 @@ public interface StudentInteractor {
     boolean hasDefaultStudent();
     List<StudentModel> getAllStudents();
     void getStudent(long studentId, StudentListener listener);
+    StudentModel getStudent(long studentId);
     boolean hasStudent(long studentId);
     void saveStudent(long studentId, StudentListener listener);
     void saveStudent(long studentId, String nickname, StudentListener listener);

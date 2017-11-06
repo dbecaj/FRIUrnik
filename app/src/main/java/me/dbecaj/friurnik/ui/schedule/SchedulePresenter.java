@@ -35,8 +35,7 @@ public class SchedulePresenter implements ScheduleMvp.Presenter {
         interactor.getDefaultStudent(new StudentInteractor.StudentListener() {
             @Override
             public void successful(StudentModel student) {
-                view.showStudentIdTitle(student);
-                loadDatabaseSchedule(student.getStudentId());
+                loadSchedule(student.getStudentId());
             }
 
             @Override
@@ -47,91 +46,47 @@ public class SchedulePresenter implements ScheduleMvp.Presenter {
     }
 
     @Override
-    public void loadDatabaseSchedule(final long studentId) {
-        this.studentId = studentId;
-
-        StudentInteractor interactor = new StudentInteractorImp();
-        if(!interactor.hasStudent(studentId)) {
-            view.showError(R.string.error_student_not_found_in_database);
-            return;
-        }
-
-        interactor.getStudent(studentId, new StudentInteractor.StudentListener() {
-            @Override
-            public void successful(StudentModel student) {
-                view.showStudentIdTitle(student);
-                view.showNavigationDrawerStudent(student);
-            }
-
-            @Override
-            public void failure(int resId) {
-                view.showError(resId);
-            }
-        });
-
-        view.showProgress();
-        final ScheduleInteractor dbInteractor = new ScheduleInteractorDatabaseImp();
-        dbInteractor.getSchedule(studentId, new ScheduleInteractor.ScheduleListener() {
-            @Override
-            public void sucessful(final ScheduleModel schedule) {
-                Handler mainHander = new Handler(Looper.getMainLooper());
-                mainHander.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        view.showSchedule(schedule);
-                        view.hideProgress();
-                    }
-                });
-            }
-
-            @Override
-            public void failure(final int resId) {
-                if(resId == R.string.error_no_schedule_saved_under_this_student_id) {
-                    loadNetworkSchedule(studentId);
-                }
-                else {
-                    view.showError(resId);
-                    view.hideProgress();
-                }
-            }
-        });
+    public void loadSchedule(long studentId) {
+        loadSchedule(studentId, false);
     }
 
     @Override
-    public void loadNetworkSchedule(final long studentId) {
+    public void loadSchedule(long studentId, boolean forceNetworkLoad) {
+        // Set the studentId for further use
         this.studentId = studentId;
 
-        StudentInteractor interactor = new StudentInteractorImp();
-        if(!interactor.hasStudent(studentId)) {
+        // Check if the student exists in the database
+        StudentInteractor studentInteractor = new StudentInteractorImp();
+        if(!studentInteractor.hasStudent(studentId)) {
             view.showError(R.string.error_student_not_found_in_database);
             return;
         }
 
-        interactor.getStudent(studentId, new StudentInteractor.StudentListener() {
-            @Override
-            public void successful(StudentModel student) {
-                view.showStudentIdTitle(student);
-                view.showNavigationDrawerStudent(student);
-            }
+        // Load the student info into title and navigation drawer
+        StudentModel student = studentInteractor.getStudent(studentId);
+        view.showStudentIdTitle(student);
+        view.showNavigationDrawerStudent(student);
 
-            @Override
-            public void failure(int resId) {
-                view.showError(resId);
-            }
-        });
+        // Check if the database doesn't have the schedule with this studentId or
+        // if we specifically forced the network load
+        ScheduleInteractor scheduleInteractor = new ScheduleInteractorDatabaseImp();
+        if(forceNetworkLoad || !scheduleInteractor.hasSchedule(studentId)) {
+            // If not we will load the schedule from the network
+            scheduleInteractor = new ScheduleInteractorNetworkImp();
+        }
 
-        view.showProgress();
-        final ScheduleInteractor networkScheduleInteractor = new ScheduleInteractorNetworkImp();
-        networkScheduleInteractor.getSchedule(studentId, new ScheduleInteractor.ScheduleListener() {
+
+        // Load schedule
+        scheduleInteractor.getSchedule(studentId, new ScheduleInteractor.ScheduleListener() {
             @Override
             public void sucessful(final ScheduleModel schedule) {
+                // If we load from network we need to access the UI thread from the main looper
                 Handler mainHander = new Handler(Looper.getMainLooper());
                 mainHander.post(new Runnable() {
                     @Override
                     public void run() {
                         view.showSchedule(schedule);
                         view.hideProgress();
-                        networkScheduleInteractor.saveSchedule(schedule,studentId);
                     }
                 });
             }
@@ -156,7 +111,7 @@ public class SchedulePresenter implements ScheduleMvp.Presenter {
             throw new RuntimeException("studentId is not initialized!");
         }
 
-        loadNetworkSchedule(studentId);
+        loadSchedule(studentId, true);
     }
 
     @Override

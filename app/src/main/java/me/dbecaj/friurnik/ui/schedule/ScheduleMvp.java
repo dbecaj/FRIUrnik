@@ -26,8 +26,8 @@ public interface ScheduleMvp {
     interface Presenter extends BaseMvp.Presenter {
 
         void loadSchedule();
-        void loadNetworkSchedule(long studentId);
-        void loadDatabaseSchedule(long studentId);
+        void loadSchedule(long studentId);
+        void loadSchedule(long studentId, boolean forceNetworkLoad);
         void refreshSchedule();
         void loadStudentsMenu();
         void processAddButton();

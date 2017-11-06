@@ -24,7 +24,7 @@ import timber.log.Timber;
 public class ScheduleInteractorNetworkImp implements ScheduleInteractor {
 
     @Override
-    public void getSchedule(long studentId, final ScheduleListener listener) {
+    public void getSchedule(final long studentId, final ScheduleListener listener) {
         if(!SystemStatus.isNetworkAvailable()) {
             listener.failure(R.string.error_no_internet_connection);
             return;
@@ -59,6 +59,9 @@ public class ScheduleInteractorNetworkImp implements ScheduleInteractor {
                     listener.failure(R.string.error_empty_schedule);
                     return;
                 }
+
+                // Save the schedule in the database
+                saveSchedule(scheduleModel, studentId);
 
                 listener.sucessful(scheduleModel);
             }

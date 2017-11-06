@@ -89,6 +89,14 @@ public class StudentInteractorImp implements StudentInteractor {
     }
 
     @Override
+    public StudentModel getStudent(long studentId) {
+        List<StudentModel> students = SQLite.select().from(StudentModel.class)
+                .where(StudentModel_Table.studentId.is(studentId)).queryList();
+
+        return students.get(0);
+    }
+
+    @Override
     public boolean hasStudent(long studentId) {
         List<StudentModel> students = SQLite.select().from(StudentModel.class)
                 .where(StudentModel_Table.studentId.is(studentId)).queryList();
