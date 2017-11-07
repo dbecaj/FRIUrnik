@@ -197,8 +197,13 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
             endHour++;
         }
 
-        // Clear all child views
-        gridLayout.removeAllViews();
+        // Clear all subject child views if they are populated
+        final int dayRowEndSize = 6;
+        if(gridLayout.getChildCount() > dayRowEndSize) {
+            // We remove all subject cells and ignore day cells
+            int cellsToRemove = gridLayout.getChildCount() - dayRowEndSize;
+            gridLayout.removeViews(dayRowEndSize, cellsToRemove);
+        }
 
         // +1 is for the day row which is already in and -1 is to get the length not the index
         gridLayout.setRowCount(endHour - (startHour-1));
