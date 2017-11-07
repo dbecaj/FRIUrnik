@@ -32,7 +32,7 @@
                 android:layout_height="match_parent"
                 android:columnCount="6"
                 android:orientation="vertical"
-                android:padding="@dimen/spacing_1.5x"
+                android:padding="@dimen/spacing_1x"
                 android:rowCount="1"
                 android:visibility="invisible">
 
