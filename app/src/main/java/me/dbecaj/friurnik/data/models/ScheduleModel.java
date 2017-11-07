@@ -137,6 +137,8 @@ public class ScheduleModel extends BaseModel{
         for(Element subjectInfo : firstDiv.getElementsByTag("a")) {
             if(subjectInfo.className().equals("activity")) {
                 name = subjectInfo.text();
+                // Removing all unnecessary numbers and braces in the subject name
+                name = name.replaceAll("\\d|[()]", "");
             }
             else if(subjectInfo.className().equals("classroom")) {
                 classroom = subjectInfo.text();
