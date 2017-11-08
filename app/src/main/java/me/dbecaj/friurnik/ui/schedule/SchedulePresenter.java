@@ -5,6 +5,7 @@ import android.os.Looper;
 
 import java.util.List;
 
+import me.dbecaj.friurnik.BuildConfig;
 import me.dbecaj.friurnik.R;
 import me.dbecaj.friurnik.data.interactors.GenericListener;
 import me.dbecaj.friurnik.data.interactors.schedule.ScheduleInteractor;
@@ -15,6 +16,7 @@ import me.dbecaj.friurnik.data.interactors.student.StudentInteractorImp;
 import me.dbecaj.friurnik.data.models.ScheduleModel;
 import me.dbecaj.friurnik.data.models.StudentModel;
 import me.dbecaj.friurnik.data.system.SystemStatus;
+import timber.log.Timber;
 
 /**
  * Created by HP on 10/18/2017.
@@ -70,10 +72,14 @@ public class SchedulePresenter implements ScheduleMvp.Presenter {
 
         // Check if the database doesn't have the schedule with this studentId or
         // if we specifically forced the network load
-        ScheduleInteractor scheduleInteractor = new ScheduleInteractorDatabaseImp();
-        if(forceNetworkLoad || !scheduleInteractor.hasSchedule(studentId)) {
+        ScheduleInteractor scheduleInteractor = null;
+        ScheduleInteractorDatabaseImp databaseImp = new ScheduleInteractorDatabaseImp();
+        if(forceNetworkLoad || !databaseImp.hasSchedule(studentId)) {
             // If not we will load the schedule from the network
             scheduleInteractor = new ScheduleInteractorNetworkImp();
+        }
+        else {
+            scheduleInteractor = new ScheduleInteractorDatabaseImp();
         }
 
 
@@ -144,8 +150,8 @@ public class SchedulePresenter implements ScheduleMvp.Presenter {
         }
 
         // Delete student from Schedule table and Student table
-        final ScheduleInteractor interactor = new ScheduleInteractorDatabaseImp();
-        interactor.deleteSchedule(studentId, new GenericListener() {
+        StudentInteractor studentInteractor = new StudentInteractorImp();
+        studentInteractor.deleteStudent(studentId, new GenericListener() {
             @Override
             public void failure(int resId) {
                 view.showError(resId);
@@ -153,11 +159,24 @@ public class SchedulePresenter implements ScheduleMvp.Presenter {
 
             @Override
             public void success() {
-                StudentInteractor studentInteractor = new StudentInteractorImp();
-                studentInteractor.deleteStudent(studentId, new GenericListener() {
+                ScheduleInteractorDatabaseImp scheduleInteractor =
+                        new ScheduleInteractorDatabaseImp();
+                scheduleInteractor.deleteSchedule(studentId, new GenericListener() {
                     @Override
                     public void failure(int resId) {
-                        view.showError(resId);
+                        if(resId == R.string.error_student_not_found_in_database) {
+                            // If the student has faulty schedule it is not saved so overlook this error
+                            if(BuildConfig.DEBUG) {
+                                Timber.d(String.valueOf(studentId) + " student is " +
+                                        "not found in database");
+                            }
+
+                            // Proceed with normal operations
+                            success();
+                        }
+                        else {
+                            view.showError(resId);
+                        }
                     }
 
                     @Override

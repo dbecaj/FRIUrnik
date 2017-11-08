@@ -69,7 +69,6 @@ public class ScheduleInteractorNetworkImp implements ScheduleInteractor {
         });
     }
 
-    @Override
     public boolean saveSchedule(ScheduleModel schedule, long studentId) {
         Gson gson = new Gson();
         schedule.setJsonSchedule(gson.toJson(schedule.getSchedule()));
@@ -79,15 +78,5 @@ public class ScheduleInteractorNetworkImp implements ScheduleInteractor {
             return schedule.update();
 
         return schedule.save();
-    }
-
-    @Override
-    public boolean hasSchedule(long studentId) {
-        throw new RuntimeException("This is implemented in DatabaseImpl not in NetworkImpl!");
-    }
-
-    @Override
-    public void deleteSchedule(long studentId, GenericListener listener) {
-        throw new RuntimeException("This is implemented in DatabaseImpl not in NetworkImpl!");
     }
 }

@@ -16,6 +16,17 @@ import me.dbecaj.friurnik.data.models.ScheduleModel_Table;
 
 public class ScheduleInteractorDatabaseImp implements ScheduleInteractor {
 
+    public ScheduleModel getSchedule(long studentId) {
+        List<ScheduleModel> schedules = SQLite.select().from(ScheduleModel.class)
+                .where(ScheduleModel_Table.studentId.is(studentId))
+                .queryList();
+        if(schedules.isEmpty()) {
+            return null;
+        }
+
+        return schedules.get(0);
+    }
+
     @Override
     public void getSchedule(long studentId, ScheduleListener listener) {
         List<ScheduleModel> schedules = SQLite.select().from(ScheduleModel.class)
@@ -37,7 +48,6 @@ public class ScheduleInteractorDatabaseImp implements ScheduleInteractor {
         listener.sucessful(schedule);
     }
 
-    @Override
     public boolean saveSchedule(ScheduleModel schedule,long studentId) {
         Gson gson = new Gson();
         schedule.setJsonSchedule(gson.toJson(schedule.getSchedule()));
@@ -49,7 +59,6 @@ public class ScheduleInteractorDatabaseImp implements ScheduleInteractor {
         return schedule.save();
     }
 
-    @Override
     public boolean hasSchedule(long studentId) {
         List<ScheduleModel> schedules = SQLite.select().from(ScheduleModel.class)
                 .where(ScheduleModel_Table.studentId.is(studentId))
@@ -58,14 +67,15 @@ public class ScheduleInteractorDatabaseImp implements ScheduleInteractor {
         return !schedules.isEmpty();
     }
 
-    @Override
     public void deleteSchedule(long studentId, GenericListener listener) {
         if(!hasSchedule(studentId)) {
             listener.failure(R.string.error_student_not_found_in_database);
             return;
         }
 
-        SQLite.delete().from(ScheduleModel.class).where(ScheduleModel_Table.studentId.is(studentId));
+        SQLite.delete().from(ScheduleModel.class).where(ScheduleModel_Table.studentId.is(studentId))
+                .execute();
+        getSchedule(studentId).delete();
         listener.success();
     }
 }

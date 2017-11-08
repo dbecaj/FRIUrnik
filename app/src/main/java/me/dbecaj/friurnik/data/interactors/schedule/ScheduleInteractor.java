@@ -16,8 +16,5 @@ public interface ScheduleInteractor {
     }
 
     void getSchedule(long studentId, ScheduleListener listener);
-    boolean saveSchedule(ScheduleModel schedule, long studentId);
-    boolean hasSchedule(long studentId);
-    void deleteSchedule(long studentId, GenericListener listener);
 
 }

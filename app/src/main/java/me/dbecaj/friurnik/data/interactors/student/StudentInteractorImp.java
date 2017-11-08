@@ -1,5 +1,7 @@
 package me.dbecaj.friurnik.data.interactors.student;
 
+import android.database.sqlite.SQLiteQuery;
+
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import java.util.List;
@@ -124,8 +126,7 @@ public class StudentInteractorImp implements StudentInteractor {
             return;
         }
 
-        SQLite.delete().from(StudentModel_Table.class)
-                .where(StudentModel_Table.studentId.is(studentId));
+        getStudent(studentId).delete();
         listener.success();
     }
 }
