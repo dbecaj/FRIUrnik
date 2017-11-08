@@ -182,8 +182,9 @@ public class SchedulePresenter implements ScheduleMvp.Presenter {
                     @Override
                     public void success() {
                         view.showMessage(R.string.student_deleted);
-                        // Load the default student
+                        // Load the default student and update the student menu list
                         loadSchedule();
+                        loadStudentsMenu();
                     }
                 });
             }
