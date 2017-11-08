@@ -1,5 +1,6 @@
 package me.dbecaj.friurnik.data.interactors.schedule;
 
+import me.dbecaj.friurnik.data.interactors.GenericListener;
 import me.dbecaj.friurnik.data.models.ScheduleModel;
 import me.dbecaj.friurnik.data.models.StudentModel;
 
@@ -17,5 +18,6 @@ public interface ScheduleInteractor {
     void getSchedule(long studentId, ScheduleListener listener);
     boolean saveSchedule(ScheduleModel schedule, long studentId);
     boolean hasSchedule(long studentId);
+    void deleteSchedule(long studentId, GenericListener listener);
 
 }

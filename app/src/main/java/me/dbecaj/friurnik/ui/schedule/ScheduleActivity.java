@@ -126,6 +126,11 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
             case R.id.action_add:
                 presenter.processAddButton();
                 break;
+            case R.id.action_delete:
+                presenter.deleteStudent();
+                break;
+            case R.id.action_edit:
+                return true;
         }
 
         return super.onOptionsItemSelected(item);

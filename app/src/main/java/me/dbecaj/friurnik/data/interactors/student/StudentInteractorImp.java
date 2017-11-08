@@ -5,6 +5,7 @@ import com.raizlabs.android.dbflow.sql.language.SQLite;
 import java.util.List;
 
 import me.dbecaj.friurnik.R;
+import me.dbecaj.friurnik.data.interactors.GenericListener;
 import me.dbecaj.friurnik.data.models.StudentModel;
 import me.dbecaj.friurnik.data.models.StudentModel_Table;
 import me.dbecaj.friurnik.data.system.ResourceProvider;
@@ -109,5 +110,22 @@ public class StudentInteractorImp implements StudentInteractor {
                 .where(StudentModel_Table.studentId.is(studentId)).queryList();
 
         return !students.isEmpty();
+    }
+
+    @Override
+    public void deleteStudent(long studentId, GenericListener listener) {
+        if(!hasStudent(studentId)) {
+            listener.failure(R.string.error_student_not_found_in_database);
+            return;
+        }
+        // Prevent the deletion of a default student
+        else if(getStudent(studentId).isDefaultStudent()) {
+            listener.failure(R.string.error_trying_to_delete_default_student);
+            return;
+        }
+
+        SQLite.delete().from(StudentModel_Table.class)
+                .where(StudentModel_Table.studentId.is(studentId));
+        listener.success();
     }
 }

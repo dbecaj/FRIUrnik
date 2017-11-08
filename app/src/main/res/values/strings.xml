@@ -25,6 +25,11 @@
     <string name="save">Shrani</string>
     <string name="add_input_request_text">Vnesi vpisno številko</string>
     <string name="student_id">vpisna številka</string>
+    <string name="edit">Spremeni</string>
+    <string name="delete">Zbriši</string>
+    <string name="student_deleted">Študent zbrisan</string>
+    <string name="nickname">naziv</string>
+    <string name="add_nickname_input_request">Vnesi naziv</string>
 
     <string name="error_invalid_student_id">Vpisna številka mora biti 8 mestna</string>
     <string name="error_empty_student_id">Prosimo vnesite svojo vpisno številko</string>
@@ -41,7 +46,6 @@
     <string name="error_problem_while_parsing_xml">Napaka pri prevajanju spletne vsebine</string>
     <string name="error_empty_schedule">Pridobljen urnik je prazen!</string>
     <string name="error_no_schedule_saved_under_this_student_id">V bazi ni nobenega urnika pod podano vpisno številko</string>
-    <string name="nickname">naziv</string>
-    <string name="add_nickname_input_request">Vnesi naziv</string>
+    <string name="error_trying_to_delete_default_student">Brisanje prevzetega študenta ni dovoljeno</string>
 
 </resources>

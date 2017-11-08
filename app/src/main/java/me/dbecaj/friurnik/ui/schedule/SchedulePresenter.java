@@ -6,6 +6,7 @@ import android.os.Looper;
 import java.util.List;
 
 import me.dbecaj.friurnik.R;
+import me.dbecaj.friurnik.data.interactors.GenericListener;
 import me.dbecaj.friurnik.data.interactors.schedule.ScheduleInteractor;
 import me.dbecaj.friurnik.data.interactors.schedule.ScheduleInteractorDatabaseImp;
 import me.dbecaj.friurnik.data.interactors.schedule.ScheduleInteractorNetworkImp;
@@ -134,6 +135,40 @@ public class SchedulePresenter implements ScheduleMvp.Presenter {
     @Override
     public void processAddButton() {
         view.showAddActivity();
+    }
+
+    @Override
+    public void deleteStudent() {
+        if(studentId < 0) {
+            throw new RuntimeException("studentId is not initialized!");
+        }
+
+        // Delete student from Schedule table and Student table
+        final ScheduleInteractor interactor = new ScheduleInteractorDatabaseImp();
+        interactor.deleteSchedule(studentId, new GenericListener() {
+            @Override
+            public void failure(int resId) {
+                view.showError(resId);
+            }
+
+            @Override
+            public void success() {
+                StudentInteractor studentInteractor = new StudentInteractorImp();
+                studentInteractor.deleteStudent(studentId, new GenericListener() {
+                    @Override
+                    public void failure(int resId) {
+                        view.showError(resId);
+                    }
+
+                    @Override
+                    public void success() {
+                        view.showMessage(R.string.student_deleted);
+                        // Load the default student
+                        loadSchedule();
+                    }
+                });
+            }
+        });
     }
 
     @Override

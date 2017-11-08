@@ -31,6 +31,7 @@ public interface ScheduleMvp {
         void refreshSchedule();
         void loadStudentsMenu();
         void processAddButton();
+        void deleteStudent();
     }
 
 }

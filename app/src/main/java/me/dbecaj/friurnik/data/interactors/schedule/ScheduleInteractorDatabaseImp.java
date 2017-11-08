@@ -6,6 +6,7 @@ import com.raizlabs.android.dbflow.sql.language.SQLite;
 import java.util.List;
 
 import me.dbecaj.friurnik.R;
+import me.dbecaj.friurnik.data.interactors.GenericListener;
 import me.dbecaj.friurnik.data.models.ScheduleModel;
 import me.dbecaj.friurnik.data.models.ScheduleModel_Table;
 
@@ -55,5 +56,16 @@ public class ScheduleInteractorDatabaseImp implements ScheduleInteractor {
                 .queryList();
 
         return !schedules.isEmpty();
+    }
+
+    @Override
+    public void deleteSchedule(long studentId, GenericListener listener) {
+        if(!hasSchedule(studentId)) {
+            listener.failure(R.string.error_student_not_found_in_database);
+            return;
+        }
+
+        SQLite.delete().from(ScheduleModel.class).where(ScheduleModel_Table.studentId.is(studentId));
+        listener.success();
     }
 }

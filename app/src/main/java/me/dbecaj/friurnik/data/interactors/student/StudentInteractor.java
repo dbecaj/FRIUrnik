@@ -2,6 +2,7 @@ package me.dbecaj.friurnik.data.interactors.student;
 
 import java.util.List;
 
+import me.dbecaj.friurnik.data.interactors.GenericListener;
 import me.dbecaj.friurnik.data.models.StudentModel;
 
 /**
@@ -23,5 +24,6 @@ public interface StudentInteractor {
     boolean hasStudent(long studentId);
     void saveStudent(long studentId, StudentListener listener);
     void saveStudent(long studentId, String nickname, StudentListener listener);
+    void deleteStudent(long studentId, GenericListener listener);
 
 }

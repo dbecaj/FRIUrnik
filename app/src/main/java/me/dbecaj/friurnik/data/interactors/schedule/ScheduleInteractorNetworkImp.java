@@ -6,6 +6,7 @@ import java.io.IOException;
 
 import me.dbecaj.friurnik.BuildConfig;
 import me.dbecaj.friurnik.R;
+import me.dbecaj.friurnik.data.interactors.GenericListener;
 import me.dbecaj.friurnik.data.models.ScheduleModel;
 import me.dbecaj.friurnik.data.system.ResourceProvider;
 import me.dbecaj.friurnik.data.system.SystemStatus;
@@ -82,6 +83,11 @@ public class ScheduleInteractorNetworkImp implements ScheduleInteractor {
 
     @Override
     public boolean hasSchedule(long studentId) {
+        throw new RuntimeException("This is implemented in DatabaseImpl not in NetworkImpl!");
+    }
+
+    @Override
+    public void deleteSchedule(long studentId, GenericListener listener) {
         throw new RuntimeException("This is implemented in DatabaseImpl not in NetworkImpl!");
     }
 }
