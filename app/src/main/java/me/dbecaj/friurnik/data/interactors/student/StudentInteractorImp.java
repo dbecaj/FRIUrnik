@@ -129,4 +129,23 @@ public class StudentInteractorImp implements StudentInteractor {
         getStudent(studentId).delete();
         listener.success();
     }
+
+    @Override
+    public void updateStudent(long studentId, String nickname, StudentListener listener) {
+        if(!hasStudent(studentId)) {
+            listener.failure(R.string.error_student_not_found_in_database);
+            return;
+        }
+
+        StudentModel student = getStudent(studentId);
+        student.setStudentId(studentId);
+        student.setNickname(nickname);
+        if(student.update()) {
+            listener.successful(student);
+        }
+        else {
+            listener.failure(R.string.error_updating_student_database);
+        }
+    }
+
 }

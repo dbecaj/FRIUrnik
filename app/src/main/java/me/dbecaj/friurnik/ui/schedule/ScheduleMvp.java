@@ -21,6 +21,7 @@ public interface ScheduleMvp {
         void showNavigationDrawerStudent(StudentModel student);
         void populateNavigationDrawerStudentMenu(List<StudentModel> students);
         void showAddActivity();
+        void showAddActivityInEdit(long studentId, String nickname);
     }
 
     interface Presenter extends BaseMvp.Presenter {
@@ -31,7 +32,8 @@ public interface ScheduleMvp {
         void refreshSchedule();
         void loadStudentsMenu();
         void processAddButton();
-        void deleteStudent();
+        void processDeleteStudent();
+        void processEditStudent();
     }
 
 }

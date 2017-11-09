@@ -30,6 +30,7 @@
     <string name="student_deleted">Študent zbrisan</string>
     <string name="nickname">naziv</string>
     <string name="add_nickname_input_request">Vnesi naziv</string>
+    <string name="success_student_updated">Študent posodobljen</string>
 
     <string name="error_invalid_student_id">Vpisna številka mora biti 8 mestna</string>
     <string name="error_empty_student_id">Prosimo vnesite svojo vpisno številko</string>
@@ -47,5 +48,6 @@
     <string name="error_empty_schedule">Pridobljen urnik je prazen!</string>
     <string name="error_no_schedule_saved_under_this_student_id">V bazi ni nobenega urnika pod podano vpisno številko</string>
     <string name="error_trying_to_delete_default_student">Brisanje prevzetega študenta ni dovoljeno</string>
+    <string name="error_updating_student_database">Prišlo je do napake pri posodabljanju podatkovne baze</string>
 
 </resources>

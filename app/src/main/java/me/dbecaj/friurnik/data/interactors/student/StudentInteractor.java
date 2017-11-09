@@ -25,5 +25,6 @@ public interface StudentInteractor {
     void saveStudent(long studentId, StudentListener listener);
     void saveStudent(long studentId, String nickname, StudentListener listener);
     void deleteStudent(long studentId, GenericListener listener);
+    void updateStudent(long studentId, String nickname, StudentListener listener);
 
 }
