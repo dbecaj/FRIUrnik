@@ -49,5 +49,6 @@
     <string name="error_no_schedule_saved_under_this_student_id">V bazi ni nobenega urnika pod podano vpisno številko</string>
     <string name="error_trying_to_delete_default_student">Brisanje prevzetega študenta ni dovoljeno</string>
     <string name="error_updating_student_database">Prišlo je do napake pri posodabljanju podatkovne baze</string>
+    <string name="error_generic_error">Prišlo je do napake</string>
 
 </resources>
