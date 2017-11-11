@@ -36,7 +36,10 @@
             android:textSize="@dimen/login_font"
             android:hint="@string/nickname"
             android:layout_gravity="center"
-            android:layout_marginBottom="@dimen/add_nickname_student_id_bottom_margin"/>
+            android:layout_marginBottom="@dimen/add_nickname_student_id_bottom_margin"
+            android:maxLines="1"
+            android:imeOptions="actionNext"
+            android:nextFocusForward="@id/add_input_student_id"/>
 
         <TextView
             android:id="@+id/add_input_text"
