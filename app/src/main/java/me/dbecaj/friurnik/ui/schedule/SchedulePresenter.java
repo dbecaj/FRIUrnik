@@ -192,26 +192,6 @@ public class SchedulePresenter implements ScheduleMvp.Presenter {
     }
 
     @Override
-    public void processEditStudent() {
-        if(studentId < 0) {
-            throw new RuntimeException("studentId is not initialized!");
-        }
-
-        StudentInteractor interactor = new StudentInteractorImp();
-        interactor.getStudent(studentId, new StudentInteractor.StudentListener() {
-            @Override
-            public void successful(StudentModel student) {
-                view.showAddActivityInEdit(student.getStudentId(), student.getNickname());
-            }
-
-            @Override
-            public void failure(int resId) {
-                view.showError(resId);
-            }
-        });
-    }
-
-    @Override
     public void cancel() {
 
     }

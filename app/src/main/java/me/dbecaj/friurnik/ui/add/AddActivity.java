@@ -25,10 +25,6 @@ import me.dbecaj.friurnik.ui.schedule.ScheduleActivity;
 
 public class AddActivity extends AppCompatActivity implements AddMvp.View {
 
-    private static final String EDIT = "EDIT";
-    private static final String STUDENT_ID = "STUDENT_ID";
-    private static final String NICKNAME = "NICKNAME";
-
     @BindView(R.id.add_input_nickname)
     EditText nicknameInput;
 
@@ -39,7 +35,6 @@ public class AddActivity extends AppCompatActivity implements AddMvp.View {
     ProgressBar saveProgress;
 
     private AddMvp.Presenter presenter;
-    private boolean editing = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -63,15 +58,6 @@ public class AddActivity extends AppCompatActivity implements AddMvp.View {
                 .build();
 
         presenter = component.getPresenter();
-
-        editing = getIntent().getBooleanExtra(EDIT, false);
-        if(editing) {
-            long studentId = getIntent().getLongExtra(STUDENT_ID, -1);
-            String nickname = getIntent().getStringExtra(NICKNAME);
-            presenter.setEditing(true);
-            studentIdInput.setText(String.valueOf(studentId));
-            nicknameInput.setText(nickname);
-        }
     }
 
     @Override
@@ -119,16 +105,6 @@ public class AddActivity extends AppCompatActivity implements AddMvp.View {
 
     public static Intent buildIntent(Context context) {
         Intent intent = new Intent(context, AddActivity.class);
-        intent.putExtra(EDIT, false);
-
-        return intent;
-    }
-
-    public static Intent buildIntent(Context context, long studentId, String nickname) {
-        Intent intent = new Intent(context, AddActivity.class);
-        intent.putExtra(EDIT, true);
-        intent.putExtra(STUDENT_ID, studentId);
-        intent.putExtra(NICKNAME, nickname);
 
         return intent;
     }

@@ -121,17 +121,12 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
         int id = item.getItemId();
 
         switch(id) {
-            case R.id.action_settings:
-                return true;
             case R.id.action_add:
                 presenter.processAddButton();
                 break;
             case R.id.action_delete:
                 presenter.processDeleteStudent();
                 break;
-            case R.id.action_edit:
-                presenter.processEditStudent();
-                return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -309,12 +304,6 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
     @Override
     public void showAddActivity() {
         Intent intent = AddActivity.buildIntent(this);
-        startActivity(intent);
-    }
-
-    @Override
-    public void showAddActivityInEdit(long studentId, String nickname) {
-        Intent intent = AddActivity.buildIntent(this, studentId, nickname);
         startActivity(intent);
     }
 

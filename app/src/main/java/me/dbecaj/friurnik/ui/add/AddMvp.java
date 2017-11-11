@@ -20,8 +20,6 @@ public interface AddMvp {
 
         void processSaveButton();
         void saveStudent(long studentId, String nickname);
-        void setEditing(boolean editing);
-        void updateStudent(long studentId, String nickname);
     }
 
 }

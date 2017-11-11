@@ -13,7 +13,6 @@ import timber.log.Timber;
 public class AddPresenter implements AddMvp.Presenter{
 
     private AddMvp.View view;
-    private boolean editing = false;
 
     public AddPresenter(AddMvp.View view) {
         this.view = view;
@@ -44,12 +43,7 @@ public class AddPresenter implements AddMvp.Presenter{
         }
 
         view.showProgress();
-        if(!editing) {
-            saveStudent(id, nickname);
-        }
-        else {
-            updateStudent(id, nickname);
-        }
+        saveStudent(id, nickname);
     }
 
     @Override
@@ -69,30 +63,6 @@ public class AddPresenter implements AddMvp.Presenter{
                 view.hideProgress();
             }
         });
-    }
-
-    @Override
-    public void updateStudent(long studentId, String nickname) {
-        StudentInteractor interactor = new StudentInteractorImp();
-        interactor.updateStudent(studentId, nickname, new StudentInteractor.StudentListener() {
-            @Override
-            public void successful(StudentModel student) {
-                view.showMessage(R.string.success_student_updated);
-                view.showScheduleActivity();
-                view.hideProgress();
-            }
-
-            @Override
-            public void failure(int resId) {
-                view.showError(resId);
-                view.hideProgress();
-            }
-        });
-    }
-
-    @Override
-    public void setEditing(boolean editing) {
-        this.editing = editing;
     }
 
     @Override
