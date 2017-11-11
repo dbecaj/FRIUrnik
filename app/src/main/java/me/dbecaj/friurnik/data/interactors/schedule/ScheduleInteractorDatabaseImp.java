@@ -73,8 +73,6 @@ public class ScheduleInteractorDatabaseImp implements ScheduleInteractor {
             return;
         }
 
-        SQLite.delete().from(ScheduleModel.class).where(ScheduleModel_Table.studentId.is(studentId))
-                .execute();
         getSchedule(studentId).delete();
         listener.success();
     }
