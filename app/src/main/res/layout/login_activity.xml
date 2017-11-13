@@ -35,7 +35,7 @@
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="@dimen/login_font"
-            android:text="@string/placeholder_student_id"
+            android:hint="@string/student_id"
             android:layout_gravity="center"/>
     </LinearLayout>
 

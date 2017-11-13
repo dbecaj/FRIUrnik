@@ -21,6 +21,7 @@ public interface ScheduleMvp {
         void showNavigationDrawerStudent(StudentModel student);
         void populateNavigationDrawerStudentMenu(List<StudentModel> students);
         void showAddActivity();
+        void constuctScheduleJob();
     }
 
     interface Presenter extends BaseMvp.Presenter {

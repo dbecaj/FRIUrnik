@@ -74,7 +74,8 @@ public class SchedulePresenter implements ScheduleMvp.Presenter {
         // if we specifically forced the network load
         ScheduleInteractor scheduleInteractor = null;
         ScheduleInteractorDatabaseImp databaseImp = new ScheduleInteractorDatabaseImp();
-        if(forceNetworkLoad || !databaseImp.hasSchedule(studentId)) {
+        if((forceNetworkLoad || !databaseImp.hasSchedule(studentId)) &&
+                SystemStatus.isNetworkAvailable()) {
             // If not we will load the schedule from the network
             scheduleInteractor = new ScheduleInteractorNetworkImp();
         }

@@ -1,5 +1,9 @@
 package me.dbecaj.friurnik.ui.schedule;
 
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.app.job.JobService;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -30,6 +34,7 @@ import me.dbecaj.friurnik.R;
 import me.dbecaj.friurnik.data.models.ScheduleModel;
 import me.dbecaj.friurnik.data.models.StudentModel;
 import me.dbecaj.friurnik.data.models.SubjectModel;
+import me.dbecaj.friurnik.services.ScheduleJobService;
 import me.dbecaj.friurnik.ui.add.AddActivity;
 import me.dbecaj.friurnik.ui.schedule.di.DaggerScheduleComponent;
 import me.dbecaj.friurnik.ui.schedule.di.ScheduleComponent;
@@ -43,7 +48,10 @@ import timber.log.Timber;
 public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.View,
         NavigationView.OnNavigationItemSelectedListener {
 
+    private static final int UPDATE_JOB_ID = 1;
+
     private ScheduleMvp.Presenter presenter;
+    private JobScheduler updateScheduler;
 
     @BindView(R.id.schedule_gridLayout)
     GridLayout gridLayout;
@@ -61,7 +69,6 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
     NavigationView navigationView;
 
     TextView navigationStudentId;
-
     TextView navigationNickname;
 
     @Override
@@ -75,11 +82,14 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
     @Override
     public void init() {
         ButterKnife.bind(this);
+
+        // Initialize views that can't be binded by ButterKnife
         navigationStudentId = (TextView)navigationView.getHeaderView(0)
                 .findViewById(R.id.navigation_header_student_id);
         navigationNickname = (TextView)navigationView.getHeaderView(0)
                 .findViewById(R.id.navigation_header_nickname);
 
+        // Initialize presenter
         ScheduleComponent component = DaggerScheduleComponent.builder()
                 .scheduleModule(new ScheduleModule(this)).build();
         presenter = component.getPresenter();
@@ -87,6 +97,8 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
         presenter.loadStudentsMenu();
 
         hideSchedule();
+
+        // Initialize Navigation drawer
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -104,6 +116,10 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
         drawerToggle.syncState();
 
         navigationView.setNavigationItemSelectedListener(this);
+
+        // Initialize update job scheduler for updating our schedules
+        updateScheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
+        constuctScheduleJob();
     }
 
     @Override
@@ -299,6 +315,20 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
             }
             navigationView.getMenu().add(studentTitle);
         }
+    }
+
+    @Override
+    public void constuctScheduleJob() {
+        // Tell our job on what interval we want the update to happen and it will persist
+        // when the device is restarted among other things
+        JobInfo.Builder builder = new JobInfo.Builder(UPDATE_JOB_ID, new ComponentName(this,
+                ScheduleJobService.class))
+                .setPeriodic(2000)
+                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+                .setPersisted(true);
+
+        // Start the job
+        updateScheduler.schedule(builder.build());
     }
 
     @Override
