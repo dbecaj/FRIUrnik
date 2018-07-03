@@ -5,7 +5,7 @@
     <string name="placeholder_subject_name">PRE</string>
     <string name="placeholder_subject_classroom">PRO</string>
 
-    <string name="url">https://urnik.fri.uni-lj.si/timetable/fri-2017_2018-zimski/allocations?student=%1$d</string>
+    <string name="url">https://urnik.fri.uni-lj.si/timetable/fri-2017_2018-letni-1-teden/allocations_ical?student=%d</string>
     <string name="next">Naprej</string>
     <string name="mon">PON</string>
     <string name="tue">TOR</string>

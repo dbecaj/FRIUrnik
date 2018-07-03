@@ -1,7 +1,5 @@
 package me.dbecaj.friurnik.data.models;
 
-import android.graphics.Bitmap;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -12,12 +10,12 @@ import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import me.dbecaj.friurnik.BuildConfig;
 import me.dbecaj.friurnik.data.database.FRIUrnikDatabase;
@@ -38,84 +36,76 @@ public class ScheduleModel extends BaseModel{
     @NotNull
     private String jsonSchedule;
 
-    @Column
-    @NotNull
-    private int lastHour = -1;
+    public enum Day {
+        MO("MO"),
+        TU("TU"),
+        WE("WE"),
+        TH("TH"),
+        FR("FR");
 
-    public static final int MON = 0;
-    public static final int TUE = 1;
-    public static final int WED = 2;
-    public static final int THU = 3;
-    public static final int FRI = 4;
+        private String value;
+        Day(String value) {
+            this.value = value;
+        }
 
-    // URA {7:00, 21:00} DAN {PON, PET)
-    // [URA]->(PON, TOR, SRE, CET, PET)
-    private List<List<SubjectModel>> schedule = new ArrayList<>(5);
+        public String getValue() {
+            return value;
+        }
 
-    private boolean scheduleInitialized = false;
+        public static Day parseDay(String value) {
+            for (Day day : values()) {
+                if (day.getValue().equalsIgnoreCase(value)) {
+                    return day;
+                }
+            }
+
+            return null;
+        }
+    }
+
+    private HashMap<Day, List<SubjectModel>> schedule = new HashMap<>(5);
+
+    public ScheduleModel() {
+        initSchedule();
+    }
 
     private void initSchedule() {
-        if (scheduleInitialized) {
-            throw new RuntimeException("Schedule already initialized!");
+        for (Day day : Day.values()) {
+            schedule.put(day, new ArrayList<SubjectModel>());
         }
-
-        for(int i = 0; i < 5; i++) {
-            schedule.add(new ArrayList<SubjectModel>(5));
-        }
-
-        scheduleInitialized = true;
     }
 
     public void parseJson(String json) {
         initSchedule();
+        Timber.d(json);
 
         Gson gson = new Gson();
-        JsonArray rootArray = gson.fromJson(json, JsonArray.class);
-        int dayIndex = 0;
-        for(JsonElement dayElement : rootArray) {
-            for(JsonElement subjectElement : dayElement.getAsJsonArray()) {
+        JsonObject rootArray = gson.fromJson(json, JsonObject.class);
+        for(Map.Entry<String, JsonElement> entry : rootArray.entrySet()) {
+            for (JsonElement subjectElement : entry.getValue().getAsJsonArray()) {
                 JsonObject subject = subjectElement.getAsJsonObject();
                 String classroom = subject.get("classroom").getAsString();
                 int endHour = subject.get("endHour").getAsInt();
                 String name = subject.get("name").getAsString();
                 int startHour = subject.get("startHour").getAsInt();
+                String day = subject.get("day").getAsString();
 
-                schedule.get(dayIndex).add(new SubjectModel(name, classroom, startHour, endHour));
+                schedule.get(Day.parseDay(entry.getKey())).add(new SubjectModel(name, classroom,
+                        startHour, endHour, day));
             }
-            dayIndex++;
         }
     }
 
-    public void parseHtml(String html){
+    public void parseICal(String data){
         initSchedule();
 
-        Document document = Jsoup.parse(html);
-        Element table = document.body().getElementsByTag("table").first();
-        int hourCount = 7;
-        for(Element hour : table.getElementsByAttributeValue("class", "timetable")) {
-           for(Element day : hour.children().next()) {
-               // This are usually the first row and are just used for padding the table in HTML
-               if(day.children().size() == 0) {
-                   continue;
-               }
-
-               if(day.className().contains("MON")) {
-                   insertSubject(MON, extractSubject(day, hourCount));
-               }
-               else if(day.className().contains("TUE")) {
-                   insertSubject(TUE, extractSubject(day, hourCount));
-               }
-               else if(day.className().contains("WED")) {
-                   insertSubject(WED, extractSubject(day, hourCount));
-               }
-               else if(day.className().contains("THU")) {
-                   insertSubject(THU, extractSubject(day, hourCount));
-               }
-               else if(day.className().contains("FRI")) {
-                   insertSubject(FRI, extractSubject(day, hourCount));
-               }
-           }
-           hourCount++;
+        // Emit all the metadata
+        data = data.substring(data.indexOf("BEGIN:VEVENT"));
+        data = data.substring(0, data.lastIndexOf("END:VEVENT"));
+        String[] subjectsData = data.split("END:VEVENT");
+        for (String subjectData : subjectsData) {
+            SubjectModel subject = extractICalSubject(subjectData.split("\\n"));
+            insertSubject(subject);
         }
 
         if(BuildConfig.DEBUG) {
@@ -123,86 +113,67 @@ public class ScheduleModel extends BaseModel{
         }
     }
 
-    private SubjectModel extractSubject(Element day, int hourCount) {
-        int startHour = hourCount;
-        int endHour = startHour + Integer.parseInt(day.attributes().get("rowspan"));
-        if(endHour > lastHour) {
-            lastHour = endHour;
-        }
-        String name = "";
-        String classroom = "";
-
-        // Just getting the subject info which is inside a div tag
-        Element firstDiv = day.getElementsByTag("div").first();
-        for(Element subjectInfo : firstDiv.getElementsByTag("a")) {
-            if(subjectInfo.className().equals("activity")) {
-                name = subjectInfo.text();
-                // Removing all unnecessary numbers and braces in the subject name
-                name = name.replaceAll("\\d|[()]", "");
+    private SubjectModel extractICalSubject(String[] subjectData) {
+        HashMap<String, String> data = new HashMap<>();
+        for (String lineData : subjectData) {
+            String[] splitData = lineData.split(":");
+            if (splitData.length < 2) {
+                continue;
             }
-            else if(subjectInfo.className().equals("classroom")) {
-                classroom = subjectInfo.text();
-            }
+            // We split by the ; to get only core descriptor
+            data.put(splitData[0].split(";")[0], splitData[1]);
         }
 
-        return new SubjectModel(name, classroom, startHour, endHour);
+        String name = data.get("SUMMARY");
+        String classroom = data.get("LOCATION");
+        int startHour = Integer.parseInt(data.get("DTSTART").split("T")[1]
+                .substring(0, 2));
+        int endHour = Integer.parseInt(data.get("DTEND").split("T")[1]
+                .substring(0, 2));
+        String[] dayData = data.get("RRULE").split("=");
+        String day = dayData[dayData.length-1].trim();
+
+        return new SubjectModel(name, classroom, startHour, endHour, day);
     }
 
-    private void insertSubject(int day, SubjectModel subject) {
-        schedule.get(day).add(subject);
+    private void insertSubject(SubjectModel subject) {
+        schedule.get(Day.parseDay(subject.getDay())).add(subject);
     }
 
     public void printOutSchedule() {
-        for (int dayIndex = 0; dayIndex < schedule.size(); dayIndex++) {
-            String day = "";
-            switch (dayIndex) {
-                case MON:
-                    day = "MON";
-                    break;
-                case TUE:
-                    day = "TUE";
-                    break;
-                case WED:
-                    day = "WED";
-                    break;
-                case THU:
-                    day = "THU";
-                    break;
-                case FRI:
-                    day = "FRI";
-                    break;
-            }
-
-            Timber.d(day + "===================>");
-            for (int subjectIndex = 0; subjectIndex < schedule.get(dayIndex).size(); subjectIndex++) {
-                SubjectModel subjectModel = schedule.get(dayIndex).get(subjectIndex);
-                Timber.d(subjectModel.getName() + ":" + subjectModel.getClassroom() +
-                        ":" + String.valueOf(subjectModel.getStartHour()) + "/" +
-                        String.valueOf(subjectModel.getEndHour()));
+        for (Day day : schedule.keySet()) {
+            Timber.d(day.getValue() + "===================>");
+            for (SubjectModel model : schedule.get(day)) {
+                Timber.d(model.toString());
             }
         }
     }
 
-    public List<List<SubjectModel>> getSchedule() {
+    public HashMap<Day, List<SubjectModel>> getSchedule() {
         return schedule;
     }
 
     public boolean isEmpty() {
-        if(scheduleInitialized) {
-            return schedule.get(MON).isEmpty() || schedule.get(TUE).isEmpty() ||
-                    schedule.get(WED).isEmpty() || schedule.get(THU).isEmpty() ||
-                    schedule.get(FRI).isEmpty();
+        for (Day day : schedule.keySet()) {
+            if (!schedule.get(day).isEmpty()) {
+                return false;
+            }
         }
 
         return true;
     }
 
     public int getLastHour() {
-        return lastHour;
-    }
+        int lastHour = -1;
+        for (Day day : schedule.keySet()) {
+            for (SubjectModel subject : schedule.get(day)) {
+                if (subject.getEndHour() > lastHour) {
+                    lastHour = subject.getEndHour();
+                }
+            }
+        }
 
-    protected void setLastHour(int lastHour) {
-        this.lastHour = lastHour;
+        return lastHour;
     }
 
     public String getJsonSchedule() {

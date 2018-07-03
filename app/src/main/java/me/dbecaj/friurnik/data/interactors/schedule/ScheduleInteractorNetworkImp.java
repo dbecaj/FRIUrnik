@@ -52,10 +52,10 @@ public class ScheduleInteractorNetworkImp implements ScheduleInteractor {
                     return;
                 }
 
-                String html = response.body().string();
+                String scheduleData = response.body().string();
                 ScheduleModel scheduleModel = new ScheduleModel();
 
-                scheduleModel.parseHtml(html);
+                scheduleModel.parseICal(scheduleData);
                 if (scheduleModel.isEmpty()) {
                     listener.failure(R.string.error_empty_schedule);
                     return;
