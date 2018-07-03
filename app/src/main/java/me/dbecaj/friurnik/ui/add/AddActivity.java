@@ -3,7 +3,6 @@ package me.dbecaj.friurnik.ui.add;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
@@ -14,9 +13,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import me.dbecaj.friurnik.R;
-import me.dbecaj.friurnik.ui.add.di.AddActivityComponent;
-import me.dbecaj.friurnik.ui.add.di.AddActivivityModule;
-import me.dbecaj.friurnik.ui.add.di.DaggerAddActivityComponent;
 import me.dbecaj.friurnik.ui.schedule.ScheduleActivity;
 
 /**
@@ -37,7 +33,7 @@ public class AddActivity extends AppCompatActivity implements AddMvp.View {
     private AddMvp.Presenter presenter;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_activity);
 
@@ -53,11 +49,7 @@ public class AddActivity extends AppCompatActivity implements AddMvp.View {
     public void init() {
         ButterKnife.bind(this);
 
-        AddActivityComponent component = DaggerAddActivityComponent.builder()
-                .addActivivityModule(new AddActivivityModule(this))
-                .build();
-
-        presenter = component.getPresenter();
+        presenter = new AddPresenter(this);
     }
 
     @Override

@@ -1,8 +1,8 @@
 package me.dbecaj.friurnik.ui.login;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -12,9 +12,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import me.dbecaj.friurnik.R;
-import me.dbecaj.friurnik.ui.login.di.DaggerLoginActivityComponent;
-import me.dbecaj.friurnik.ui.login.di.LoginActivityComponent;
-import me.dbecaj.friurnik.ui.login.di.LoginActivityModule;
 import me.dbecaj.friurnik.ui.schedule.ScheduleActivity;
 
 public class LoginActivity extends AppCompatActivity implements LoginMvp.View {
@@ -42,10 +39,7 @@ public class LoginActivity extends AppCompatActivity implements LoginMvp.View {
     public void init() {
         ButterKnife.bind(this);
 
-        LoginActivityComponent component = DaggerLoginActivityComponent.builder()
-                .loginActivityModule(new LoginActivityModule(this)).build();
-
-        presenter = component.getPresenter();
+        presenter = new LoginPresenter(this);
     }
 
     @OnClick(R.id.login_button_next)

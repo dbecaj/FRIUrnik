@@ -2,7 +2,6 @@ package me.dbecaj.friurnik.ui.schedule;
 
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
-import android.app.job.JobService;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -29,17 +28,12 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.Optional;
 import me.dbecaj.friurnik.R;
 import me.dbecaj.friurnik.data.models.ScheduleModel;
 import me.dbecaj.friurnik.data.models.StudentModel;
 import me.dbecaj.friurnik.data.models.SubjectModel;
 import me.dbecaj.friurnik.services.ScheduleJobService;
 import me.dbecaj.friurnik.ui.add.AddActivity;
-import me.dbecaj.friurnik.ui.schedule.di.DaggerScheduleComponent;
-import me.dbecaj.friurnik.ui.schedule.di.ScheduleComponent;
-import me.dbecaj.friurnik.ui.schedule.di.ScheduleModule;
-import timber.log.Timber;
 
 /**
  * Created by HP on 10/18/2017.
@@ -90,9 +84,7 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
                 .findViewById(R.id.navigation_header_nickname);
 
         // Initialize presenter
-        ScheduleComponent component = DaggerScheduleComponent.builder()
-                .scheduleModule(new ScheduleModule(this)).build();
-        presenter = component.getPresenter();
+        presenter = new SchedulePresenter(this);
         presenter.loadSchedule();
         presenter.loadStudentsMenu();
 
