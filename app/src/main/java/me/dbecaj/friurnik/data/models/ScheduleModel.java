@@ -133,7 +133,8 @@ public class ScheduleModel extends BaseModel{
                 .substring(0, 2));
         String[] dayData = data.get("RRULE").split("=");
         String day = dayData[dayData.length-1].trim();
-        String professor = data.get("DESCRIPTION").split("\\\\")[1].substring(1);
+        String professor = data.get("DESCRIPTION").split("\\\\n")[1].replaceAll("\\\\",
+                "");
 
         return new SubjectModel(name, classroom, startHour, endHour, day, professor);
     }

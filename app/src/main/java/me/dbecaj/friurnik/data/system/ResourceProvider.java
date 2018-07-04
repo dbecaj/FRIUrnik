@@ -16,5 +16,4 @@ public class ResourceProvider {
     public static String getString(int resId, Object... formatArgs) {
         return FRIUrnikApp.getInstance().getString(resId, formatArgs);
     }
-
 }

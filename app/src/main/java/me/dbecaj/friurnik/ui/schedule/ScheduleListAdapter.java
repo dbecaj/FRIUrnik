@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -51,14 +52,25 @@ public class ScheduleListAdapter extends BaseAdapter {
 
         SubjectModel subject = (SubjectModel)getItem(position);
 
+        LinearLayout holderLayout = (LinearLayout)convertView
+                .findViewById(R.id.subject_holder_layout);
+        TextView startHour = (TextView)convertView.findViewById(R.id.subject_start_hour);
+        TextView endHour = (TextView)convertView.findViewById(R.id.subject_end_hour);
         TextView nameText = (TextView)convertView.findViewById(R.id.subject_name);
-        TextView timeText = (TextView)convertView.findViewById(R.id.subject_time);
         TextView professorText = (TextView)convertView.findViewById(R.id.subject_professor);
         TextView classroomText = (TextView)convertView.findViewById(R.id.subject_classroom);
 
+        // Padd the item based on the duration of the subject (make the view longer)
+        int normalPaddingInDp = holderLayout.getPaddingStart();
+        int extraPadding = normalPaddingInDp * (subject.getDuration()*2);
+        holderLayout.setPadding(normalPaddingInDp, extraPadding, normalPaddingInDp,
+                extraPadding);
+
+        startHour.setText(context.getString(R.string.placeholder_hour,
+                subject.getStartHour()));
+        endHour.setText(context.getString(R.string.placeholder_hour,
+                subject.getEndHour()));
         nameText.setText(subject.getName());
-        timeText.setText(ResourceProvider.getString(R.string.placeholder_subject_time,
-                subject.getStartHour(), subject.getEndHour()));
         professorText.setText(subject.getProfessor());
         classroomText.setText(subject.getClassroom());
 

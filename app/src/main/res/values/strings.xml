@@ -52,5 +52,6 @@
     <string name="error_generic_error">Prišlo je do napake</string>
     <string name="placeholder_subject_time">%d:00 - %d:00</string>
     <string name="placeholder_subject_professor">Profesor</string>
+    <string name="placeholder_hour">%d:00</string>
 
 </resources>
