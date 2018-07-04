@@ -14,14 +14,12 @@ public interface ScheduleMvp {
 
     interface View extends BaseMvp.View {
 
-        void showSchedule(ScheduleModel schedule);
+        void populateSchedule(ScheduleModel schedule);
         void hideSchedule();
         void showSchedule();
         void showStudentIdTitle(StudentModel student);
-        void showNavigationDrawerStudent(StudentModel student);
-        void populateNavigationDrawerStudentMenu(List<StudentModel> students);
         void showAddActivity();
-        void constuctScheduleJob();
+        void constructScheduleJob();
     }
 
     interface Presenter extends BaseMvp.Presenter {
@@ -30,7 +28,6 @@ public interface ScheduleMvp {
         void loadSchedule(long studentId);
         void loadSchedule(long studentId, boolean forceNetworkLoad);
         void refreshSchedule();
-        void loadStudentsMenu();
         void processAddButton();
         void processDeleteStudent();
     }

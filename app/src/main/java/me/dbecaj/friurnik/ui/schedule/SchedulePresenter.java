@@ -68,7 +68,6 @@ public class SchedulePresenter implements ScheduleMvp.Presenter {
         // Load the student info into title and navigation drawer
         StudentModel student = studentInteractor.getStudent(studentId);
         view.showStudentIdTitle(student);
-        view.showNavigationDrawerStudent(student);
 
         // Check if the database doesn't have the schedule with this studentId or
         // if we specifically forced the network load
@@ -94,7 +93,7 @@ public class SchedulePresenter implements ScheduleMvp.Presenter {
                 mainHander.post(new Runnable() {
                     @Override
                     public void run() {
-                        view.showSchedule(schedule);
+                        view.populateSchedule(schedule);
                         view.hideProgress();
                     }
                 });
@@ -123,20 +122,6 @@ public class SchedulePresenter implements ScheduleMvp.Presenter {
         }
 
         loadSchedule(studentId, true);
-    }
-
-    @Override
-    public void loadStudentsMenu() {
-        StudentInteractor interactor = new StudentInteractorImp();
-        List<StudentModel> students = interactor.getAllStudents();
-        for(StudentModel student : students) {
-            if(student.getStudentId() == studentId) {
-                students.remove(student);
-                break;
-            }
-        }
-
-        view.populateNavigationDrawerStudentMenu(students);
     }
 
     @Override
@@ -185,7 +170,6 @@ public class SchedulePresenter implements ScheduleMvp.Presenter {
                         view.showMessage(R.string.student_deleted);
                         // Load the default student and update the student menu list
                         loadSchedule();
-                        loadStudentsMenu();
                     }
                 });
             }
