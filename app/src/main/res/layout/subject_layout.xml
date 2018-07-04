@@ -1,24 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@drawable/cell_border"
-              android:gravity="center"
-              android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimaryDark"
+    android:orientation="vertical"
+    android:padding="12dp">
 
-    <TextView
-        android:id="@+id/subject_name"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/placeholder_subject_name"
-        android:textAlignment="center"/>
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/subject_classroom"
+        <TextView
+            android:id="@+id/subject_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/placeholder_subject_name"
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/subject_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/subject_name"
+            android:layout_alignParentEnd="true"
+            android:text="@string/placeholder_subject_time"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/subject_classroom_top_margin"
-        android:text="@string/placeholder_subject_classroom"
-        android:textAlignment="center"/>
+        android:layout_height="wrap_content">
 
+        <TextView
+            android:id="@+id/subject_professor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/placeholder_subject_professor"
+            android:textColor="@color/white"
+            android:textSize="20sp"/>
+
+        <TextView
+            android:id="@+id/subject_classroom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/placeholder_subject_classroom"
+            android:layout_alignBaseline="@id/subject_professor"
+            android:layout_alignParentEnd="true"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            />
+    </RelativeLayout>
 </LinearLayout>

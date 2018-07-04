@@ -89,9 +89,10 @@ public class ScheduleModel extends BaseModel{
                 String name = subject.get("name").getAsString();
                 int startHour = subject.get("startHour").getAsInt();
                 String day = subject.get("day").getAsString();
+                String professor = subject.get("professor").getAsString();
 
                 schedule.get(Day.parseDay(entry.getKey())).add(new SubjectModel(name, classroom,
-                        startHour, endHour, day));
+                        startHour, endHour, day, professor));
             }
         }
     }
@@ -132,8 +133,9 @@ public class ScheduleModel extends BaseModel{
                 .substring(0, 2));
         String[] dayData = data.get("RRULE").split("=");
         String day = dayData[dayData.length-1].trim();
+        String professor = data.get("DESCRIPTION").split("\\\\")[1].substring(1);
 
-        return new SubjectModel(name, classroom, startHour, endHour, day);
+        return new SubjectModel(name, classroom, startHour, endHour, day, professor);
     }
 
     private void insertSubject(SubjectModel subject) {

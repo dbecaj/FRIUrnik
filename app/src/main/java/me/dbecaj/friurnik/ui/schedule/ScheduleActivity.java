@@ -7,13 +7,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;
@@ -21,9 +23,9 @@ import butterknife.ButterKnife;
 import me.dbecaj.friurnik.R;
 import me.dbecaj.friurnik.data.models.ScheduleModel;
 import me.dbecaj.friurnik.data.models.StudentModel;
+import me.dbecaj.friurnik.data.models.SubjectModel;
 import me.dbecaj.friurnik.services.ScheduleJobService;
 import me.dbecaj.friurnik.ui.add.AddActivity;
-import timber.log.Timber;
 
 /**
  * Created by HP on 10/18/2017.
@@ -35,9 +37,13 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
 
     private ScheduleMvp.Presenter presenter;
     private JobScheduler updateScheduler;
+    private ScheduleListAdapter listAdapter;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+
+    @BindView(R.id.schedule_list)
+    ListView listView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,7 +61,10 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
         presenter = new SchedulePresenter(this);
         presenter.loadSchedule();
 
+        // Set up the ListView for the schedule
         hideSchedule();
+        listAdapter = new ScheduleListAdapter(new ArrayList<SubjectModel>(), this);
+        listView.setAdapter(listAdapter);
 
         setSupportActionBar(toolbar);
         toolbar.setTitleTextColor(getResources().getColor(R.color.white));
@@ -69,9 +78,6 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_schedule, menu);
-
-        MenuItem addButton = menu.findItem(R.id.action_add);
-        addButton.getIcon().setTint(getResources().getColor(R.color.white));
 
         return true;
     }
@@ -91,9 +97,6 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
         int id = item.getItemId();
 
         switch(id) {
-            case R.id.action_add:
-                presenter.processAddButton();
-                break;
             case R.id.action_delete:
                 presenter.processDeleteStudent();
                 break;
@@ -124,7 +127,33 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
     public void populateSchedule(ScheduleModel schedule) {
         showSchedule();
 
-        // TODO: Populate schedule
+        int currentDay = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+        List<SubjectModel> subjects;
+        switch (currentDay) {
+            case Calendar.MONDAY:
+                subjects = schedule.getSchedule().get(ScheduleModel.Day.MO);
+                break;
+            case Calendar.TUESDAY:
+                subjects = schedule.getSchedule().get(ScheduleModel.Day.TU);
+                break;
+            case Calendar.WEDNESDAY:
+                subjects = schedule.getSchedule().get(ScheduleModel.Day.WE);
+                break;
+            case Calendar.THURSDAY:
+                subjects = schedule.getSchedule().get(ScheduleModel.Day.TH);
+                break;
+            case Calendar.FRIDAY:
+                subjects = schedule.getSchedule().get(ScheduleModel.Day.FR);
+                break;
+            default:
+                subjects = new ArrayList<>();
+                break;
+        }
+
+        for (SubjectModel subject : subjects) {
+            listAdapter.addItem(subject);
+        }
+        listAdapter.notifyDataSetChanged();
     }
 
     @Override

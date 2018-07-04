@@ -11,13 +11,15 @@ public class SubjectModel {
     private int startHour;
     private int endHour;
     private String day;
+    private String professor;
 
-    public SubjectModel(String name, String classroom, int startHour, int endHour, String day) {
+    public SubjectModel(String name, String classroom, int startHour, int endHour, String day, String professor) {
         this.name = name;
         this.classroom = classroom;
         this.startHour = startHour;
         this.endHour = endHour;
         this.day = day;
+        this.professor = professor;
     }
 
     public String getName() {
@@ -44,8 +46,12 @@ public class SubjectModel {
         return day;
     }
 
+    public String getProfessor() {
+        return professor;
+    }
+
     @Override
     public String toString() {
-        return String.format("%s;%d:00-%d:00;%s", name, startHour, endHour, day);
+        return String.format("%s;%d:00-%d:00;%s;%s", name, startHour, endHour, day, professor);
     }
 }
