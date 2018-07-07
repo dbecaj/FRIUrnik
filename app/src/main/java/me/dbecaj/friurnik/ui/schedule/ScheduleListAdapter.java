@@ -15,11 +15,13 @@ import java.util.Random;
 
 import me.dbecaj.friurnik.R;
 import me.dbecaj.friurnik.data.models.SubjectModel;
+import timber.log.Timber;
 
 public class ScheduleListAdapter extends BaseAdapter {
 
     private ArrayList<SubjectModel> subjectList;
     // We will not store color info into the SubjectModel so we will store it separately
+    // subjectColorList will store the availableColorList index for each subject
     private ArrayList<Integer> subjectColorList;
     private ArrayList<Pair<Integer, Integer>> availableColorList;
     private Context context;
@@ -30,16 +32,10 @@ public class ScheduleListAdapter extends BaseAdapter {
         subjectColorList = new ArrayList<>();
         availableColorList = new ArrayList<>();
 
-        availableColorList.add(new Pair<Integer, Integer>(
-                context.getResources().getColor(R.color.subject_blue_light, null),
-                context.getResources().getColor(R.color.subject_blue_dark, null)));
-        availableColorList.add(new Pair<Integer, Integer>(
-                context.getResources().getColor(R.color.subject_green_light, null),
-                context.getResources().getColor(R.color.subject_green_dark, null)));
-
-        availableColorList.add(new Pair<Integer, Integer>(
-                context.getResources().getColor(R.color.subject_orange_light, null),
-                context.getResources().getColor(R.color.subject_orange_dark, null)));
+        // Add all available color pairs
+        availableColorList.add(new Pair<>(R.color.subject_blue_light, R.color.subject_blue_dark));
+        availableColorList.add(new Pair<>(R.color.subject_green_light, R.color.subject_green_dark));
+        availableColorList.add(new Pair<>(R.color.subject_orange_light, R.color.subject_orange_dark));
     }
 
     @Override
@@ -85,8 +81,13 @@ public class ScheduleListAdapter extends BaseAdapter {
         int extraPadding = normalPaddingInDp * (subject.getDuration()*2);
         infoLayout.setPadding(normalPaddingInDp, extraPadding, normalPaddingInDp,
                 extraPadding);
-        infoLayout.setBackgroundResource()
 
+        // Add a random color available to the background
+        Pair<Integer, Integer> randColor = availableColorList.get(assignRandomColor());
+        hourLayout.setBackgroundResource(randColor.first);
+        infoLayout.setBackgroundResource(randColor.second);
+
+        // Fill in the data
         startHour.setText(context.getString(R.string.placeholder_hour,
                 subject.getStartHour()));
         endHour.setText(context.getString(R.string.placeholder_hour,
@@ -102,8 +103,18 @@ public class ScheduleListAdapter extends BaseAdapter {
         subjectList.clear();
     }
 
-    private int asingRandomColor() {
+    private int assignRandomColor() {
         Random rand = new Random();
+        int randIndex = rand.nextInt(availableColorList.size());
+        // Ensure that each subject has it's own color OR if there isn't enough colors that the
+        // current subject's color is not the same as the previous one
+        while (subjectColorList.contains(randIndex) ||
+                (subjectList.size() > availableColorList.size() &&
+                        subjectColorList.get(subjectColorList.size()-1) == randIndex)) {
+            randIndex = rand.nextInt(availableColorList.size());
+        }
 
+        subjectColorList.add(randIndex);
+        return randIndex;
     }
 }
