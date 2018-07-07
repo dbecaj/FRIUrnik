@@ -13,7 +13,8 @@ public class SubjectModel {
     private String day;
     private String professor;
 
-    public SubjectModel(String name, String classroom, int startHour, int endHour, String day, String professor) {
+    public SubjectModel(String name, String classroom, int startHour, int endHour, String day,
+                        String professor) {
         this.name = name;
         this.classroom = classroom;
         this.startHour = startHour;

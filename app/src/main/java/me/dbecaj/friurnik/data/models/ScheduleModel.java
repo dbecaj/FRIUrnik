@@ -13,6 +13,7 @@ import com.raizlabs.android.dbflow.structure.BaseModel;
 import org.jsoup.nodes.Element;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -91,8 +92,7 @@ public class ScheduleModel extends BaseModel{
                 String day = subject.get("day").getAsString();
                 String professor = subject.get("professor").getAsString();
 
-                schedule.get(Day.parseDay(entry.getKey())).add(new SubjectModel(name, classroom,
-                        startHour, endHour, day, professor));
+                insertSubject(new SubjectModel(name, classroom, startHour, endHour, day, professor));
             }
         }
     }
@@ -140,7 +140,15 @@ public class ScheduleModel extends BaseModel{
     }
 
     private void insertSubject(SubjectModel subject) {
-        schedule.get(Day.parseDay(subject.getDay())).add(subject);
+        Day day = Day.parseDay(subject.getDay());
+        schedule.get(day).add(subject);
+        // Sort it by starting hour descended for accurate representation
+        schedule.get(day).sort(new Comparator<SubjectModel>() {
+            @Override
+            public int compare(SubjectModel o1, SubjectModel o2) {
+                return o1.getStartHour() - o2.getStartHour();
+            }
+        });
     }
 
     public void printOutSchedule() {
@@ -164,19 +172,6 @@ public class ScheduleModel extends BaseModel{
         }
 
         return true;
-    }
-
-    public int getLastHour() {
-        int lastHour = -1;
-        for (Day day : schedule.keySet()) {
-            for (SubjectModel subject : schedule.get(day)) {
-                if (subject.getEndHour() > lastHour) {
-                    lastHour = subject.getEndHour();
-                }
-            }
-        }
-
-        return lastHour;
     }
 
     public String getJsonSchedule() {

@@ -7,4 +7,13 @@
     <color name="white">#FFFFFF</color>
     <color name="text_gray">#7e7e7e</color>
     <color name="nav_header">#107dab</color>
+
+    <color name="subject_green_dark">#4caf50</color>
+    <color name="subject_green_light">#81c784</color>
+
+    <color name="subject_orange_dark">#f57c00</color>
+    <color name="subject_orange_light">#ffab40</color>
+
+    <color name="subject_blue_dark">#2196f3</color>
+    <color name="subject_blue_light">#64b5f6</color>
 </resources>

@@ -5,39 +5,44 @@
     android:orientation="horizontal">
 
     <RelativeLayout
+        android:id="@+id/subject_hour_layout"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/subject_blue_light">
 
         <TextView
             android:id="@+id/subject_start_hour"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
             android:layout_gravity="center"
             android:padding="12dp"
             android:text="@string/placeholder_hour"
-            android:textSize="16sp"
-            android:layout_alignParentTop="true"/>
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
         <TextView
             android:id="@+id/subject_end_hour"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
             android:layout_gravity="center"
             android:padding="12dp"
             android:text="@string/placeholder_hour"
-            android:textSize="16sp"
-            android:layout_alignParentBottom="true"/>
+            android:textColor="@color/white"
+            android:textSize="16sp" />
     </RelativeLayout>
 
     <LinearLayout
-        android:id="@+id/subject_holder_layout"
+        android:id="@+id/subject_info_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimaryDark"
+        android:background="@color/subject_blue_dark"
         android:orientation="vertical"
-        android:paddingTop="@dimen/spacing_1.5x"
-        android:paddingStart="@dimen/spacing_1.5x"
+        android:paddingBottom="@dimen/spacing_1.5x"
         android:paddingEnd="@dimen/spacing_1.5x"
-        android:paddingBottom="@dimen/spacing_1.5x">
+        android:paddingStart="@dimen/spacing_1.5x"
+        android:paddingTop="@dimen/spacing_1.5x">
 
         <RelativeLayout
             android:layout_width="match_parent"

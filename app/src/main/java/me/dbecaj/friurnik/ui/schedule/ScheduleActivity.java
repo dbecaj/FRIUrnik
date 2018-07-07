@@ -126,8 +126,10 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
 
     @Override
     public void populateSchedule(ScheduleModel schedule) {
+        // Make the schedule visible
         showSchedule();
 
+        // Determine the current day
         int currentDay = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
         List<SubjectModel> subjects;
         switch (currentDay) {
@@ -147,9 +149,20 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
                 subjects = schedule.getSchedule().get(ScheduleModel.Day.FR);
                 break;
             default:
-                subjects = new ArrayList<>();
+                // It's Saturday or Sunday
+                subjects = schedule.getSchedule().get(ScheduleModel.Day.MO);
                 break;
         }
+
+        // Reset the current list view
+        listAdapter.clearItems();
+        listAdapter.notifyDataSetChanged();
+        if (subjects.isEmpty()) {
+            return;
+        }
+
+        // Add one empty hour before the first subject of the day
+
 
         for (SubjectModel subject : subjects) {
             listAdapter.addItem(subject);
