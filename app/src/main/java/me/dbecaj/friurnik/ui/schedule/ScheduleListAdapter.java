@@ -15,7 +15,6 @@ import java.util.Random;
 
 import me.dbecaj.friurnik.R;
 import me.dbecaj.friurnik.data.models.SubjectModel;
-import timber.log.Timber;
 
 public class ScheduleListAdapter extends BaseAdapter {
 
@@ -59,12 +58,28 @@ public class ScheduleListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        SubjectModel subject = (SubjectModel)getItem(position);
+
+        // If the subject has no name then it's a filler subject
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.subject_layout, parent,
-                    false);
+            // If it's a filler subject then just inflate the empty layout
+            if (subject.getName().isEmpty()) {
+                convertView = LayoutInflater.from(context).inflate(R.layout.subject_layout_empty,
+                        parent, false);
+            }
+            else {
+                convertView = LayoutInflater.from(context).inflate(R.layout.subject_layout, parent,
+                        false);
+            }
         }
 
-        SubjectModel subject = (SubjectModel)getItem(position);
+        if (subject.getName().isEmpty()) {
+            TextView hour = (TextView)convertView.findViewById(R.id.subject_hour_empty);
+            hour.setText(context.getString(R.string.placeholder_hour, subject.getStartHour()));
+
+            return convertView;
+        }
+
 
         RelativeLayout hourLayout = (RelativeLayout)convertView
                 .findViewById(R.id.subject_hour_layout);
@@ -110,7 +125,8 @@ public class ScheduleListAdapter extends BaseAdapter {
         // current subject's color is not the same as the previous one
         while (subjectColorList.contains(randIndex) ||
                 (subjectList.size() > availableColorList.size() &&
-                        subjectColorList.get(subjectColorList.size()-1) == randIndex)) {
+                        !subjectColorList.isEmpty() &&
+                        subjectColorList.get(subjectColorList.size() - 1) == randIndex)) {
             randIndex = rand.nextInt(availableColorList.size());
         }
 

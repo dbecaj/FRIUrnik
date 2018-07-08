@@ -131,42 +131,60 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
 
         // Determine the current day
         int currentDay = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
-        List<SubjectModel> subjects;
+        List<SubjectModel> subjectList;
         switch (currentDay) {
             case Calendar.MONDAY:
-                subjects = schedule.getSchedule().get(ScheduleModel.Day.MO);
+                subjectList = schedule.getSchedule().get(ScheduleModel.Day.MO);
                 break;
             case Calendar.TUESDAY:
-                subjects = schedule.getSchedule().get(ScheduleModel.Day.TU);
+                subjectList = schedule.getSchedule().get(ScheduleModel.Day.TU);
                 break;
             case Calendar.WEDNESDAY:
-                subjects = schedule.getSchedule().get(ScheduleModel.Day.WE);
+                subjectList = schedule.getSchedule().get(ScheduleModel.Day.WE);
                 break;
             case Calendar.THURSDAY:
-                subjects = schedule.getSchedule().get(ScheduleModel.Day.TH);
+                subjectList = schedule.getSchedule().get(ScheduleModel.Day.TH);
                 break;
             case Calendar.FRIDAY:
-                subjects = schedule.getSchedule().get(ScheduleModel.Day.FR);
+                subjectList = schedule.getSchedule().get(ScheduleModel.Day.FR);
                 break;
             default:
                 // It's Saturday or Sunday
-                subjects = schedule.getSchedule().get(ScheduleModel.Day.MO);
+                subjectList = schedule.getSchedule().get(ScheduleModel.Day.MO);
                 break;
         }
 
         // Reset the current list view
         listAdapter.clearItems();
         listAdapter.notifyDataSetChanged();
-        if (subjects.isEmpty()) {
+        if (subjectList.isEmpty()) {
             return;
         }
 
-        // Add one empty hour before the first subject of the day
+        // Add one filler subject before the first subject of the day
+        listAdapter.addItem(new SubjectModel("", "",
+                subjectList.get(0).getStartHour()-1, subjectList.get(0).getEndHour(),
+                "", ""));
 
-
-        for (SubjectModel subject : subjects) {
-            listAdapter.addItem(subject);
+        for (int i = 0; i < subjectList.size(); i++) {
+            SubjectModel currentSubject = subjectList.get(i);
+            listAdapter.addItem(currentSubject);
+            // Add optional filler subjects between classes
+            if (i != subjectList.size()-1) {
+                SubjectModel nextSubject = subjectList.get(i+1);
+                for (int j = 0; j < nextSubject.getStartHour()-currentSubject.getEndHour(); j++) {
+                    listAdapter.addItem(new SubjectModel("", "",
+                            currentSubject.getEndHour()+1+j,
+                            currentSubject.getEndHour()+2+j, "", ""));
+                }
+            }
         }
+
+        // Add one filler subject at the end of the last subject of the day
+        listAdapter.addItem(new SubjectModel("", "",
+                subjectList.get(subjectList.size()-1).getEndHour()+1,
+                subjectList.get(subjectList.size()-1).getEndHour()+2, "",
+                ""));
         listAdapter.notifyDataSetChanged();
     }
 
