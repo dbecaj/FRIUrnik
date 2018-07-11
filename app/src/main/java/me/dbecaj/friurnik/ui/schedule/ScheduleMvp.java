@@ -17,7 +17,6 @@ public interface ScheduleMvp {
         void populateSchedule(ScheduleModel schedule);
         void hideSchedule();
         void showSchedule();
-        void showStudentIdTitle(StudentModel student);
         void showAddActivity();
         void constructScheduleJob();
     }

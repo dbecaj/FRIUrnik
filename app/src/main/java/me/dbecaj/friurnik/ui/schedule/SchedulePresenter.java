@@ -67,7 +67,6 @@ public class SchedulePresenter implements ScheduleMvp.Presenter {
 
         // Load the student info into title and navigation drawer
         StudentModel student = studentInteractor.getStudent(studentId);
-        view.showStudentIdTitle(student);
 
         // Check if the database doesn't have the schedule with this studentId or
         // if we specifically forced the network load

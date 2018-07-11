@@ -11,7 +11,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -27,6 +31,7 @@ import me.dbecaj.friurnik.data.models.StudentModel;
 import me.dbecaj.friurnik.data.models.SubjectModel;
 import me.dbecaj.friurnik.services.ScheduleJobService;
 import me.dbecaj.friurnik.ui.add.AddActivity;
+import timber.log.Timber;
 
 /**
  * Created by HP on 10/18/2017.
@@ -42,6 +47,9 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+
+    @BindView(R.id.schedule_days)
+    Spinner daysSpinner;
 
     @BindView(R.id.schedule_list)
     ListView listView;
@@ -67,9 +75,27 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
         listAdapter = new ScheduleListAdapter(new ArrayList<SubjectModel>(), this);
         listView.setAdapter(listAdapter);
 
+        // Set up the toolbar
         setSupportActionBar(toolbar);
         toolbar.setTitleTextColor(getResources().getColor(R.color.white));
         toolbar.setSubtitleTextColor(getResources().getColor(R.color.white));
+        toolbar.setTitle("");
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.days_array, android.R.layout.simple_spinner_dropdown_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        daysSpinner.setAdapter(adapter);
+        daysSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Timber.d("clicked!");
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         // Initialize update job scheduler for updating our schedules
         updateScheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
@@ -167,17 +193,6 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
         }
 
         listAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void showStudentIdTitle(StudentModel student) {
-        if(student.hasNickname()) {
-            toolbar.setTitle(String.valueOf(student.getStudentId()) + " " +
-                    getString(R.string.navigation_drawer_nickname, student.getNickname()));
-        }
-        else {
-            toolbar.setTitle(String.valueOf(student.getStudentId()));
-        }
     }
 
     @Override
