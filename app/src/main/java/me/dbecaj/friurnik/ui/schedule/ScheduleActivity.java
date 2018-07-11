@@ -161,30 +161,11 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
             return;
         }
 
-        // Add one filler subject before the first subject of the day
-        listAdapter.addItem(new SubjectModel("", "",
-                subjectList.get(0).getStartHour()-1, subjectList.get(0).getEndHour(),
-                "", ""));
-
         for (int i = 0; i < subjectList.size(); i++) {
             SubjectModel currentSubject = subjectList.get(i);
             listAdapter.addItem(currentSubject);
-            // Add optional filler subjects between classes
-            if (i != subjectList.size()-1) {
-                SubjectModel nextSubject = subjectList.get(i+1);
-                for (int j = 0; j < nextSubject.getStartHour()-currentSubject.getEndHour(); j++) {
-                    listAdapter.addItem(new SubjectModel("", "",
-                            currentSubject.getEndHour()+1+j,
-                            currentSubject.getEndHour()+2+j, "", ""));
-                }
-            }
         }
 
-        // Add one filler subject at the end of the last subject of the day
-        listAdapter.addItem(new SubjectModel("", "",
-                subjectList.get(subjectList.size()-1).getEndHour()+1,
-                subjectList.get(subjectList.size()-1).getEndHour()+2, "",
-                ""));
         listAdapter.notifyDataSetChanged();
     }
 

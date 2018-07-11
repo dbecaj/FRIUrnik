@@ -58,42 +58,27 @@ public class ScheduleListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        SubjectModel subject = (SubjectModel)getItem(position);
+        SubjectModel subject = (SubjectModel) getItem(position);
 
-        // If the subject has no name then it's a filler subject
         if (convertView == null) {
-            // If it's a filler subject then just inflate the empty layout
-            if (subject.getName().isEmpty()) {
-                convertView = LayoutInflater.from(context).inflate(R.layout.subject_layout_empty,
-                        parent, false);
-            }
-            else {
-                convertView = LayoutInflater.from(context).inflate(R.layout.subject_layout, parent,
-                        false);
-            }
-        }
-
-        if (subject.getName().isEmpty()) {
-            TextView hour = (TextView)convertView.findViewById(R.id.subject_hour_empty);
-            hour.setText(context.getString(R.string.placeholder_hour, subject.getStartHour()));
-
-            return convertView;
+            convertView = LayoutInflater.from(context).inflate(R.layout.subject_layout, parent,
+                    false);
         }
 
 
-        RelativeLayout hourLayout = (RelativeLayout)convertView
+        RelativeLayout hourLayout = (RelativeLayout) convertView
                 .findViewById(R.id.subject_hour_layout);
-        LinearLayout infoLayout = (LinearLayout)convertView
+        LinearLayout infoLayout = (LinearLayout) convertView
                 .findViewById(R.id.subject_info_layout);
-        TextView startHour = (TextView)convertView.findViewById(R.id.subject_start_hour);
-        TextView endHour = (TextView)convertView.findViewById(R.id.subject_end_hour);
-        TextView nameText = (TextView)convertView.findViewById(R.id.subject_name);
-        TextView professorText = (TextView)convertView.findViewById(R.id.subject_professor);
-        TextView classroomText = (TextView)convertView.findViewById(R.id.subject_classroom);
+        TextView startHour = (TextView) convertView.findViewById(R.id.subject_start_hour);
+        TextView endHour = (TextView) convertView.findViewById(R.id.subject_end_hour);
+        TextView nameText = (TextView) convertView.findViewById(R.id.subject_name);
+        TextView professorText = (TextView) convertView.findViewById(R.id.subject_professor);
+        TextView classroomText = (TextView) convertView.findViewById(R.id.subject_classroom);
 
         // Padd the item based on the duration of the subject (make the view longer)
         int normalPaddingInDp = infoLayout.getPaddingStart();
-        int extraPadding = normalPaddingInDp * (subject.getDuration()*2);
+        int extraPadding = normalPaddingInDp * (subject.getDuration() * 2);
         infoLayout.setPadding(normalPaddingInDp, extraPadding, normalPaddingInDp,
                 extraPadding);
 
