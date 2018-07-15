@@ -10,13 +10,63 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
-        app:popupTheme="@style/AppTheme.PopupOverlay">
+        app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-        <Spinner
-            android:id="@+id/schedule_days"
+    <LinearLayout
+        android:id="@+id/schedule_days_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/schedule_button_mon"
+            style="?android:attr/borderlessButtonStyle"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </android.support.v7.widget.Toolbar>
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/colorPrimaryDark"
+            android:text="@string/mon"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/schedule_button_tue"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="?attr/colorPrimary"
+            android:text="@string/tue"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/schedule_button_wed"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="?attr/colorPrimary"
+            android:text="@string/wed"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/schedule_button_thu"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="?attr/colorPrimary"
+            android:text="@string/thu"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/schedule_button_fri"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="?attr/colorPrimary"
+            android:text="@string/fri"
+            android:textColor="@color/white" />
+    </LinearLayout>
 
     <ListView
         android:id="@+id/schedule_list"

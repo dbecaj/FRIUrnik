@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -37,7 +38,8 @@ import timber.log.Timber;
  * Created by HP on 10/18/2017.
  */
 
-public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.View {
+public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.View,
+        View.OnClickListener {
 
     private static final int UPDATE_JOB_ID = 1;
 
@@ -48,8 +50,8 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
-    @BindView(R.id.schedule_days)
-    Spinner daysSpinner;
+    @BindView(R.id.schedule_days_layout)
+    LinearLayout daysLayout;
 
     @BindView(R.id.schedule_list)
     ListView listView;
@@ -68,12 +70,14 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
 
         // Initialize presenter
         presenter = new SchedulePresenter(this);
-        presenter.loadSchedule();
 
         // Set up the ListView for the schedule
         hideSchedule();
         listAdapter = new ScheduleListAdapter(new ArrayList<SubjectModel>(), this);
         listView.setAdapter(listAdapter);
+
+        // Set the schedule to the current day
+        presenter.processDayChange(Calendar.getInstance().get(Calendar.DAY_OF_WEEK));
 
         // Set up the toolbar
         setSupportActionBar(toolbar);
@@ -81,21 +85,10 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
         toolbar.setSubtitleTextColor(getResources().getColor(R.color.white));
         toolbar.setTitle("");
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.days_array, android.R.layout.simple_spinner_dropdown_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
-        daysSpinner.setAdapter(adapter);
-        daysSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Timber.d("clicked!");
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+        // Connect all days buttons to the listener
+        for (int i = 0; i < daysLayout.getChildCount(); i++) {
+            daysLayout.getChildAt(i).setOnClickListener(this);
+        }
 
         // Initialize update job scheduler for updating our schedules
         updateScheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
@@ -151,32 +144,41 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
     }
 
     @Override
-    public void populateSchedule(ScheduleModel schedule) {
+    public void changeDay(ScheduleModel schedule, int day) {
         // Make the schedule visible
         showSchedule();
 
-        // Determine the current day
-        int currentDay = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+        // Change all button days to their default color
+        for (int i = 0; i < daysLayout.getChildCount(); i++) {
+            daysLayout.getChildAt(i).setBackgroundResource(R.color.colorPrimary);
+        }
+
         List<SubjectModel> subjectList;
-        switch (currentDay) {
+        switch (day) {
             case Calendar.MONDAY:
+                daysLayout.getChildAt(0).setBackgroundResource(R.color.colorPrimaryDark);
                 subjectList = schedule.getSchedule().get(ScheduleModel.Day.MO);
                 break;
             case Calendar.TUESDAY:
+                daysLayout.getChildAt(1).setBackgroundResource(R.color.colorPrimaryDark);
                 subjectList = schedule.getSchedule().get(ScheduleModel.Day.TU);
                 break;
             case Calendar.WEDNESDAY:
+                daysLayout.getChildAt(2).setBackgroundResource(R.color.colorPrimaryDark);
                 subjectList = schedule.getSchedule().get(ScheduleModel.Day.WE);
                 break;
             case Calendar.THURSDAY:
+                daysLayout.getChildAt(3).setBackgroundResource(R.color.colorPrimaryDark);
                 subjectList = schedule.getSchedule().get(ScheduleModel.Day.TH);
                 break;
             case Calendar.FRIDAY:
+                daysLayout.getChildAt(4).setBackgroundResource(R.color.colorPrimaryDark);
                 subjectList = schedule.getSchedule().get(ScheduleModel.Day.FR);
                 break;
             default:
                 // It's Saturday or Sunday
-                subjectList = schedule.getSchedule().get(ScheduleModel.Day.MO);
+                daysLayout.getChildAt(0).setBackgroundResource(R.color.colorPrimaryDark);
+                subjectList = schedule.getSchedule().get(ScheduleModel.Day.FR);
                 break;
         }
 
@@ -187,12 +189,34 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
             return;
         }
 
+        // Populate schedule
         for (int i = 0; i < subjectList.size(); i++) {
             SubjectModel currentSubject = subjectList.get(i);
             listAdapter.addItem(currentSubject);
         }
-
         listAdapter.notifyDataSetChanged();
+    }
+
+    // Event handler for all days buttons
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.schedule_button_mon:
+                presenter.processDayChange(Calendar.MONDAY);
+                break;
+            case R.id.schedule_button_tue:
+                presenter.processDayChange(Calendar.TUESDAY);
+                break;
+            case R.id.schedule_button_wed:
+                presenter.processDayChange(Calendar.WEDNESDAY);
+                break;
+            case R.id.schedule_button_thu:
+                presenter.processDayChange(Calendar.THURSDAY);
+                break;
+            case R.id.schedule_button_fri:
+                presenter.processDayChange(Calendar.FRIDAY);
+                break;
+        }
     }
 
     @Override

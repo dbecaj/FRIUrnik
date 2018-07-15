@@ -32,13 +32,13 @@ public class SchedulePresenter implements ScheduleMvp.Presenter {
     }
 
     @Override
-    public void loadSchedule() {
+    public void loadSchedule(final ScheduleInteractor.ScheduleListener listener) {
 
         StudentInteractor interactor = new StudentInteractorImp();
         interactor.getDefaultStudent(new StudentInteractor.StudentListener() {
             @Override
             public void successful(StudentModel student) {
-                loadSchedule(student.getStudentId());
+                loadSchedule(student.getStudentId(), listener);
             }
 
             @Override
@@ -49,12 +49,13 @@ public class SchedulePresenter implements ScheduleMvp.Presenter {
     }
 
     @Override
-    public void loadSchedule(long studentId) {
-        loadSchedule(studentId, false);
+    public void loadSchedule(long studentId, ScheduleInteractor.ScheduleListener listener) {
+        loadSchedule(studentId, false, listener);
     }
 
     @Override
-    public void loadSchedule(long studentId, boolean forceNetworkLoad) {
+    public void loadSchedule(long studentId, boolean forceNetworkLoad,
+                             ScheduleInteractor.ScheduleListener listener) {
         // Set the studentId for further use
         this.studentId = studentId;
 
@@ -83,35 +84,7 @@ public class SchedulePresenter implements ScheduleMvp.Presenter {
 
 
         // Load schedule
-        view.showProgress();
-        scheduleInteractor.getSchedule(studentId, new ScheduleInteractor.ScheduleListener() {
-            @Override
-            public void sucessful(final ScheduleModel schedule) {
-                // If we load from network we need to access the UI thread from the main looper
-                Handler mainHander = new Handler(Looper.getMainLooper());
-                mainHander.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        view.populateSchedule(schedule);
-                        view.hideProgress();
-                    }
-                });
-            }
-
-            @Override
-            public void failure(final int resId) {
-                Handler mainHander = new Handler(Looper.getMainLooper());
-                mainHander.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        view.showError(resId);
-                        view.hideProgress();
-                        // If there is a problem hide the previous schedule
-                        view.hideSchedule();
-                    }
-                });
-            }
-        });
+        scheduleInteractor.getSchedule(studentId, listener);
     }
 
     @Override
@@ -120,7 +93,7 @@ public class SchedulePresenter implements ScheduleMvp.Presenter {
             throw new RuntimeException("studentId is not initialized!");
         }
 
-        loadSchedule(studentId, true);
+        //loadSchedule(studentId, true);
     }
 
     @Override
@@ -168,9 +141,27 @@ public class SchedulePresenter implements ScheduleMvp.Presenter {
                     public void success() {
                         view.showMessage(R.string.student_deleted);
                         // Load the default student and update the student menu list
-                        loadSchedule();
+                        //loadSchedule();
                     }
                 });
+            }
+        });
+    }
+
+    @Override
+    public void processDayChange(final int day) {
+        view.showProgress();
+        loadSchedule(new ScheduleInteractor.ScheduleListener() {
+            @Override
+            public void sucessful(ScheduleModel schedule) {
+                view.changeDay(schedule, day);
+            }
+
+            @Override
+            public void failure(int resId) {
+                view.hideProgress();
+                view.showError(resId);
+                view.hideSchedule();
             }
         });
     }
