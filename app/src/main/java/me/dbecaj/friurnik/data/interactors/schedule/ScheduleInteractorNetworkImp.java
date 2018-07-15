@@ -79,4 +79,10 @@ public class ScheduleInteractorNetworkImp implements ScheduleInteractor {
 
         return schedule.save();
     }
+
+    @Override
+    public boolean hasSchedule(long studentId) {
+        Timber.d("calling hasSchedule() in a Network implementation!");
+        return false;
+    }
 }

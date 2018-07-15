@@ -1,12 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion '27.0.3'
+    compileSdkVersion 28
+    buildToolsVersion '28.0.1'
     defaultConfig {
         applicationId "me.dbecaj.friurnik"
         minSdkVersion 25
-        targetSdkVersion 25
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -20,7 +20,7 @@ android {
 }
 
 ext {
-    timber = '4.5.1'
+    timber = '4.6.1'
     butterknife = '8.8.1'
     dagger = '2.6'
     dbflow = '4.1.1'
@@ -31,38 +31,38 @@ ext {
 }
 
 dependencies {
-    implementation 'com.android.support:design:25.3.1'
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    implementation 'com.android.support:design:27.1.1'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    api 'com.android.support:appcompat-v7:27.1.1'
+    api 'com.android.support.constraint:constraint-layout:1.1.2'
 
     // Testing
-    testCompile 'junit:junit:4.12'
-    testCompile "org.mockito:mockito-core:$mochito"
+    testImplementation 'junit:junit:4.12'
+    testImplementation "org.mockito:mockito-core:$mochito"
 
     // Logging
-    compile "com.jakewharton.timber:timber:$timber"
+    api "com.jakewharton.timber:timber:$timber"
 
     // Util
-    compile "com.jakewharton:butterknife:$butterknife"
+    api "com.jakewharton:butterknife:$butterknife"
     annotationProcessor "com.jakewharton:butterknife-compiler:$butterknife"
-    compile "com.google.code.gson:gson:$gson"
+    api "com.google.code.gson:gson:$gson"
 
     // DI
-    compile "com.google.dagger:dagger:$dagger"
+    api "com.google.dagger:dagger:$dagger"
     annotationProcessor "com.google.dagger:dagger-compiler:$dagger"
 
     // Database
     annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:$dbflow"
-    compile "com.github.Raizlabs.DBFlow:dbflow-core:$dbflow"
-    compile "com.github.Raizlabs.DBFlow:dbflow:$dbflow"
+    api "com.github.Raizlabs.DBFlow:dbflow-core:$dbflow"
+    api "com.github.Raizlabs.DBFlow:dbflow:$dbflow"
 
     // Network
-    compile "com.squareup.okhttp3:okhttp:$okhttp"
-    compile "com.squareup.okhttp3:logging-interceptor:$okhttp"
-    compile "org.jsoup:jsoup:$jsoup"
+    api "com.squareup.okhttp3:okhttp:$okhttp"
+    api "com.squareup.okhttp3:logging-interceptor:$okhttp"
+    api "org.jsoup:jsoup:$jsoup"
 }

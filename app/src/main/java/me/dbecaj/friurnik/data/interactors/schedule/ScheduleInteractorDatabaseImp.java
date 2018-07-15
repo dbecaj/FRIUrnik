@@ -59,6 +59,7 @@ public class ScheduleInteractorDatabaseImp implements ScheduleInteractor {
         return schedule.save();
     }
 
+    @Override
     public boolean hasSchedule(long studentId) {
         List<ScheduleModel> schedules = SQLite.select().from(ScheduleModel.class)
                 .where(ScheduleModel_Table.studentId.is(studentId))
@@ -67,13 +68,7 @@ public class ScheduleInteractorDatabaseImp implements ScheduleInteractor {
         return !schedules.isEmpty();
     }
 
-    public void deleteSchedule(long studentId, GenericListener listener) {
-        if(!hasSchedule(studentId)) {
-            listener.failure(R.string.error_student_not_found_in_database);
-            return;
-        }
-
-        getSchedule(studentId).delete();
-        listener.success();
+    public boolean deleteSchedule(long studentId) {
+        return getSchedule(studentId).delete();
     }
 }

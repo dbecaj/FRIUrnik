@@ -55,6 +55,8 @@
     <string name="error_trying_to_delete_default_student">Brisanje prevzetega študenta ni dovoljeno</string>
     <string name="error_updating_student_database">Prišlo je do napake pri posodabljanju podatkovne baze</string>
     <string name="error_generic_error">Prišlo je do napake</string>
+    <string name="error_delete_schedule">Prišlo je do napake pri brisanju urnika</string>
+
     <string name="placeholder_subject_time">%d:00 - %d:00</string>
     <string name="placeholder_subject_professor">Profesor</string>
     <string name="placeholder_hour">%d:00</string>

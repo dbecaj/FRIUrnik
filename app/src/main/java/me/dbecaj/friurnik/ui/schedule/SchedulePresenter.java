@@ -3,6 +3,7 @@ package me.dbecaj.friurnik.ui.schedule;
 import android.os.Handler;
 import android.os.Looper;
 
+import java.util.Calendar;
 import java.util.List;
 
 import me.dbecaj.friurnik.BuildConfig;
@@ -25,127 +26,42 @@ import timber.log.Timber;
 public class SchedulePresenter implements ScheduleMvp.Presenter {
 
     private ScheduleMvp.View view;
-    private long studentId = -1;
+    private final StudentModel student;
 
     public SchedulePresenter(ScheduleMvp.View view) {
         this.view = view;
+
+        student = new StudentInteractorImp().getDefaultStudent();
     }
 
     @Override
-    public void loadSchedule(final ScheduleInteractor.ScheduleListener listener) {
-
-        StudentInteractor interactor = new StudentInteractorImp();
-        interactor.getDefaultStudent(new StudentInteractor.StudentListener() {
-            @Override
-            public void successful(StudentModel student) {
-                loadSchedule(student.getStudentId(), listener);
-            }
-
-            @Override
-            public void failure(int resId) {
-                view.showError(resId);
-            }
-        });
+    public void loadSchedule(ScheduleInteractor.ScheduleListener listener) {
+        loadSchedule(listener, false);
     }
 
     @Override
-    public void loadSchedule(long studentId, ScheduleInteractor.ScheduleListener listener) {
-        loadSchedule(studentId, false, listener);
-    }
-
-    @Override
-    public void loadSchedule(long studentId, boolean forceNetworkLoad,
-                             ScheduleInteractor.ScheduleListener listener) {
-        // Set the studentId for further use
-        this.studentId = studentId;
-
-        // Check if the student exists in the database
-        StudentInteractor studentInteractor = new StudentInteractorImp();
-        if(!studentInteractor.hasStudent(studentId)) {
-            view.showError(R.string.error_student_not_found_in_database);
-            return;
+    public void loadSchedule(ScheduleInteractor.ScheduleListener listener, boolean forceNetwork) {
+        ScheduleInteractor interactor = new ScheduleInteractorDatabaseImp();
+        // If we don't have the schedule we load it from the network
+        if (!interactor.hasSchedule(student.getStudentId()) || forceNetwork) {
+            Timber.d("from network");
+            interactor = new ScheduleInteractorNetworkImp();
         }
 
-        // Load the student info into title and navigation drawer
-        StudentModel student = studentInteractor.getStudent(studentId);
-
-        // Check if the database doesn't have the schedule with this studentId or
-        // if we specifically forced the network load
-        ScheduleInteractor scheduleInteractor = null;
-        ScheduleInteractorDatabaseImp databaseImp = new ScheduleInteractorDatabaseImp();
-        if((forceNetworkLoad || !databaseImp.hasSchedule(studentId)) &&
-                SystemStatus.isNetworkAvailable()) {
-            // If not we will load the schedule from the network
-            scheduleInteractor = new ScheduleInteractorNetworkImp();
-        }
-        else {
-            scheduleInteractor = new ScheduleInteractorDatabaseImp();
-        }
-
-
-        // Load schedule
-        scheduleInteractor.getSchedule(studentId, listener);
+        interactor.getSchedule(student.getStudentId(), listener);
     }
 
     @Override
     public void refreshSchedule() {
-        if(studentId < 0) {
-            throw new RuntimeException("studentId is not initialized!");
+        ScheduleInteractorDatabaseImp interactor = new ScheduleInteractorDatabaseImp();
+        // Delete the current schedule in database and update the schedule
+        if (!SystemStatus.isNetworkAvailable() ||
+                !interactor.deleteSchedule(student.getStudentId())) {
+            view.showError(R.string.error_delete_schedule);
+            return;
         }
 
-        //loadSchedule(studentId, true);
-    }
-
-    @Override
-    public void processAddButton() {
-        view.showAddActivity();
-    }
-
-    @Override
-    public void processDeleteStudent() {
-        if(studentId < 0) {
-            throw new RuntimeException("studentId is not initialized!");
-        }
-
-        // Delete student from Schedule table and Student table
-        StudentInteractor studentInteractor = new StudentInteractorImp();
-        studentInteractor.deleteStudent(studentId, new GenericListener() {
-            @Override
-            public void failure(int resId) {
-                view.showError(resId);
-            }
-
-            @Override
-            public void success() {
-                ScheduleInteractorDatabaseImp scheduleInteractor =
-                        new ScheduleInteractorDatabaseImp();
-                scheduleInteractor.deleteSchedule(studentId, new GenericListener() {
-                    @Override
-                    public void failure(int resId) {
-                        if(resId == R.string.error_student_not_found_in_database) {
-                            // If the student has faulty schedule it is not saved so overlook this error
-                            if(BuildConfig.DEBUG) {
-                                Timber.d(String.valueOf(studentId) + " student is " +
-                                        "not found in database");
-                            }
-
-                            // Proceed with normal operations
-                            success();
-                        }
-                        else {
-                            view.showError(resId);
-                        }
-                    }
-
-                    @Override
-                    public void success() {
-                        view.showMessage(R.string.student_deleted);
-                        // Load the default student and update the student menu list
-                        //loadSchedule();
-                    }
-                });
-            }
-        });
+        processDayChange(Calendar.getInstance().get(Calendar.DAY_OF_WEEK));
     }
 
     @Override

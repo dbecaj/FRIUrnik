@@ -16,5 +16,5 @@ public interface ScheduleInteractor {
     }
 
     void getSchedule(long studentId, ScheduleListener listener);
-
+    boolean hasSchedule(long studentId);
 }

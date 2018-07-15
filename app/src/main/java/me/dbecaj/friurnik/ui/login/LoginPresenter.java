@@ -75,17 +75,7 @@ public class LoginPresenter implements LoginMvp.Presenter {
             return;
         }
 
-        interactor.getDefaultStudent(new StudentInteractor.StudentListener() {
-            @Override
-            public void successful(StudentModel student) {
-                view.showScheduleActivity();
-            }
-
-            @Override
-            public void failure(int resId) {
-                view.showError(resId);
-            }
-        });
+        view.showScheduleActivity();
     }
 
 }

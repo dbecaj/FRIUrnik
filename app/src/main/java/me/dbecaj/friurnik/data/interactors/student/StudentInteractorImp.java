@@ -19,21 +19,11 @@ import me.dbecaj.friurnik.data.system.ResourceProvider;
 public class StudentInteractorImp implements StudentInteractor {
 
     @Override
-    public void getDefaultStudent(StudentListener listener) {
+    public StudentModel getDefaultStudent() {
         List<StudentModel> defaultStudent = SQLite.select().from(StudentModel.class)
                 .where(StudentModel_Table.defaultStudent.is(true)).queryList();
-        if(defaultStudent.isEmpty()) {
-            listener.failure(R.string.error_no_default_student_in_database);
 
-            return;
-        }
-        else if(defaultStudent.size() > 1) {
-            listener.failure(R.string.error_multiple_default_students_in_database);
-
-            return;
-        }
-
-        listener.successful(defaultStudent.get(0));
+        return defaultStudent.get(0);
     }
 
     @Override
@@ -83,19 +73,6 @@ public class StudentInteractorImp implements StudentInteractor {
                 .where(StudentModel_Table.defaultStudent.is(true)).queryList();
 
         return !defaultStudent.isEmpty();
-    }
-
-    @Override
-    public void getStudent(long studentId, StudentListener listener) {
-        List<StudentModel> students = SQLite.select().from(StudentModel.class)
-                .where(StudentModel_Table.studentId.is(studentId)).queryList();
-
-        if(students.isEmpty()) {
-            listener.failure(R.string.error_student_not_found_in_database);
-            return;
-        }
-
-        listener.successful(students.get(0));
     }
 
     @Override
