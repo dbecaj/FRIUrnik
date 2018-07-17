@@ -95,13 +95,6 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_schedule, menu);
-
-        return true;
-    }
-
-    @Override
     public void hideSchedule() {
 
     }
