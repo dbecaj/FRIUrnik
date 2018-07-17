@@ -15,6 +15,7 @@ import java.util.Random;
 
 import me.dbecaj.friurnik.R;
 import me.dbecaj.friurnik.data.models.SubjectModel;
+import timber.log.Timber;
 
 public class ScheduleListAdapter extends BaseAdapter {
 
@@ -101,6 +102,7 @@ public class ScheduleListAdapter extends BaseAdapter {
 
     public void clearItems() {
         subjectList.clear();
+        subjectColorList.clear();
     }
 
     private int assignRandomColor() {
@@ -108,7 +110,7 @@ public class ScheduleListAdapter extends BaseAdapter {
         int randIndex = rand.nextInt(availableColorList.size());
         // Ensure that each subject has it's own color OR if there isn't enough colors that the
         // current subject's color is not the same as the previous one
-        while (subjectColorList.contains(randIndex) ||
+        while (subjectColorList.contains(randIndex) &&
                 (subjectList.size() > availableColorList.size() &&
                         !subjectColorList.isEmpty() &&
                         subjectColorList.get(subjectColorList.size() - 1) == randIndex)) {
