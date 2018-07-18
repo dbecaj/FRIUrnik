@@ -19,8 +19,10 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Comparator;
@@ -34,6 +36,7 @@ import me.dbecaj.friurnik.data.models.StudentModel;
 import me.dbecaj.friurnik.data.models.SubjectModel;
 import me.dbecaj.friurnik.services.ScheduleJobService;
 import me.dbecaj.friurnik.ui.add.AddActivity;
+import me.dbecaj.friurnik.utils.DateUtils;
 import timber.log.Timber;
 
 /**
@@ -51,6 +54,8 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    @BindView(R.id.toolbar_title)
+    TextView toolbarTitle;
 
     @BindView(R.id.schedule_days_layout)
     LinearLayout daysLayout;
@@ -88,8 +93,11 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
 
         // Set up the toolbar
         setSupportActionBar(toolbar);
-        toolbar.setTitleTextColor(getResources().getColor(R.color.white));
-        toolbar.setSubtitleTextColor(getResources().getColor(R.color.white));
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.white, null));
+        toolbar.setSubtitleTextColor(getResources().getColor(R.color.white, null));
+        // Set the toolbar title to the current day and date
+        toolbarTitle.setText(DateUtils.getDayDateTitle());
 
         // Connect all days buttons to the listener
         for (int i = 0; i < daysLayout.getChildCount(); i++) {
