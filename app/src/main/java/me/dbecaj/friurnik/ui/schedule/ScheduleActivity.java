@@ -126,7 +126,6 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
     public void changeDay(ScheduleModel schedule, int day) {
         // Make the schedule visible
         showSchedule();
-        Timber.d(String.format("%d", day));
 
         // Change all button days to their default color
         for (int i = 0; i < daysLayout.getChildCount(); i++) {
@@ -180,7 +179,6 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
     // Event handler for all days buttons
     @Override
     public void onClick(View v) {
-        Timber.d("clicked!");
         switch (v.getId()) {
             case R.id.schedule_button_mon:
                 presenter.processDayChange(Calendar.MONDAY);

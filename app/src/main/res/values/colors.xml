@@ -16,4 +16,10 @@
 
     <color name="subject_blue_dark">#2196f3</color>
     <color name="subject_blue_light">#64b5f6</color>
+
+    <color name="subject_purple_dark">#6a1b9a</color>
+    <color name="subject_purple_light">#9575cd</color>
+
+    <color name="subject_pink_dark">#ad1457</color>
+    <color name="subject_pink_light">#f06292</color>
 </resources>

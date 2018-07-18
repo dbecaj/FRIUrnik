@@ -78,7 +78,6 @@ public class ScheduleModel extends BaseModel{
 
     public void parseJson(String json) {
         initSchedule();
-        Timber.d(json);
 
         Gson gson = new Gson();
         JsonObject rootArray = gson.fromJson(json, JsonObject.class);

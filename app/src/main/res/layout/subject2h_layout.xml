@@ -8,7 +8,7 @@
         android:id="@+id/subject_hour_layout"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:background="@color/subject_blue_light">
+        android:background="@color/subject_pink_light">
 
         <TextView
             android:id="@+id/subject_start_hour"
@@ -37,17 +37,17 @@
         android:id="@+id/subject_info_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/subject_blue_dark"
+        android:background="@color/subject_pink_dark"
         android:orientation="vertical"
-        android:paddingBottom="@dimen/spacing_1.5x"
-        android:paddingEnd="@dimen/spacing_1.5x"
-        android:paddingStart="@dimen/spacing_1.5x"
-        android:paddingTop="@dimen/spacing_1.5x">
+        android:paddingBottom="@dimen/spacing_3x"
+        android:paddingTop="@dimen/spacing_3x">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/spacing_1.5x"
+            android:paddingEnd="@dimen/spacing_1.5x">
 
             <TextView
                 android:id="@+id/subject_name"
@@ -59,9 +59,17 @@
                 android:textStyle="bold" />
         </RelativeLayout>
 
+        <View
+            android:id="@+id/subject_hour_line"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/subject_pink_light" />
+
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/spacing_1.5x"
+            android:paddingEnd="@dimen/spacing_1.5x">
 
             <TextView
                 android:id="@+id/subject_professor"

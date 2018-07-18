@@ -15,7 +15,6 @@ import java.util.Random;
 
 import me.dbecaj.friurnik.R;
 import me.dbecaj.friurnik.data.models.SubjectModel;
-import timber.log.Timber;
 
 public class ScheduleListAdapter extends BaseAdapter {
 
@@ -61,32 +60,38 @@ public class ScheduleListAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         SubjectModel subject = (SubjectModel) getItem(position);
 
-        if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.subject_layout, parent,
+        // Load 2h or 3h layout depending on the subject duration
+        if (subject.getDuration() == 2){
+            convertView = LayoutInflater.from(context).inflate(R.layout.subject2h_layout, parent,
+                    false);
+        }
+        else {
+            convertView = LayoutInflater.from(context).inflate(R.layout.subject3h_layout, parent,
                     false);
         }
 
 
-        RelativeLayout hourLayout = (RelativeLayout) convertView
+        RelativeLayout hourLayout = convertView
                 .findViewById(R.id.subject_hour_layout);
-        LinearLayout infoLayout = (LinearLayout) convertView
+        LinearLayout infoLayout = convertView
                 .findViewById(R.id.subject_info_layout);
-        TextView startHour = (TextView) convertView.findViewById(R.id.subject_start_hour);
-        TextView endHour = (TextView) convertView.findViewById(R.id.subject_end_hour);
-        TextView nameText = (TextView) convertView.findViewById(R.id.subject_name);
-        TextView professorText = (TextView) convertView.findViewById(R.id.subject_professor);
-        TextView classroomText = (TextView) convertView.findViewById(R.id.subject_classroom);
-
-        // Padd the item based on the duration of the subject (make the view longer)
-        int normalPaddingInDp = infoLayout.getPaddingStart();
-        int extraPadding = normalPaddingInDp * (subject.getDuration() * 2);
-        infoLayout.setPadding(normalPaddingInDp, extraPadding, normalPaddingInDp,
-                extraPadding);
+        TextView startHour = convertView.findViewById(R.id.subject_start_hour);
+        TextView endHour = convertView.findViewById(R.id.subject_end_hour);
+        TextView nameText = convertView.findViewById(R.id.subject_name);
+        TextView professorText = convertView.findViewById(R.id.subject_professor);
+        TextView classroomText = convertView.findViewById(R.id.subject_classroom);
+        View lineSeperator = convertView.findViewById(R.id.subject_hour_line);
 
         // Add a random color available to the background
         Pair<Integer, Integer> randColor = availableColorList.get(assignRandomColor());
         hourLayout.setBackgroundResource(randColor.first);
         infoLayout.setBackgroundResource(randColor.second);
+        lineSeperator.setBackgroundResource(randColor.first);
+        // If there is a 3h layout we have 2 lines so we need to color the second one as well
+        View lineSeperator2 = convertView.findViewById(R.id.subject_hour_line2);
+        if (lineSeperator2 != null) {
+            lineSeperator2.setBackgroundResource(randColor.first);
+        }
 
         // Fill in the data
         startHour.setText(context.getString(R.string.placeholder_hour,
