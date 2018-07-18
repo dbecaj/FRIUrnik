@@ -103,6 +103,8 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
                 presenter.refreshSchedule();
             }
         });
+        refreshLayout.setColorSchemeResources(R.color.colorPrimaryDark, R.color.white,
+                R.color.white);
 
         // Initialize update job scheduler for updating our schedules
         updateScheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
