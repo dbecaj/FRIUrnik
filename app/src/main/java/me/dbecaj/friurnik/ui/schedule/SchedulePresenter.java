@@ -44,7 +44,7 @@ public class SchedulePresenter implements ScheduleMvp.Presenter {
         ScheduleInteractor interactor = new ScheduleInteractorDatabaseImp();
         // If we don't have the schedule we load it from the network
         if (!interactor.hasSchedule(student.getStudentId()) || forceNetwork) {
-            Timber.d("from network");
+            view.showProgress();
             interactor = new ScheduleInteractorNetworkImp();
         }
 
@@ -66,18 +66,31 @@ public class SchedulePresenter implements ScheduleMvp.Presenter {
 
     @Override
     public void processDayChange(final int day) {
-        view.showProgress();
+        final Handler mainHandler = new Handler(Looper.getMainLooper());
         loadSchedule(new ScheduleInteractor.ScheduleListener() {
             @Override
-            public void sucessful(ScheduleModel schedule) {
-                view.changeDay(schedule, day);
+            public void sucessful(final ScheduleModel schedule) {
+                // To access the main UI thread we need to use a Handler
+                mainHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        view.showSchedule();
+                        view.changeDay(schedule, day);
+                        view.hideProgress();
+                    }
+                });
             }
 
             @Override
-            public void failure(int resId) {
-                view.hideProgress();
-                view.showError(resId);
-                view.hideSchedule();
+            public void failure(final int resId) {
+                mainHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        view.hideSchedule();
+                        view.showError(resId);
+                        view.hideProgress();
+                    }
+                });
             }
         });
     }

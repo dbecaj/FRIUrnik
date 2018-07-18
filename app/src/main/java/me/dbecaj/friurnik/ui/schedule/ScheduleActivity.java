@@ -7,9 +7,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -53,6 +55,9 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
     @BindView(R.id.schedule_days_layout)
     LinearLayout daysLayout;
 
+    @BindView(R.id.schedule_refresh_layout)
+    SwipeRefreshLayout refreshLayout;
+
     @BindView(R.id.schedule_list)
     ListView listView;
 
@@ -67,6 +72,8 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
     @Override
     public void init() {
         ButterKnife.bind(this);
+
+        hideSchedule();
 
         // Initialize presenter
         presenter = new SchedulePresenter(this);
@@ -89,27 +96,55 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
             daysLayout.getChildAt(i).setOnClickListener(this);
         }
 
+        // Set up the refresh layout
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                presenter.refreshSchedule();
+            }
+        });
+
         // Initialize update job scheduler for updating our schedules
         updateScheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
         constructScheduleJob();
     }
 
     @Override
-    public void hideSchedule() {
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_schedule, menu);
+        return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_refresh:
+                presenter.refreshSchedule();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void hideSchedule() {
+        listView.setVisibility(View.INVISIBLE);
     }
 
     @Override
     public void showSchedule() {
-
+        listView.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void showProgress() {
+        refreshLayout.setRefreshing(true);
     }
 
     @Override
     public void hideProgress() {
+        refreshLayout.setRefreshing(false);
     }
 
     @Override

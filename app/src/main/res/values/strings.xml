@@ -4,6 +4,9 @@
     <string name="placeholder_student_id">63170050</string>
     <string name="placeholder_subject_name">PRE</string>
     <string name="placeholder_subject_classroom">PRO</string>
+    <string name="placeholder_subject_time">%d:00 - %d:00</string>
+    <string name="placeholder_subject_professor">Profesor</string>
+    <string name="placeholder_hour">%d:00</string>
 
     <string name="url">https://urnik.fri.uni-lj.si/timetable/fri-2017_2018-letni-1-teden/allocations_ical?student=%d</string>
     <string name="next">Naprej</string>
@@ -36,6 +39,7 @@
     <string name="nickname">naziv</string>
     <string name="add_nickname_input_request">Vnesi naziv</string>
     <string name="success_student_updated">Študent posodobljen</string>
+    <string name="refresh">Osveži</string>
 
     <string name="error_invalid_student_id">Vpisna številka mora biti 8 mestna</string>
     <string name="error_empty_student_id">Prosimo vnesite svojo vpisno številko</string>
@@ -56,9 +60,5 @@
     <string name="error_updating_student_database">Prišlo je do napake pri posodabljanju podatkovne baze</string>
     <string name="error_generic_error">Prišlo je do napake</string>
     <string name="error_delete_schedule">Prišlo je do napake pri brisanju urnika</string>
-
-    <string name="placeholder_subject_time">%d:00 - %d:00</string>
-    <string name="placeholder_subject_professor">Profesor</string>
-    <string name="placeholder_hour">%d:00</string>
 
 </resources>
