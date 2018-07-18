@@ -21,6 +21,7 @@ public interface ScheduleMvp {
         void showAddActivity();
         void constructScheduleJob();
         void changeDay(ScheduleModel schedule, int day);
+        int getSelectedDay();
     }
 
     interface Presenter extends BaseMvp.Presenter {

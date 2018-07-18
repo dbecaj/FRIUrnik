@@ -1,5 +1,6 @@
 package me.dbecaj.friurnik.ui.schedule;
 
+import android.annotation.SuppressLint;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
@@ -51,6 +52,7 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
     private ScheduleMvp.Presenter presenter;
     private JobScheduler updateScheduler;
     private ScheduleListAdapter listAdapter;
+    private int selectedDay;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -87,9 +89,28 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
         hideSchedule();
         listAdapter = new ScheduleListAdapter(new ArrayList<SubjectModel>(), this);
         listView.setAdapter(listAdapter);
+        // Set up the left and the right swipe gesture
+        listView.setOnTouchListener(new OnSwipeTouchListener(this) {
+            @Override
+            public void onSwipeRight() {
+                if (selectedDay == Calendar.MONDAY) {
+                    return;
+                }
+                presenter.processDayChange(selectedDay - 1);
+            }
+
+            @Override
+            public void onSwipeLeft() {
+                if (selectedDay == Calendar.FRIDAY) {
+                    return;
+                }
+                presenter.processDayChange(selectedDay + 1);
+            }
+        });
 
         // Set the schedule to the current day
-        presenter.processDayChange(Calendar.getInstance().get(Calendar.DAY_OF_WEEK));
+        selectedDay = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+        presenter.processDayChange(selectedDay);
 
         // Set up the toolbar
         setSupportActionBar(toolbar);
@@ -219,6 +240,9 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
             listAdapter.addItem(currentSubject);
         }
         listAdapter.notifyDataSetChanged();
+
+        // Update selectedDay
+        selectedDay = day;
     }
 
     // Event handler for all days buttons
@@ -261,6 +285,11 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.V
     public void showAddActivity() {
         Intent intent = AddActivity.buildIntent(this);
         startActivity(intent);
+    }
+
+    @Override
+    public int getSelectedDay() {
+        return selectedDay;
     }
 
     public static Intent buildIntent(Context context) {
