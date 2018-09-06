@@ -1,10 +1,10 @@
 package me.dbecaj.friurnik.ui.schedule;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
@@ -22,7 +22,7 @@ import me.dbecaj.friurnik.ui.schedule.di.ScheduleModule;
  * Created by HP on 10/18/2017.
  */
 
-public class ScheduleActivity extends AppCompatActivity implements ScheduleMvp.View {
+public class ScheduleActivity extends Activity implements ScheduleMvp.View {
 
     private ScheduleMvp.Presenter presenter;
 

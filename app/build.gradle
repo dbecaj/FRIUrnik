@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "26.0.2"
+    buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId "me.dbecaj.friurnik"
         minSdkVersion 15
@@ -30,36 +30,36 @@ ext {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'com.android.support:appcompat-v7:25.3.1'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
 
     // Testing
-    testCompile 'junit:junit:4.12'
-    testCompile "org.mockito:mockito-core:$mochito"
+    testImplementation 'junit:junit:4.12'
+    testImplementation "org.mockito:mockito-core:$mochito"
 
     // Logging
-    compile "com.jakewharton.timber:timber:$timber"
+    implementation "com.jakewharton.timber:timber:$timber"
 
     // Util
-    compile "com.jakewharton:butterknife:$butterknife"
+    implementation "com.jakewharton:butterknife:$butterknife"
     annotationProcessor "com.jakewharton:butterknife-compiler:$butterknife"
 
     // DI
-    compile "com.google.dagger:dagger:$dagger"
+    implementation "com.google.dagger:dagger:$dagger"
     annotationProcessor "com.google.dagger:dagger-compiler:$dagger"
 
     // Database
     annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:$dbflow"
-    compile "com.github.Raizlabs.DBFlow:dbflow-core:$dbflow"
-    compile "com.github.Raizlabs.DBFlow:dbflow:$dbflow"
+    implementation "com.github.Raizlabs.DBFlow:dbflow-core:$dbflow"
+    implementation "com.github.Raizlabs.DBFlow:dbflow:$dbflow"
 
     // Network
-    compile "com.squareup.okhttp3:okhttp:$okhttp"
-    compile "com.squareup.okhttp3:logging-interceptor:$okhttp"
-    compile "org.jsoup:jsoup:$jsoup"
+    implementation "com.squareup.okhttp3:okhttp:$okhttp"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp"
+    implementation "org.jsoup:jsoup:$jsoup"
 }

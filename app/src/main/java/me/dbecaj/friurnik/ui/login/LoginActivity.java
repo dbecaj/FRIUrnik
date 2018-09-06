@@ -1,7 +1,7 @@
 package me.dbecaj.friurnik.ui.login;
 
+import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -12,14 +12,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import me.dbecaj.friurnik.R;
-import me.dbecaj.friurnik.data.system.ResourceProvider;
 import me.dbecaj.friurnik.ui.login.di.DaggerLoginActivityComponent;
 import me.dbecaj.friurnik.ui.login.di.LoginActivityComponent;
 import me.dbecaj.friurnik.ui.login.di.LoginActivityModule;
 import me.dbecaj.friurnik.ui.schedule.ScheduleActivity;
-import timber.log.Timber;
 
-public class LoginActivity extends AppCompatActivity implements LoginMvp.View {
+public class LoginActivity extends Activity implements LoginMvp.View {
 
     @BindView(R.id.login_loginProgress)
     ProgressBar loginProgress;
