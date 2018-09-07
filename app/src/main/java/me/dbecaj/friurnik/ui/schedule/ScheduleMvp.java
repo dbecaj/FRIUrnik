@@ -1,6 +1,11 @@
 package me.dbecaj.friurnik.ui.schedule;
 
-import me.dbecaj.friurnik.data.models.schedule.ScheduleModel;
+import java.util.List;
+
+import me.dbecaj.friurnik.data.interactors.GenericListener;
+import me.dbecaj.friurnik.data.interactors.schedule.ScheduleInteractor;
+import me.dbecaj.friurnik.data.models.ScheduleModel;
+import me.dbecaj.friurnik.data.models.StudentModel;
 import me.dbecaj.friurnik.ui.BaseMvp;
 
 /**
@@ -11,13 +16,20 @@ public interface ScheduleMvp {
 
     interface View extends BaseMvp.View {
 
-        void showSchedule(ScheduleModel schedule);
+        void hideSchedule();
+        void showSchedule();
+        void showAddActivity();
+        void constructScheduleJob();
+        void changeDay(ScheduleModel schedule, int day);
+        int getSelectedDay();
     }
 
     interface Presenter extends BaseMvp.Presenter {
 
-        void loadSchedule();
-        void loadSchedule(long studentId);
+        void loadSchedule(ScheduleInteractor.ScheduleListener listener);
+        void loadSchedule(ScheduleInteractor.ScheduleListener listener, boolean forceNetworkLoad);
+        void refreshSchedule();
+        void processDayChange(int day);
     }
 
 }

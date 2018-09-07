@@ -1,8 +1,9 @@
-package me.dbecaj.friurnik.ui.login;
+package me.dbecaj.friurnik.ui.add;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -14,47 +15,51 @@ import butterknife.OnClick;
 import me.dbecaj.friurnik.R;
 import me.dbecaj.friurnik.ui.schedule.ScheduleActivity;
 
-public class LoginActivity extends Activity implements LoginMvp.View {
+/**
+ * Created by Dominik on 04-Nov-17.
+ */
 
-    @BindView(R.id.login_login_progress)
-    ProgressBar loginProgress;
+public class AddActivity extends AppCompatActivity implements AddMvp.View {
 
-    @BindView(R.id.login_input_student_id)
-    EditText inputStudentNumber;
+    @BindView(R.id.add_input_nickname)
+    EditText nicknameInput;
 
-    LoginMvp.Presenter presenter;
+    @BindView(R.id.add_input_student_id)
+    EditText studentIdInput;
+
+    @BindView(R.id.add_save_progress)
+    ProgressBar saveProgress;
+
+    private AddMvp.Presenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login_activity);
+        setContentView(R.layout.add_activity);
 
         init();
+    }
 
-        // If the database has default user saved the application will jump to ScheduleActivity
-        presenter.loadDefaultUser();
+    @OnClick(R.id.add_save_button)
+    protected void onSavedClicked() {
+        presenter.processSaveButton();
     }
 
     @Override
     public void init() {
         ButterKnife.bind(this);
 
-        presenter = new LoginPresenter(this);
-    }
-
-    @OnClick(R.id.login_button_next)
-    protected void onNextClicked() {
-        presenter.processNextClicked();
+        presenter = new AddPresenter(this);
     }
 
     @Override
     public void showProgress() {
-        loginProgress.setVisibility(View.VISIBLE);
+        saveProgress.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProgress() {
-        loginProgress.setVisibility(View.INVISIBLE);
+        saveProgress.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -69,7 +74,7 @@ public class LoginActivity extends Activity implements LoginMvp.View {
 
     @Override
     public void showStudentIdInputError(int resId) {
-        inputStudentNumber.setError(getString(resId));
+        studentIdInput.setError(getString(resId));
     }
 
     @Override
@@ -78,11 +83,22 @@ public class LoginActivity extends Activity implements LoginMvp.View {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         finish();
-
     }
 
     @Override
     public String getStudentId() {
-        return inputStudentNumber.getText().toString();
+        return studentIdInput.getText().toString();
     }
+
+    @Override
+    public String getNickname() {
+        return nicknameInput.getText().toString();
+    }
+
+    public static Intent buildIntent(Context context) {
+        Intent intent = new Intent(context, AddActivity.class);
+
+        return intent;
+    }
+
 }

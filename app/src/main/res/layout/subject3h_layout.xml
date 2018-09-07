@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <RelativeLayout
+        android:id="@+id/subject_hour_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@color/subject_pink_light">
+
+        <TextView
+            android:id="@+id/subject_start_hour"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_gravity="center"
+            android:padding="12dp"
+            android:text="@string/placeholder_hour"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/subject_end_hour"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="center"
+            android:padding="12dp"
+            android:text="@string/placeholder_hour"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/subject_info_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/subject_pink_dark"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/spacing_6.5x"
+        android:paddingTop="@dimen/spacing_6.5x">
+
+        <View
+            android:id="@+id/subject_hour_line"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/subject_pink_light" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/spacing_1.5x"
+            android:paddingEnd="@dimen/spacing_1.5x">
+
+            <TextView
+                android:id="@+id/subject_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/placeholder_subject_name"
+                android:textColor="@color/white"
+                android:textSize="30sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/spacing_1.5x"
+            android:paddingEnd="@dimen/spacing_1.5x">
+
+            <TextView
+                android:id="@+id/subject_professor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/placeholder_subject_professor"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/subject_classroom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/subject_professor"
+                android:layout_alignParentEnd="true"
+                android:text="@string/placeholder_subject_classroom"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/subject_hour_line2"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/subject_pink_light" />
+    </LinearLayout>
+
+</LinearLayout>

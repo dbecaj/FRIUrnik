@@ -12,9 +12,7 @@ public interface BaseMvp {
         void showProgress();
         void hideProgress();
         void showMessage(int resId);
-        void showMessage(String message);
         void showError(int resId);
-        void showError(String error);
     }
 
     interface Presenter {

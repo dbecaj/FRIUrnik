@@ -1,4 +1,4 @@
-package me.dbecaj.friurnik.ui.login;
+package me.dbecaj.friurnik.ui.add;
 
 import me.dbecaj.friurnik.R;
 import me.dbecaj.friurnik.data.interactors.student.StudentInteractor;
@@ -7,25 +7,22 @@ import me.dbecaj.friurnik.data.models.StudentModel;
 import timber.log.Timber;
 
 /**
- * Created by Dominik on 15-Oct-17.
+ * Created by Dominik on 04-Nov-17.
  */
 
-public class LoginPresenter implements LoginMvp.Presenter {
+public class AddPresenter implements AddMvp.Presenter{
 
-    LoginMvp.View view;
+    private AddMvp.View view;
 
-    public LoginPresenter(LoginMvp.View view) {
+    public AddPresenter(AddMvp.View view) {
         this.view = view;
     }
 
     @Override
-    public void cancel() {
-
-    }
-
-    @Override
-    public void processNextClicked() {
+    public void processSaveButton() {
         String studentId = view.getStudentId();
+        String nickname = view.getNickname();
+
         if(studentId.isEmpty()) {
             view.showStudentIdInputError(R.string.error_empty_student_id);
             return;
@@ -46,13 +43,13 @@ public class LoginPresenter implements LoginMvp.Presenter {
         }
 
         view.showProgress();
-        saveStudent(id);
+        saveStudent(id, nickname);
     }
 
     @Override
-    public void saveStudent(long studentId) {
+    public void saveStudent(long studentId, String nickname) {
         StudentInteractor interactor = new StudentInteractorImp();
-        interactor.saveStudent(studentId, new StudentInteractor.StudentListener() {
+        interactor.saveStudent(studentId, nickname, new StudentInteractor.StudentListener() {
             @Override
             public void successful(StudentModel student) {
                 view.showMessage(R.string.success_student_saved);
@@ -69,13 +66,7 @@ public class LoginPresenter implements LoginMvp.Presenter {
     }
 
     @Override
-    public void loadDefaultUser() {
-        StudentInteractor interactor = new StudentInteractorImp();
-        if(!interactor.hasDefaultStudent()) {
-            return;
-        }
+    public void cancel() {
 
-        view.showScheduleActivity();
     }
-
 }

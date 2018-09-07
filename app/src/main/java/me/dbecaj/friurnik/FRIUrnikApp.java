@@ -29,8 +29,12 @@ public class FRIUrnikApp extends Application {
             Timber.plant(new Timber.DebugTree() {
                 @Override
                 protected String createStackElementTag(StackTraceElement element) {
-                    return  super.createStackElementTag(element) + "::" +
-                            String.valueOf(element.getLineNumber());
+                    if(BuildConfig.DEBUG) {
+                        return  super.createStackElementTag(element) + "::" +
+                                String.valueOf(element.getLineNumber());
+                    }
+
+                    return "Must be in DEBUG mode to receive Timber messages";
                 }
             });
         }

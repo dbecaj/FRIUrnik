@@ -4,17 +4,44 @@
     <string name="placeholder_student_id">63170050</string>
     <string name="placeholder_subject_name">PRE</string>
     <string name="placeholder_subject_classroom">PRO</string>
+    <string name="placeholder_subject_time">%d:00 - %d:00</string>
+    <string name="placeholder_subject_professor">Profesor</string>
+    <string name="placeholder_hour">%d:00</string>
 
-    <string name="url">https://urnik.fri.uni-lj.si/timetable/fri-2017_2018-zimski/allocations?student=</string>
-    <string name="login_input_request">Vnesi svojo vpisno številko</string>
+    <string name="url">https://urnik.fri.uni-lj.si/timetable/fri-2017_2018-letni-1-teden/allocations_ical?student=%d</string>
     <string name="next">Naprej</string>
     <string name="mon">PON</string>
     <string name="tue">TOR</string>
     <string name="wed">SRE</string>
     <string name="thu">ČET</string>
     <string name="fri">PET</string>
+    <string name="monday">Ponedeljek</string>
+    <string name="tuesday">Torek</string>
+    <string name="wednesday">Sreda</string>
+    <string name="thursday">Četertek</string>
+    <string name="friday">Petek</string>
+    <string name="saturday">Sobota</string>
+    <string name="sunday">Nedelja</string>
+    <string name="time_hour_after">%1$d:00</string>
 
+    <string name="login_input_request_text">Vnesi svojo vpisno številko</string>
     <string name="success_student_saved">Študent shranjen</string>
+    <string name="navigation_drawer_open">Odprti stranski meni</string>
+    <string name="navigation_drawer_close">Zapri stranski meni</string>
+    <string name="action_settings">Nastavitve</string>
+    <string name="navigation_drawer_nickname">(%1$s)</string>
+    <string name="me">jaz</string>
+    <string name="add_student">Dodaj študenta</string>
+    <string name="save">Shrani</string>
+    <string name="add_input_request_text">Vnesi vpisno številko</string>
+    <string name="student_id">vpisna številka</string>
+    <string name="edit">Spremeni</string>
+    <string name="delete">Zbriši</string>
+    <string name="student_deleted">Študent zbrisan</string>
+    <string name="nickname">naziv</string>
+    <string name="add_nickname_input_request">Vnesi naziv</string>
+    <string name="success_student_updated">Študent posodobljen</string>
+    <string name="refresh">Osveži</string>
 
     <string name="error_invalid_student_id">Vpisna številka mora biti 8 mestna</string>
     <string name="error_empty_student_id">Prosimo vnesite svojo vpisno številko</string>
@@ -29,4 +56,12 @@
     <string name="error_no_default_student_in_database">Nobenega nastavljenega prevzetega študenta</string>
     <string name="error_multiple_default_students_in_database">Imam več prevzetih študentov</string>
     <string name="error_problem_while_parsing_xml">Napaka pri prevajanju spletne vsebine</string>
+    <string name="error_empty_schedule">Pridobljen urnik je prazen!</string>
+    <string name="error_no_schedule_saved_under_this_student_id">V bazi ni nobenega urnika pod podano vpisno številko</string>
+    <string name="error_trying_to_delete_default_student">Brisanje prevzetega študenta ni dovoljeno</string>
+    <string name="error_updating_student_database">Prišlo je do napake pri posodabljanju podatkovne baze</string>
+    <string name="error_generic_error">Prišlo je do napake</string>
+    <string name="error_delete_schedule">Prišlo je do napake pri brisanju urnika</string>
+    <string name="placeholder_title">Ponedeljek (1.1)</string>
+
 </resources>

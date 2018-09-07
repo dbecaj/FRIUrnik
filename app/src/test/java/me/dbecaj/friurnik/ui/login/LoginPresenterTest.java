@@ -40,6 +40,11 @@ public class LoginPresenterTest {
         verify(view).showStudentIdInputError(R.string.error_invalid_student_id);
     }
 
-    // TODO: Database tests
+    @Test
+    public void shouldShowErrorMessageWhenStudentIdAlreadyExistsInDatabase() throws Exception {
+        when(view.getStudentId()).thenReturn("63170050");
+        presenter.processNextClicked();
 
+        verify(view).showError(R.string.error_student_already_in_database);
+    }
 }
